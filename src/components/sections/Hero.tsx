@@ -93,7 +93,7 @@ export function Hero() {
 
       <div
         className="container"
-        style={{ position: "relative", zIndex: 2, paddingBottom: "100px", paddingTop: "48px" }}
+        style={{ position: "relative", zIndex: 2, paddingBottom: "60px", paddingTop: "48px" }}
       >
         <div style={{ maxWidth: "min(580px, 48vw)" }} className="hero-text-col">
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
@@ -235,7 +235,7 @@ export function Hero() {
             {/* Stats — larger numbers in amber */}
             <motion.div
               variants={itemVariants}
-              style={{ display: "flex", marginTop: "60px", flexWrap: "nowrap" }}
+              style={{ display: "flex", marginTop: "40px", flexWrap: "wrap", gap: "0 0" }}
             >
               {[
                 { value: "8+", label: "Projects shipped" },

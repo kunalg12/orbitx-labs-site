@@ -166,20 +166,23 @@ export function Nav() {
                 fontSize: "13px",
                 fontWeight: 600,
                 color: "#fff",
-                background: "var(--color-text-primary)",
+                background: "var(--color-accent)",
                 textDecoration: "none",
                 padding: "9px 20px",
                 borderRadius: "var(--radius-full)",
-                transition: "opacity 150ms ease",
+                transition: "opacity 150ms ease, box-shadow 150ms ease",
                 whiteSpace: "nowrap",
                 letterSpacing: "0.005em",
+                boxShadow: "0 2px 10px rgba(201,101,0,0.25)",
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.opacity = "0.8")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.opacity = "1")
-              }
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.opacity = "0.88";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(201,101,0,0.40)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.opacity = "1";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 10px rgba(201,101,0,0.25)";
+              }}
             >
               Start a project
             </Link>
