@@ -41,7 +41,8 @@ export function ContactCTA() {
       id="contact-cta"
       onMouseMove={handleMouseMove}
       style={{
-        background: "var(--color-bg-ink)",
+        background: "var(--color-bg-surface)",
+        borderTop: "1px solid var(--color-border)",
         paddingBlock: "clamp(100px, 14vw, 180px)",
         position: "relative",
         overflow: "hidden",
@@ -59,16 +60,16 @@ export function ContactCTA() {
         }}
       />
 
-      {/* Subtle grid texture */}
+      {/* Subtle dot grid — theme-aware opacity */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          backgroundImage: "radial-gradient(circle, var(--color-border) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
           pointerEvents: "none",
+          opacity: 0.6,
         }}
       />
 
@@ -85,7 +86,7 @@ export function ContactCTA() {
             style={{
               fontSize: "13px",
               fontWeight: 500,
-              color: "rgba(255,255,255,0.35)",
+              color: "var(--color-text-muted)",
               marginBottom: "32px",
               letterSpacing: "0.06em",
             }}
@@ -100,7 +101,7 @@ export function ContactCTA() {
               fontSize: "clamp(48px, 8vw, 110px)",
               fontWeight: 800,
               letterSpacing: "-0.045em",
-              color: "#FFFFFF",
+              color: "var(--color-text-primary)",
               lineHeight: 1.0,
               margin: "0 auto 48px",
               maxWidth: "900px",
@@ -108,14 +109,14 @@ export function ContactCTA() {
           >
             Let&apos;s build
             <br />
-            <span style={{ color: "var(--color-accent-light)" }}>something real.</span>
+            <span style={{ color: "var(--color-accent)" }}>something real.</span>
           </h2>
 
           {/* Short qualifier */}
           <p
             style={{
               fontSize: "clamp(15px, 1.4vw, 18px)",
-              color: "rgba(255,255,255,0.45)",
+              color: "var(--color-text-secondary)",
               lineHeight: 1.7,
               maxWidth: "480px",
               margin: "0 auto 48px",
@@ -133,8 +134,8 @@ export function ContactCTA() {
               alignItems: "center",
               gap: "10px",
               padding: "18px 40px",
-              background: "var(--color-accent-light)",
-              color: "#0E0E0C",
+              background: "var(--color-accent)",
+              color: "#fff",
               borderRadius: "var(--radius-md)",
               fontSize: "16px",
               fontWeight: 700,
@@ -173,23 +174,23 @@ export function ContactCTA() {
               style={{
                 fontSize: "13px",
                 fontWeight: 500,
-                color: "rgba(255,255,255,0.35)",
+                color: "var(--color-text-muted)",
                 textDecoration: "none",
                 transition: "color 150ms ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)")
+                ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)")
+                ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")
               }
             >
               See our work
             </Link>
-            <span style={{ color: "rgba(255,255,255,0.12)", userSelect: "none" }}>·</span>
-            <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)" }}>Response: within 24 hrs</span>
-            <span style={{ color: "rgba(255,255,255,0.12)", userSelect: "none" }}>·</span>
-            <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)" }}>Kickoff: within 1 week</span>
+            <span style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
+            <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Response: within 24 hrs</span>
+            <span style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
+            <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Kickoff: within 1 week</span>
           </div>
         </motion.div>
       </div>
