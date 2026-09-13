@@ -120,10 +120,10 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "7px", marginBottom: "18px" }}>
-              <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
                 <circle cx="11" cy="11" r="10" stroke="#C96500" strokeWidth="1.5" fill="none" />
-                <circle cx="11" cy="11" r="4.5" fill="#C96500" />
-                <ellipse cx="11" cy="11" rx="10" ry="4" stroke="#C96500" strokeWidth="1" fill="none" opacity="0.45" />
+                <circle cx="11" cy="11" r="4" fill="#C96500" />
+                <ellipse cx="11" cy="11" rx="10" ry="4.2" stroke="#C96500" strokeWidth="1" fill="none" opacity="0.40" />
               </svg>
               <span
                 style={{

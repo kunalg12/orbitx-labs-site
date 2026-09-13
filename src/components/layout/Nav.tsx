@@ -43,16 +43,16 @@ export function Nav() {
 
           {/* Wordmark */}
           <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0 }}>
-            {/* Orbital mark — circle with ring accent */}
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            {/* Orbital / eye mark */}
+            <svg width="26" height="26" viewBox="0 0 22 22" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
               <circle cx="11" cy="11" r="10" stroke="var(--color-accent)" strokeWidth="1.5" fill="none" />
-              <circle cx="11" cy="11" r="4.5" fill="var(--color-accent)" />
-              <ellipse cx="11" cy="11" rx="10" ry="4" stroke="var(--color-accent)" strokeWidth="1" fill="none" opacity="0.45" />
+              <circle cx="11" cy="11" r="4" fill="var(--color-accent)" />
+              <ellipse cx="11" cy="11" rx="10" ry="4.2" stroke="var(--color-accent)" strokeWidth="1" fill="none" opacity="0.40" />
             </svg>
             <span
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "16px",
+                fontSize: "17px",
                 fontWeight: 700,
                 letterSpacing: "-0.04em",
                 color: "var(--color-text-primary)",
