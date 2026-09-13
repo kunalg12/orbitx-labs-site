@@ -21,17 +21,18 @@ export function Footer() {
   return (
     <footer
       style={{
-        background: "#111110",
+        background: "var(--color-bg-surface)",
+        borderTop: "1px solid var(--color-border)",
         paddingTop: "80px",
       }}
     >
       <div className="container">
 
-        {/* CTA strip — the one bold element */}
+        {/* CTA strip */}
         <div
           style={{
             paddingBottom: "72px",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            borderBottom: "1px solid var(--color-border)",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
@@ -47,7 +48,7 @@ export function Footer() {
                 fontSize: "clamp(32px, 4vw, 56px)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
-                color: "#F5F4F2",
+                color: "var(--color-text-primary)",
                 lineHeight: 1.05,
                 margin: "0 0 16px",
               }}
@@ -59,7 +60,7 @@ export function Footer() {
             <p
               style={{
                 fontSize: "15px",
-                color: "rgba(245,244,242,0.48)",
+                color: "var(--color-text-secondary)",
                 margin: 0,
                 lineHeight: 1.6,
               }}
@@ -77,7 +78,7 @@ export function Footer() {
               alignItems: "center",
               gap: "10px",
               padding: "16px 32px",
-              background: "#C96500",
+              background: "var(--color-accent)",
               color: "#fff",
               borderRadius: "var(--radius-full)",
               fontSize: "15px",
@@ -131,7 +132,7 @@ export function Footer() {
                   fontSize: "15px",
                   fontWeight: 700,
                   letterSpacing: "-0.04em",
-                  color: "#F5F4F2",
+                  color: "var(--color-text-primary)",
                   lineHeight: 1,
                 }}
               >
@@ -141,7 +142,7 @@ export function Footer() {
             <p
               style={{
                 fontSize: "13px",
-                color: "rgba(245,244,242,0.42)",
+                color: "var(--color-text-muted)",
                 lineHeight: 1.7,
                 maxWidth: "260px",
                 margin: "0 0 24px",
@@ -156,7 +157,7 @@ export function Footer() {
                 alignItems: "center",
                 gap: "7px",
                 fontSize: "12px",
-                color: "rgba(245,244,242,0.42)",
+                color: "var(--color-text-muted)",
                 fontWeight: 500,
               }}
             >
@@ -181,7 +182,7 @@ export function Footer() {
               style={{
                 fontSize: "11px",
                 fontWeight: 600,
-                color: "rgba(245,244,242,0.30)",
+                color: "var(--color-text-muted)",
                 letterSpacing: "0.08em",
                 marginBottom: "20px",
                 textTransform: "uppercase",
@@ -194,19 +195,14 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  className="footer-link"
                   style={{
                     fontSize: "14px",
-                    color: "rgba(245,244,242,0.50)",
+                    color: "var(--color-text-secondary)",
                     textDecoration: "none",
                     transition: "color 150ms ease",
                     fontFamily: "var(--font-body)",
                   }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = "#F5F4F2")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = "rgba(245,244,242,0.50)")
-                  }
                 >
                   {link.label}
                 </Link>
@@ -220,7 +216,7 @@ export function Footer() {
               style={{
                 fontSize: "11px",
                 fontWeight: 600,
-                color: "rgba(245,244,242,0.30)",
+                color: "var(--color-text-muted)",
                 letterSpacing: "0.08em",
                 marginBottom: "20px",
                 textTransform: "uppercase",
@@ -235,19 +231,14 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="footer-social"
                   style={{
                     fontSize: "14px",
-                    color: "rgba(245,244,242,0.50)",
+                    color: "var(--color-text-secondary)",
                     textDecoration: "none",
                     transition: "color 150ms ease",
                     fontFamily: "var(--font-body)",
                   }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = "#C96500")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = "rgba(245,244,242,0.50)")
-                  }
                 >
                   {link.label}
                 </a>
@@ -260,7 +251,7 @@ export function Footer() {
         <div
           style={{
             paddingBlock: "20px",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
+            borderTop: "1px solid var(--color-border)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -268,10 +259,10 @@ export function Footer() {
             gap: "10px",
           }}
         >
-          <span style={{ fontSize: "12px", color: "rgba(245,244,242,0.28)", fontFamily: "var(--font-body)" }}>
+          <span style={{ fontSize: "12px", color: "var(--color-text-muted)", fontFamily: "var(--font-body)" }}>
             © {year} OrbitX Labs. All rights reserved.
           </span>
-          <span style={{ fontSize: "12px", color: "rgba(245,244,242,0.28)", fontFamily: "var(--font-body)" }}>
+          <span style={{ fontSize: "12px", color: "var(--color-text-muted)", fontFamily: "var(--font-body)" }}>
             Built with Next.js
           </span>
         </div>
@@ -282,6 +273,8 @@ export function Footer() {
           0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.18); }
           50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0.06); }
         }
+        .footer-link:hover  { color: var(--color-accent) !important; }
+        .footer-social:hover { color: var(--color-accent) !important; }
         @media (max-width: 768px) {
           .footer-cta  { flex-direction: column !important; align-items: flex-start !important; }
           .footer-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
