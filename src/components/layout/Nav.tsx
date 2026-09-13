@@ -5,16 +5,16 @@ import Link from "next/link";
 import { useTheme } from "./ThemeProvider";
 
 const navLinks = [
-  { label: "Work", href: "/work" },
+  { label: "Work",     href: "/work" },
   { label: "Services", href: "/#services" },
-  { label: "About", href: "/#why" },
-  { label: "Contact", href: "/contact" },
+  { label: "About",    href: "/#why" },
+  { label: "Contact",  href: "/contact" },
 ];
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const { theme, toggleTheme }    = useTheme();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 48);
@@ -27,127 +27,85 @@ export function Nav() {
       <nav
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           zIndex: 100,
           height: "var(--nav-height)",
           display: "flex",
           alignItems: "center",
-          transition: "background 350ms ease, border-color 350ms ease",
-          backdropFilter: scrolled ? "blur(24px) saturate(180%)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(24px) saturate(180%)" : "none",
-          backgroundColor: scrolled
-            ? "rgba(var(--color-bg-base-rgb) / 0.88)"
-            : "transparent",
-          borderBottom: scrolled
-            ? "1px solid var(--color-border)"
-            : "1px solid transparent",
+          transition: "background 320ms ease, border-color 320ms ease, backdrop-filter 320ms ease",
+          backdropFilter: scrolled ? "blur(20px) saturate(160%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(20px) saturate(160%)" : "none",
+          background: scrolled ? "color-mix(in srgb, var(--color-bg-base) 88%, transparent)" : "transparent",
+          borderBottom: `1px solid ${scrolled ? "var(--color-border)" : "transparent"}`,
         }}
       >
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          {/* Wordmark — no icon box */}
-          <Link
-            href="/"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "18px",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              color: "var(--color-text-primary)",
-              textDecoration: "none",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}
-          >
+        <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+
+          {/* Wordmark */}
+          <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0 }}>
+            {/* Orbital mark — circle with ring accent */}
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="10" stroke="var(--color-accent)" strokeWidth="1.5" fill="none" />
+              <circle cx="11" cy="11" r="4.5" fill="var(--color-accent)" />
+              <ellipse cx="11" cy="11" rx="10" ry="4" stroke="var(--color-accent)" strokeWidth="1" fill="none" opacity="0.45" />
+            </svg>
             <span
               style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "6px",
-                background: "var(--color-accent)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "12px",
-                fontWeight: 900,
-                color: "#fff",
-                letterSpacing: "0",
-                flexShrink: 0,
+                fontFamily: "var(--font-display)",
+                fontSize: "16px",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                color: "var(--color-text-primary)",
+                lineHeight: 1,
               }}
             >
-              O
+              OrbitX Labs
             </span>
-            <span>OrbitX Labs</span>
           </Link>
 
           {/* Desktop links */}
-          <div
-            className="nav-desktop"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "36px",
-            }}
-          >
+          <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: "28px" }}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                className="nav-link"
                 style={{
                   fontFamily: "var(--font-body)",
                   fontSize: "14px",
                   fontWeight: 500,
                   color: "var(--color-text-secondary)",
                   textDecoration: "none",
-                  transition: "color 150ms ease",
                   letterSpacing: "0.005em",
+                  position: "relative",
+                  paddingBottom: "2px",
                 }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)")
-                }
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Right side */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            {/* Theme toggle — minimal */}
+          {/* Right cluster */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+            {/* Theme toggle */}
             <button
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
               style={{
-                width: "32px",
-                height: "32px",
+                width: "32px", height: "32px",
                 borderRadius: "8px",
                 border: "1px solid var(--color-border)",
                 background: "transparent",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "14px",
-                cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "13px", cursor: "pointer",
                 transition: "border-color 150ms ease, background 150ms ease",
+                color: "var(--color-text-muted)",
                 flexShrink: 0,
-                color: "var(--color-text-secondary)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-strong)";
-                (e.currentTarget as HTMLElement).style.background = "var(--color-bg-surface)";
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--color-accent)";
+                (e.currentTarget as HTMLElement).style.background = "color-mix(in srgb, var(--color-accent) 8%, transparent)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border)";
@@ -157,7 +115,7 @@ export function Nav() {
               {theme === "light" ? "🌙" : "☀️"}
             </button>
 
-            {/* CTA */}
+            {/* Primary CTA */}
             <Link
               href="/contact"
               className="nav-cta"
@@ -168,20 +126,20 @@ export function Nav() {
                 color: "#fff",
                 background: "var(--color-accent)",
                 textDecoration: "none",
-                padding: "9px 20px",
+                padding: "8px 18px",
                 borderRadius: "var(--radius-full)",
-                transition: "opacity 150ms ease, box-shadow 150ms ease",
+                transition: "box-shadow 200ms ease, transform 200ms ease",
                 whiteSpace: "nowrap",
-                letterSpacing: "0.005em",
-                boxShadow: "0 2px 10px rgba(201,101,0,0.25)",
+                letterSpacing: "0.01em",
+                boxShadow: "0 2px 10px rgba(201,101,0,0.28)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "0.88";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(201,101,0,0.40)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(201,101,0,0.42)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "1";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 10px rgba(201,101,0,0.25)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 10px rgba(201,101,0,0.28)";
               }}
             >
               Start a project
@@ -194,15 +152,13 @@ export function Nav() {
               className="nav-menu-btn"
               style={{
                 display: "none",
-                width: "32px",
-                height: "32px",
-                alignItems: "center",
-                justifyContent: "center",
+                width: "32px", height: "32px",
+                alignItems: "center", justifyContent: "center",
                 background: "transparent",
                 border: "1px solid var(--color-border)",
                 borderRadius: "8px",
                 cursor: "pointer",
-                fontSize: "16px",
+                fontSize: "15px",
                 color: "var(--color-text-primary)",
               }}
             >
@@ -217,16 +173,15 @@ export function Nav() {
         style={{
           position: "fixed",
           top: "var(--nav-height)",
-          left: 0,
-          right: 0,
+          left: 0, right: 0,
           zIndex: 99,
           background: "var(--color-bg-base)",
           borderBottom: "1px solid var(--color-border)",
-          padding: menuOpen ? "24px var(--container-padding)" : "0 var(--container-padding)",
+          padding: menuOpen ? "28px var(--container-padding) 24px" : "0 var(--container-padding)",
           display: "flex",
           flexDirection: "column",
-          gap: "24px",
-          maxHeight: menuOpen ? "400px" : "0",
+          gap: "20px",
+          maxHeight: menuOpen ? "360px" : "0",
           overflow: "hidden",
           transition: "max-height 280ms ease, padding 280ms ease",
         }}
@@ -237,12 +192,13 @@ export function Nav() {
             href={link.href}
             onClick={() => setMenuOpen(false)}
             style={{
-              fontSize: "20px",
-              fontWeight: 600,
+              fontSize: "22px",
+              fontWeight: 700,
               fontFamily: "var(--font-display)",
               color: "var(--color-text-primary)",
               textDecoration: "none",
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
             }}
           >
             {link.label}
@@ -252,14 +208,16 @@ export function Nav() {
           href="/contact"
           onClick={() => setMenuOpen(false)}
           style={{
-            fontSize: "15px",
+            fontSize: "14px",
             fontWeight: 600,
             color: "#fff",
             background: "var(--color-accent)",
             textDecoration: "none",
-            padding: "14px 24px",
+            padding: "13px 24px",
             borderRadius: "var(--radius-full)",
             textAlign: "center",
+            marginTop: "4px",
+            boxShadow: "0 4px 16px rgba(201,101,0,0.35)",
           }}
         >
           Start a project
@@ -267,9 +225,22 @@ export function Nav() {
       </div>
 
       <style>{`
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1.5px;
+          background: var(--color-accent);
+          transition: width 220ms cubic-bezier(0.19, 1, 0.22, 1);
+          border-radius: 2px;
+        }
+        .nav-link:hover { color: var(--color-text-primary) !important; }
+        .nav-link:hover::after { width: 100%; }
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
-          .nav-cta { display: none !important; }
+          .nav-cta     { display: none !important; }
           .nav-menu-btn { display: flex !important; }
         }
       `}</style>
