@@ -1,0 +1,22 @@
+{
+  "slug": "cnsg-nursing",
+  "title": "Chaitanya Nursing School",
+  "category": "Web Platform",
+  "year": 2024,
+  "client": "Chaitanya Nursing School (CNSG Nursing)",
+  "emoji": "🏥",
+  "color": "#E8F4FD",
+  "accentColor": "#2563EB",
+  "tags": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+  "description": "A professional web presence for CNSG Nursing College — from zero online presence to a live, enrollment-driving site.",
+  "challenge": "CNSG had no website and was losing prospective students to competitor nursing programs that had polished online presences. They needed something fast, professional, and easy to update.",
+  "solution": "Built a clean, fast marketing site with program information, faculty profiles, application process, and a contact/inquiry form. SEO-optimized and deployed to Vercel in under 3 weeks.",
+  "outcomes": [
+    { "metric": "3 wks", "label": "From kickoff to live" },
+    { "metric": "100%", "label": "Mobile responsive" },
+    { "metric": "95+", "label": "Lighthouse score" }
+  ],
+  "tech": ["Next.js 15", "TypeScript", "Tailwind CSS", "Vercel", "React Hook Form"],
+  "url": "https://www.cnsgnmnursing.org/",
+  "featured": true
+}

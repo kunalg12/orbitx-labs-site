@@ -1,0 +1,21 @@
+{
+  "slug": "job-matching-agent",
+  "title": "AI Job Matching Agent",
+  "category": "AI Agent",
+  "year": 2024,
+  "client": "Internal / RippleHire",
+  "emoji": "🎯",
+  "color": "#F5F3FF",
+  "accentColor": "#7C3AED",
+  "tags": ["Python", "LangChain", "OpenAI", "FastAPI", "PostgreSQL"],
+  "description": "An LLM-powered job matching agent that analyzes candidate profiles and job descriptions to produce ranked match scores with reasoning.",
+  "challenge": "Manual resume screening was bottlenecking the hiring pipeline. Recruiters spent hours reading resumes for positions that could be filtered programmatically.",
+  "solution": "Built an agent that parses both job descriptions and candidate profiles into structured embeddings, then uses a combination of semantic similarity and LLM reasoning to produce scored, ranked candidate lists with human-readable explanations.",
+  "outcomes": [
+    { "metric": "85%", "label": "Reduction in manual screening" },
+    { "metric": "< 10s", "label": "Match score per candidate" },
+    { "metric": "LLM", "label": "Reasoning for every match" }
+  ],
+  "tech": ["Python 3.12", "LangChain", "OpenAI", "pgvector", "FastAPI", "PostgreSQL"],
+  "featured": false
+}

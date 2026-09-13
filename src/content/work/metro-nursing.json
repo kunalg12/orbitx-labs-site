@@ -1,0 +1,22 @@
+{
+  "slug": "metro-nursing",
+  "title": "Late Arvind Gaikwad School of Nursing",
+  "category": "Web Platform",
+  "year": 2024,
+  "client": "Late Arvind Gaikwad School of Nursing",
+  "emoji": "🏫",
+  "color": "#F0F9FF",
+  "accentColor": "#0284C7",
+  "tags": ["Next.js", "TypeScript", "Tailwind CSS", "SEO", "Vercel"],
+  "description": "Clean, professional website for Late Arvind Gaikwad School of Nursing (LAGS Nursing) in Chhatrapati Sambhajinagar — bringing a trusted GNM program online.",
+  "challenge": "LAGS Nursing was well-established locally but invisible online. Students from outside Aurangabad couldn't discover or evaluate the program without visiting in person.",
+  "solution": "Designed and built a credible institutional website with program overview, eligibility criteria, admission process, faculty section, and inquiry contact form. Optimised for mobile-first use by prospective nursing students.",
+  "outcomes": [
+    { "metric": "2 wks", "label": "Design to deployment" },
+    { "metric": "Online", "label": "Inquiry pipeline" },
+    { "metric": "95+", "label": "Lighthouse score" }
+  ],
+  "tech": ["Next.js 15", "TypeScript", "Tailwind CSS", "Vercel", "Resend"],
+  "url": "https://www.lagsnursing.org/",
+  "featured": false
+}

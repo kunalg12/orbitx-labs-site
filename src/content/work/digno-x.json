@@ -1,0 +1,21 @@
+{
+  "slug": "digno-x",
+  "title": "DignoX",
+  "category": "AI Agent",
+  "year": 2024,
+  "client": "DignoX",
+  "emoji": "🧠",
+  "color": "#F0F9FF",
+  "accentColor": "#0284C7",
+  "tags": ["Python", "OpenAI", "FastAPI", "React", "PostgreSQL"],
+  "description": "An AI-powered medical document analysis platform that reads, understands, and extracts structured data from complex medical PDFs.",
+  "challenge": "Medical administrators were spending hours manually reading and transcribing data from patient reports, lab results, and insurance forms. Accuracy was inconsistent.",
+  "solution": "Built a FastAPI backend with OpenAI GPT-4 vision for document understanding, structured extraction into typed schemas, and a React frontend for upload and review. Achieved 94% extraction accuracy on test documents.",
+  "outcomes": [
+    { "metric": "94%", "label": "Extraction accuracy" },
+    { "metric": "5 hrs", "label": "Saved per week per user" },
+    { "metric": "< 30s", "label": "Processing time per doc" }
+  ],
+  "tech": ["Python 3.12", "FastAPI", "OpenAI GPT-4V", "PostgreSQL", "React", "Supabase"],
+  "featured": true
+}

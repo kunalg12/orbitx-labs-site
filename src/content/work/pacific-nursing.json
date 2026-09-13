@@ -1,0 +1,22 @@
+{
+  "slug": "pacific-nursing",
+  "title": "Swami Vivekanand School of Nursing",
+  "category": "Web Platform",
+  "year": 2024,
+  "client": "Swami Vivekanand School of Nursing",
+  "emoji": "🏥",
+  "color": "#FFF7ED",
+  "accentColor": "#EA580C",
+  "tags": ["Next.js", "TypeScript", "Tailwind CSS", "SEO", "Vercel"],
+  "description": "Professional institutional site for Swami Vivekanand School of Nursing — a premier GNM and ANM nursing institute in Chhatrapati Sambhajinagar, Maharashtra.",
+  "challenge": "SVS Nursing had no digital presence to compete with established programs. Prospective students in Aurangabad region couldn't find them online despite the institute's strong faculty and hospital affiliations.",
+  "solution": "Built a full marketing and information site with program details (GNM & ANM), hospital affiliation listings, digital library highlights, CNE workshop information, and a hostel/facilities section. SEO-optimized for local search.",
+  "outcomes": [
+    { "metric": "3 wks", "label": "Kickoff to live" },
+    { "metric": "Local", "label": "Search visibility" },
+    { "metric": "100%", "label": "Mobile responsive" }
+  ],
+  "tech": ["Next.js 15", "TypeScript", "Tailwind CSS", "Vercel", "React Hook Form"],
+  "url": "https://svsnursing.org/",
+  "featured": true
+}

@@ -1,0 +1,21 @@
+{
+  "slug": "attend-x",
+  "title": "AttendX",
+  "category": "Mobile App",
+  "year": 2024,
+  "client": "AttendX",
+  "emoji": "📋",
+  "color": "#FFF1F2",
+  "accentColor": "#E11D48",
+  "tags": ["React Native", "Expo", "Supabase", "TypeScript"],
+  "description": "A cross-platform mobile app for tracking student attendance at schools and training programs, with real-time reporting for administrators.",
+  "challenge": "Schools were using paper registers or spreadsheets for attendance. Data was siloed, reports were manual, and there was no real-time visibility into who was present.",
+  "solution": "Built a React Native app (iOS + Android) with QR-code-based check-in, real-time Supabase backend, admin dashboard, automated absence alerts, and export to PDF/Excel reports.",
+  "outcomes": [
+    { "metric": "iOS+", "label": "Cross-platform (Android too)" },
+    { "metric": "Real-time", "label": "Attendance dashboard" },
+    { "metric": "8 wks", "label": "Concept to App Store" }
+  ],
+  "tech": ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "Zod"],
+  "featured": true
+}

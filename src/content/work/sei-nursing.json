@@ -1,0 +1,22 @@
+{
+  "slug": "sei-nursing",
+  "title": "SEI Nursing Institute",
+  "category": "Web Platform",
+  "year": 2024,
+  "client": "SEI Nursing Institute",
+  "emoji": "💉",
+  "color": "#F0FDF4",
+  "accentColor": "#16A34A",
+  "tags": ["React", "Tailwind CSS", "Vercel", "SEO"],
+  "description": "A professional institutional site for SEI Nursing Institute with program listings, faculty information, and a streamlined application flow.",
+  "challenge": "SEI needed a credible online presence to compete for nursing students in a crowded market. Their existing presence was just a Facebook page.",
+  "solution": "Designed and built a full marketing site with structured program data, an accessible design system, and SEO metadata that immediately began ranking for local nursing program searches.",
+  "outcomes": [
+    { "metric": "2 wks", "label": "Design to deployment" },
+    { "metric": "Top 3", "label": "Local search rank" },
+    { "metric": "4.9", "label": "Client satisfaction" }
+  ],
+  "tech": ["React", "Tailwind CSS", "Vercel", "next-seo"],
+  "url": "https://www.seinursing.org/",
+  "featured": true
+}
