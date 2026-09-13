@@ -44,8 +44,8 @@ export function Hero() {
         minHeight: "100svh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        overflow: "hidden",
+        justifyContent: "flex-start",
+        overflow: "clip",
         background: "var(--color-bg-base)",
         paddingTop: "var(--nav-height)",
       }}
@@ -93,13 +93,13 @@ export function Hero() {
 
       <div
         className="container"
-        style={{ position: "relative", zIndex: 2, paddingBottom: "60px", paddingTop: "48px" }}
+        style={{ position: "relative", zIndex: 2, paddingBottom: "clamp(32px, 5vh, 80px)", paddingTop: "clamp(28px, 5vh, 64px)" }}
       >
         <div style={{ maxWidth: "min(580px, 48vw)" }} className="hero-text-col">
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
             {/* Availability badge */}
-            <motion.div variants={itemVariants} style={{ marginBottom: "32px" }}>
+            <motion.div variants={itemVariants} style={{ marginBottom: "clamp(16px, 3vh, 32px)" }}>
               <span
                 style={{
                   display: "inline-flex",
@@ -142,7 +142,7 @@ export function Hero() {
                 competitors haven&apos;t
               </motion.div>
             </div>
-            <div style={{ overflow: "hidden", marginBottom: "40px" }}>
+            <div style={{ overflow: "hidden", marginBottom: "clamp(20px, 3vh, 40px)" }}>
               <motion.div variants={lineVariants} style={{ ...HEADLINE, color: "var(--color-accent)" }}>
                 shipped yet.
               </motion.div>
@@ -156,7 +156,7 @@ export function Hero() {
                 color: "var(--color-text-secondary)",
                 lineHeight: 1.72,
                 maxWidth: "440px",
-                marginBottom: "40px",
+                marginBottom: "clamp(20px, 3vh, 40px)",
               }}
             >
               Founder-led team building AI agents, web platforms, and mobile apps.
@@ -235,7 +235,7 @@ export function Hero() {
             {/* Stats — larger numbers in amber */}
             <motion.div
               variants={itemVariants}
-              style={{ display: "flex", marginTop: "40px", flexWrap: "wrap", gap: "0 0" }}
+              style={{ display: "flex", marginTop: "clamp(20px, 3vh, 40px)", flexWrap: "wrap", gap: "0 0" }}
             >
               {[
                 { value: "8+", label: "Projects shipped" },
