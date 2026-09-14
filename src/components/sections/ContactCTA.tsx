@@ -126,38 +126,82 @@ export function ContactCTA() {
             and have a proposal ready within the week.
           </p>
 
-          {/* Primary CTA */}
-          <Link
-            href="/contact"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "18px 40px",
-              background: "var(--color-accent)",
-              color: "#fff",
-              borderRadius: "var(--radius-md)",
-              fontSize: "16px",
-              fontWeight: 700,
-              textDecoration: "none",
-              fontFamily: "var(--font-body)",
-              boxShadow: "0 4px 32px rgba(245,158,11,0.35)",
-              transition: "transform 220ms ease, box-shadow 220ms ease, background 150ms ease",
-              letterSpacing: "-0.01em",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "translateY(-3px)";
-              el.style.boxShadow = "0 12px 48px rgba(245,158,11,0.50)";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "translateY(0)";
-              el.style.boxShadow = "0 4px 32px rgba(245,158,11,0.35)";
-            }}
+          {/* CTAs */}
+          <div
+            className="cta-buttons"
+            style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}
           >
-            Start a conversation
-          </Link>
+            {/* Primary — contact form */}
+            <Link
+              href="/contact"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "18px 40px",
+                background: "var(--color-accent)",
+                color: "#fff",
+                borderRadius: "var(--radius-md)",
+                fontSize: "16px",
+                fontWeight: 700,
+                textDecoration: "none",
+                fontFamily: "var(--font-body)",
+                boxShadow: "0 4px 32px rgba(245,158,11,0.35)",
+                transition: "transform 220ms ease, box-shadow 220ms ease, background 150ms ease",
+                letterSpacing: "-0.01em",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(-3px)";
+                el.style.boxShadow = "0 12px 48px rgba(245,158,11,0.50)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(0)";
+                el.style.boxShadow = "0 4px 32px rgba(245,158,11,0.35)";
+              }}
+            >
+              Start a conversation
+            </Link>
+
+            {/* Secondary — Cal.com booking popup */}
+            {/* Replace YOUR_CAL_USERNAME with your actual Cal.com username, e.g. "orbitxlabs/intro" */}
+            <button
+              data-cal-link="YOUR_CAL_USERNAME/intro"
+              data-cal-config='{"layout":"month_view"}'
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "18px 40px",
+                background: "transparent",
+                color: "var(--color-text-primary)",
+                border: "1.5px solid var(--color-border-strong)",
+                borderRadius: "var(--radius-md)",
+                fontSize: "16px",
+                fontWeight: 700,
+                fontFamily: "var(--font-body)",
+                cursor: "pointer",
+                transition: "border-color 200ms ease, background 200ms ease, transform 200ms ease",
+                letterSpacing: "-0.01em",
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "var(--color-accent)";
+                el.style.background = "color-mix(in srgb, var(--color-accent) 6%, transparent)";
+                el.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "var(--color-border-strong)";
+                el.style.background = "transparent";
+                el.style.transform = "translateY(0)";
+              }}
+            >
+              📅 Book a 30-min call
+            </button>
+          </div>
 
           {/* Supporting links */}
           <div

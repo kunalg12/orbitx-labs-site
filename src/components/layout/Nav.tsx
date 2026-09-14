@@ -222,6 +222,26 @@ export function Nav() {
         >
           Start a project
         </Link>
+        {/* Replace YOUR_CAL_USERNAME with your Cal.com username */}
+        <button
+          data-cal-link="YOUR_CAL_USERNAME/intro"
+          data-cal-config='{"layout":"month_view"}'
+          onClick={() => setMenuOpen(false)}
+          style={{
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "var(--color-text-primary)",
+            background: "transparent",
+            border: "1.5px solid var(--color-border-strong)",
+            padding: "13px 24px",
+            borderRadius: "var(--radius-full)",
+            textAlign: "center",
+            cursor: "pointer",
+            fontFamily: "var(--font-body)",
+          }}
+        >
+          📅 Book a 30-min call
+        </button>
       </div>
 
       <style>{`
