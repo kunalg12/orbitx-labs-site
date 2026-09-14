@@ -15,6 +15,7 @@ const projects = [
     accent: "#2563EB",
     initial: "CN",
     url: "https://www.cnsgnmnursing.org/",
+    preview: "/previews/cnsg-nursing.png",
     large: true,
   },
   {
@@ -54,6 +55,7 @@ const projects = [
     accent: "#059669",
     initial: "SE",
     url: "https://www.seinursing.org/",
+    preview: "/previews/sei-nursing.png",
     large: false,
   },
   {
@@ -67,6 +69,7 @@ const projects = [
     accent: "#EA580C",
     initial: "SV",
     url: "https://svsnursing.org/",
+    preview: "/previews/svs-nursing.png",
     large: false,
   },
   {
@@ -80,11 +83,12 @@ const projects = [
     accent: "#0284C7",
     initial: "LA",
     url: "https://www.lagsnursing.org/",
+    preview: "/previews/lagsn-nursing.png",
     large: false,
   },
 ];
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   return (
     <motion.div
       initial={{ clipPath: "inset(24px 0 0 0 round 12px)", opacity: 0 }}
@@ -117,24 +121,41 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             el.style.boxShadow = "var(--shadow-card)";
           }}
         >
-          {/* Visual header — browser mockup for live sites, geometric for internal */}
+          {/* Visual header — real screenshot, browser mockup, or geometric placeholder */}
           <div
             style={{
               height: project.large ? "240px" : "160px",
-              background: project.url
-                ? `linear-gradient(160deg, color-mix(in srgb, ${project.accent} 8%, #0A0F1E) 0%, color-mix(in srgb, ${project.accent} 3%, #0D1220) 100%)`
-                : `linear-gradient(135deg, color-mix(in srgb, ${project.accent} 12%, var(--color-bg-surface)) 0%, color-mix(in srgb, ${project.accent} 4%, var(--color-bg-surface)) 100%)`,
+              background: project.preview
+                ? "#000"
+                : project.url
+                  ? `linear-gradient(160deg, color-mix(in srgb, ${project.accent} 8%, #0A0F1E) 0%, color-mix(in srgb, ${project.accent} 3%, #0D1220) 100%)`
+                  : `linear-gradient(135deg, color-mix(in srgb, ${project.accent} 12%, var(--color-bg-surface)) 0%, color-mix(in srgb, ${project.accent} 4%, var(--color-bg-surface)) 100%)`,
               display: "flex",
-              alignItems: project.url ? "flex-start" : "center",
+              alignItems: project.preview ? "stretch" : project.url ? "flex-start" : "center",
               justifyContent: "center",
               position: "relative",
               overflow: "hidden",
-              padding: project.url ? "14px 14px 0" : "0",
+              padding: (!project.preview && project.url) ? "14px 14px 0" : "0",
               flexDirection: "column",
             }}
           >
-            {project.url ? (
-              /* Browser frame mockup — lifts independently of the card on hover */
+            {project.preview ? (
+              /* Real screenshot — scales to fill, slight zoom on hover */
+              <motion.img
+                src={project.preview}
+                alt={`${project.title} website screenshot`}
+                whileHover={{ scale: 1.04 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                  display: "block",
+                }}
+              />
+            ) : project.url ? (
+              /* Browser frame mockup for live sites without a screenshot */
               <motion.div
                 whileHover={{ scale: 1.016, y: -3 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
@@ -154,13 +175,11 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                     flexShrink: 0,
                   }}
                 >
-                  {/* Traffic lights */}
                   <div style={{ display: "flex", gap: "5px" }}>
                     <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF5F57" }} />
                     <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FEBC2E" }} />
                     <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#28C840" }} />
                   </div>
-                  {/* URL bar */}
                   <div
                     style={{
                       flex: 1,
@@ -180,7 +199,6 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                     {project.url.replace(/^https?:\/\//, "")}
                   </div>
                 </div>
-                {/* Browser content area — gradient + site name + grid pattern */}
                 <div
                   style={{
                     flex: 1,
@@ -196,7 +214,6 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                     minHeight: 0,
                   }}
                 >
-                  {/* Grid pattern overlay */}
                   <div
                     style={{
                       position: "absolute",
@@ -205,7 +222,6 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                       backgroundSize: "24px 24px",
                     }}
                   />
-                  {/* Site initial + name */}
                   <div style={{ position: "relative", textAlign: "center" }}>
                     <div
                       style={{
@@ -227,14 +243,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                     >
                       {project.initial}
                     </div>
-                    <div
-                      style={{
-                        fontSize: project.large ? "13px" : "11px",
-                        fontWeight: 600,
-                        color: "rgba(255,255,255,0.7)",
-                        letterSpacing: "0.01em",
-                      }}
-                    >
+                    <div style={{ fontSize: project.large ? "13px" : "11px", fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.01em" }}>
                       {project.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
                     </div>
                   </div>
