@@ -148,6 +148,60 @@ export default function ContactPage() {
                   </div>
                 </div>
               ))}
+
+              {/* Cal.com — book a call instead */}
+              <div
+                style={{
+                  padding: "28px 24px",
+                  background: "var(--color-bg-base)",
+                  borderRadius: "16px",
+                  border: "1px solid var(--color-border)",
+                  boxShadow: "var(--shadow-card)",
+                  textAlign: "center",
+                }}
+              >
+                <div style={{ fontSize: "13px", color: "var(--color-text-muted)", marginBottom: "12px", fontWeight: 500 }}>
+                  Prefer to talk first?
+                </div>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    color: "var(--color-text-primary)",
+                    fontFamily: "var(--font-display)",
+                    letterSpacing: "-0.02em",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Book a 30-min intro call
+                </div>
+                <div style={{ fontSize: "13px", color: "var(--color-text-muted)", marginBottom: "20px", lineHeight: 1.5 }}>
+                  Pick a time that works for you — we&apos;ll scope your project live.
+                </div>
+                <button
+                  data-cal-link="kunal-gursal-cxyibu/30min"
+                  data-cal-config='{"layout":"month_view"}'
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "12px 28px",
+                    background: "var(--color-accent)",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "var(--radius-full)",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    fontFamily: "var(--font-body)",
+                    cursor: "pointer",
+                    width: "100%",
+                    justifyContent: "center",
+                    boxShadow: "0 4px 16px rgba(201,101,0,0.30)",
+                  }}
+                >
+                  📅 Book a call
+                </button>
+              </div>
             </div>
           </div>
         </div>
