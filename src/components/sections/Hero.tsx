@@ -235,7 +235,8 @@ export function Hero() {
             {/* Stats — larger numbers in amber */}
             <motion.div
               variants={itemVariants}
-              style={{ display: "flex", marginTop: "clamp(20px, 3vh, 40px)", flexWrap: "wrap", gap: "0 0" }}
+              className="hero-stats"
+              style={{ display: "flex", marginTop: "clamp(20px, 3vh, 40px)", flexWrap: "wrap", gap: "20px 0" }}
             >
               {[
                 { value: "8+", label: "Projects shipped" },
@@ -245,6 +246,7 @@ export function Hero() {
               ].map((stat, i) => (
                 <div
                   key={stat.label}
+                  className="hero-stat-item"
                   style={{
                     paddingRight: "24px",
                     paddingLeft: i > 0 ? "24px" : "0",
@@ -333,6 +335,11 @@ export function Hero() {
         }
         @media (max-width: 900px) {
           .hero-text-col { max-width: 100% !important; }
+        }
+        @media (max-width: 480px) {
+          .hero-stats { gap: 16px 0 !important; }
+          .hero-stat-item { padding-right: 16px !important; padding-left: 16px !important; }
+          .hero-stat-item:first-child { padding-left: 0 !important; }
         }
       `}</style>
     </section>

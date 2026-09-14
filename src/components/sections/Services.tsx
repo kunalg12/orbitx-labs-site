@@ -127,6 +127,7 @@ export function Services() {
                 onClick={() =>
                   setExpanded(expanded === service.id ? null : service.id)
                 }
+                className="service-btn"
                 style={{
                   width: "100%",
                   background: "none",
@@ -319,6 +320,7 @@ export function Services() {
         @media (max-width: 768px) {
           .services-header { grid-template-columns: 1fr !important; gap: 24px !important; }
           .service-tagline { display: none !important; }
+          .service-btn { grid-template-columns: 32px 1fr auto !important; gap: 16px !important; }
           .service-expanded-grid { grid-template-columns: 1fr !important; }
           .service-expanded-grid > :first-child { display: none; }
         }

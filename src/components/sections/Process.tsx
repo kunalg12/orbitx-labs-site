@@ -153,8 +153,12 @@ export function Process() {
           .process-header { grid-template-columns: 1fr !important; gap: 24px !important; }
           .process-steps { grid-template-columns: repeat(3, 1fr) !important; }
         }
-        @media (max-width: 560px) {
+        @media (max-width: 640px) {
           .process-steps { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 420px) {
+          .process-steps { grid-template-columns: 1fr !important; }
+          .process-steps > div { border-left: none !important; }
         }
       `}</style>
     </section>

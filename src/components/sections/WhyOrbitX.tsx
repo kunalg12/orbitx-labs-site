@@ -142,6 +142,7 @@ export function WhyOrbitX() {
 
         {/* Metrics strip */}
         <div
+          className="why-metrics"
           style={{
             display: "flex",
             gap: "0",
@@ -156,6 +157,7 @@ export function WhyOrbitX() {
           ].map((m, i) => (
             <div
               key={m.label}
+              className="why-metric-item"
               style={{
                 paddingRight: "48px",
                 paddingLeft: i > 0 ? "48px" : "0",
@@ -197,6 +199,11 @@ export function WhyOrbitX() {
         }
         @media (min-width: 560px) and (max-width: 900px) {
           .why-cards { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 560px) {
+          .why-metrics { flex-direction: column !important; gap: 24px !important; }
+          .why-metric-item { padding-left: 0 !important; padding-right: 0 !important; border-left: none !important; border-top: 1px solid var(--color-border) !important; padding-top: 24px !important; }
+          .why-metric-item:first-child { border-top: none !important; padding-top: 0 !important; }
         }
       `}</style>
     </section>

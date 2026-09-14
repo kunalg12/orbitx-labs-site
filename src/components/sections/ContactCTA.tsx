@@ -161,6 +161,7 @@ export function ContactCTA() {
 
           {/* Supporting links */}
           <div
+            className="cta-links"
             style={{
               display: "flex",
               justifyContent: "center",
@@ -187,13 +188,20 @@ export function ContactCTA() {
             >
               See our work
             </Link>
-            <span style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
+            <span className="cta-dot-sep" style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
             <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Response: within 24 hrs</span>
-            <span style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
+            <span className="cta-dot-sep" style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
             <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Kickoff: within 1 week</span>
           </div>
         </motion.div>
       </div>
+
+      <style>{`
+        @media (max-width: 560px) {
+          .cta-links { gap: 16px !important; flex-direction: column !important; align-items: center !important; }
+          .cta-dot-sep { display: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
