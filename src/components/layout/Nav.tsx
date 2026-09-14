@@ -224,7 +224,7 @@ export function Nav() {
         </Link>
         {/* Replace YOUR_CAL_USERNAME with your Cal.com username */}
         <button
-          data-cal-link="intro-call-test"
+          data-cal-link="kunal-gursal-cxyibu/30min"
           data-cal-config='{"layout":"month_view"}'
           onClick={() => setMenuOpen(false)}
           style={{

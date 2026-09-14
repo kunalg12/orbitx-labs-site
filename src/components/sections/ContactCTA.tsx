@@ -167,7 +167,7 @@ export function ContactCTA() {
             {/* Secondary — Cal.com booking popup */}
             {/* Replace YOUR_CAL_USERNAME with your actual Cal.com username, e.g. "orbitxlabs/intro" */}
             <button
-              data-cal-link="intro-call-test"
+              data-cal-link="kunal-gursal-cxyibu/30min"
               data-cal-config='{"layout":"month_view"}'
               style={{
                 display: "inline-flex",
