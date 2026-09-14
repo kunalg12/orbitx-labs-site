@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
-import { useMobileGL } from "@/lib/utils";
 import { HeroVisualB } from "./HeroVisualB";
 
 const containerVariants: Variants = {
@@ -34,8 +33,6 @@ const HEADLINE: React.CSSProperties = {
 };
 
 export function Hero() {
-  const isMobile = useMobileGL();
-
   return (
     <section
       id="hero-section"
@@ -50,22 +47,6 @@ export function Hero() {
         paddingTop: "var(--nav-height)",
       }}
     >
-      {/* Device mockups — right 50%, clear of text */}
-      {!isMobile && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: "50%",
-            pointerEvents: "none",
-          }}
-        >
-          <HeroVisualB />
-        </div>
-      )}
-
       {/* Bottom fade */}
       <div
         style={{
@@ -80,22 +61,21 @@ export function Hero() {
         }}
       />
 
-      {isMobile && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(ellipse 70% 50% at 100% 40%, rgba(201,101,0,0.06) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
-      )}
-
       <div
-        className="container"
-        style={{ position: "relative", zIndex: 2, paddingBottom: "clamp(32px, 5vh, 80px)", paddingTop: "clamp(28px, 5vh, 64px)" }}
+        className="container hero-outer"
+        style={{
+          position: "relative",
+          zIndex: 2,
+          display: "flex",
+          alignItems: "center",
+          gap: "40px",
+          paddingBottom: "clamp(32px, 5vh, 80px)",
+          paddingTop: "clamp(28px, 5vh, 64px)",
+          flex: 1,
+        }}
       >
-        <div style={{ maxWidth: "min(580px, 48vw)" }} className="hero-text-col">
+        {/* Left: text content */}
+        <div className="hero-text-col" style={{ flex: "0 0 auto", width: "min(520px, 48%)" }}>
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
             {/* Availability badge */}
@@ -283,6 +263,11 @@ export function Hero() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Right: terminal visual */}
+        <div className="hero-visual-col" style={{ flex: 1, minWidth: 0 }}>
+          <HeroVisualB />
+        </div>
       </div>
 
       {/* Scroll cue */}
@@ -334,7 +319,9 @@ export function Hero() {
           50% { opacity: 1; }
         }
         @media (max-width: 900px) {
-          .hero-text-col { max-width: 100% !important; }
+          .hero-outer      { flex-direction: column !important; align-items: stretch !important; }
+          .hero-text-col   { width: 100% !important; flex: none !important; }
+          .hero-visual-col { width: 100% !important; flex: none !important; }
         }
         @media (max-width: 480px) {
           .hero-stats { gap: 16px 0 !important; }

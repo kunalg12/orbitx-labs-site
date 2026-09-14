@@ -114,7 +114,7 @@ function TerminalLine({ item }: { item: (typeof SCRIPT)[number] }) {
         display: "flex",
         gap: 0,
         lineHeight: 1.7,
-        fontSize: "clamp(11px, 1.05vw, 13px)",
+        fontSize: "clamp(12px, 1.4vw, 13px)",
         fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
         color,
         whiteSpace: "nowrap",
@@ -150,12 +150,11 @@ export function HeroVisualB() {
   return (
     <div
       style={{
-        position: "absolute",
-        inset: 0,
+        width: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "60px 28px 60px 12px",
+        padding: "40px 28px 40px 12px",
         pointerEvents: "none",
       }}
     >
@@ -223,7 +222,7 @@ export function HeroVisualB() {
                   style={{
                     display: "flex",
                     lineHeight: 1.7,
-                    fontSize: "clamp(11px, 1.05vw, 13px)",
+                    fontSize: "clamp(12px, 1.4vw, 13px)",
                     fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
                     color: currentColor,
                     whiteSpace: "nowrap",
