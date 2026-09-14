@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Work",     href: "/work" },
@@ -17,6 +18,8 @@ const socialLinks = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const pathname = usePathname();
+  const isContactPage = pathname === "/contact";
 
   return (
     <footer
@@ -28,12 +31,12 @@ export function Footer() {
     >
       <div className="container">
 
-        {/* CTA strip */}
+        {/* CTA strip — hidden on contact page (redundant there) */}
         <div
           style={{
             paddingBottom: "72px",
             borderBottom: "1px solid var(--color-border)",
-            display: "flex",
+            display: isContactPage ? "none" : "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
             gap: "40px",
