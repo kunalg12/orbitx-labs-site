@@ -83,6 +83,7 @@ const projects = [
     accent: "#0891B2",
     initial: "CE",
     url: "https://www.chaitanyaengschool.org/",
+    preview: "/previews/ces-school.png",
     large: false,
   },
   {
