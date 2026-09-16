@@ -9,6 +9,9 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.orbitxlabs.in"
+  ),
   title: {
     default: "OrbitX Labs — AI Agents, Software & Mobile Apps",
     template: "%s — OrbitX Labs",

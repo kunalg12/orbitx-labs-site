@@ -1,0 +1,22 @@
+{
+  "slug": "chaitanya-eng",
+  "title": "Chaitanya English School",
+  "category": "Web Platform",
+  "year": 2025,
+  "client": "Chaitanya English School & Junior College, Badnapur",
+  "emoji": "🏫",
+  "color": "#E6F6FA",
+  "accentColor": "#0891B2",
+  "tags": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+  "description": "A modern online home for an English-medium school and junior college in Badnapur — from Pre-Primary through 12th Standard.",
+  "challenge": "Chaitanya English School had no web presence. Parents across Badnapur couldn't find admissions details, academics, or facilities online, and every enquiry had to happen in person or over the phone.",
+  "solution": "Built a fast, mobile-first site covering academics from Pre-Primary to Junior College, facilities, and an admissions flow with an online enquiry form. Added a live news ticker for announcements, Maharashtra State Board affiliation details, and SEO — deployed to Vercel.",
+  "outcomes": [
+    { "metric": "PreK–12", "label": "Grades covered online" },
+    { "metric": "3 wks", "label": "From kickoff to live" },
+    { "metric": "100%", "label": "Mobile responsive" }
+  ],
+  "tech": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "React Hook Form"],
+  "url": "https://www.chaitanyaengschool.org/",
+  "featured": true
+}
