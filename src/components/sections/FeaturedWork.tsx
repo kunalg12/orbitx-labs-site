@@ -109,8 +109,9 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
       whileInView={{ clipPath: "inset(0px 0 0 0 round 12px)", opacity: 1 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.7, delay: (index % 3) * 0.09, ease: [0.19, 1, 0.22, 1] }}
+      style={{ height: "100%" }}
     >
-      <Link href={`/work/${project.slug}`} style={{ textDecoration: "none", display: "block" }}>
+      <Link href={`/work/${project.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
         <motion.div
           whileHover={{ y: -5 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
@@ -122,6 +123,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
             boxShadow: "var(--shadow-card)",
             display: "flex",
             flexDirection: "column",
+            height: "100%",
             transition: "border-color 200ms ease, box-shadow 200ms ease",
           }}
           onMouseEnter={(e) => {
@@ -140,7 +142,9 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
             style={{
               height: project.large ? "240px" : "160px",
               background: project.preview
-                ? "#000"
+                ? project.large
+                  ? "#000"
+                  : "var(--color-bg-surface)"
                 : project.url
                   ? `linear-gradient(160deg, color-mix(in srgb, ${project.accent} 8%, #0A0F1E) 0%, color-mix(in srgb, ${project.accent} 3%, #0D1220) 100%)`
                   : `linear-gradient(135deg, color-mix(in srgb, ${project.accent} 12%, var(--color-bg-surface)) 0%, color-mix(in srgb, ${project.accent} 4%, var(--color-bg-surface)) 100%)`,
@@ -163,8 +167,8 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "top center",
+                  objectFit: project.large ? "cover" : "contain",
+                  objectPosition: project.large ? "top center" : "center",
                   display: "block",
                 }}
               />
