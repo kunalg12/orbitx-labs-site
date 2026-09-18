@@ -1,141 +1,96 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { TerminalMenu, Cursor, MENU } from "./TerminalMenu";
 import type { MenuAction } from "./TerminalMenu";
 import { SpaceDefenderGame } from "./SpaceDefenderGame";
-
-// ─── Surprise pools (kept here; used by handleAction) ─────────────────────────
-const SURPRISE_POOLS = [
-  [
-    { text: "$ orbitx --surprise",               color: "#F59E0B" },
-    { text: "",                                  color: "" },
-    { text: "→  Scanning for easter eggs…",      color: "#93C5FD" },
-    { text: "✓  Curiosity detected.  🎯",        color: "#4ADE80" },
-    { text: "✓  You passed the vibe check.",     color: "#4ADE80" },
-    { text: "",                                  color: "" },
-    { text: "→  Returning to base…",             color: "#93C5FD" },
-  ],
-  [
-    { text: "$ orbitx --unlock-secret",          color: "#F59E0B" },
-    { text: "",                                  color: "" },
-    { text: "→  Initializing fun protocol…",     color: "#93C5FD" },
-    { text: "✓  You are officially an explorer.",color: "#4ADE80" },
-    { text: "✓  The real MVP was you all along.",color: "#4ADE80" },
-    { text: "",                                  color: "" },
-    { text: "→  Back to mission control…",       color: "#93C5FD" },
-  ],
-  [
-    { text: "$ orbitx --chaos-mode",             color: "#F59E0B" },
-    { text: "",                                  color: "" },
-    { text: "→  Running chaos subroutine…",      color: "#93C5FD" },
-    { text: "✓  Fortune favours the curious.",   color: "#4ADE80" },
-    { text: "✓  Ship it. Then perfect it.",      color: "#4ADE80" },
-    { text: "",                                  color: "" },
-    { text: "→  Returning to base…",             color: "#93C5FD" },
-  ],
-];
 
 // ─── Types / constants ─────────────────────────────────────────────────────────
 type Phase = "intro" | "interactive" | "game";
 const MONO = "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace";
 const FS   = "clamp(11px, 1.3vw, 12.5px)";
 
+// ─── Intro phase ───────────────────────────────────────────────────────────────
+const INTRO_LINES: Array<{ text: string; color: string; delay: string; glow?: boolean }> = [
+  { text: "Connecting to mission control…", color: "#93C5FD", delay: "0.3s"  },
+  { text: "Auth handshake complete.     ✓", color: "#4ADE80", delay: "0.7s"  },
+  { text: "All systems nominal.         ✓", color: "#4ADE80", delay: "1.05s" },
+  { text: "Welcome, Commander.",           color: "#F59E0B", delay: "1.45s", glow: true },
+];
+
+function IntroPhase() {
+  return (
+    <div style={{ animation: "fadeIn 0.5s ease" }}>
+      <div style={{ border: "1px solid rgba(245,158,11,0.28)", borderRadius: 7, padding: "14px 18px", marginBottom: 14, background: "rgba(245,158,11,0.03)", boxShadow: "0 0 30px rgba(245,158,11,0.05), inset 0 0 30px rgba(245,158,11,0.02)" }}>
+        <div style={{ fontFamily: MONO, fontSize: 15, fontWeight: 700, color: "#F59E0B", letterSpacing: "0.24em", textAlign: "center", textShadow: "0 0 24px rgba(245,158,11,0.7)", marginBottom: 3, animation: "glitch 4s ease-in-out infinite" }}>ORBITX TERMINAL</div>
+        <div style={{ fontFamily: MONO, fontSize: 9, color: "rgba(245,158,11,0.32)", letterSpacing: "0.16em", textAlign: "center" }}>v2.0 · MISSION CONTROL</div>
+      </div>
+      {INTRO_LINES.map((l, i) => (
+        <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MONO, fontSize: FS, lineHeight: 1.75, color: l.color, textShadow: l.glow ? "0 0 16px rgba(245,158,11,0.5)" : "none", animation: `riseIn 0.4s ease ${l.delay} both` }}>
+          <span style={{ opacity: 0.35, flexShrink: 0 }}>›</span>
+          <span>{l.text}</span>
+        </div>
+      ))}
+      <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, animation: "fadeIn 0.4s ease 1.9s both" }}>
+        <span style={{ fontFamily: MONO, fontSize: FS, color: "rgba(245,158,11,0.30)" }}>›</span>
+        <Cursor />
+      </div>
+    </div>
+  );
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export function HeroVisualB() {
   const [phase, setPhase] = useState<Phase>("intro");
-  const [surpriseActive, setSurpriseActive] = useState(false);
-  const [surpriseLines, setSurpriseLines] = useState(SURPRISE_POOLS[0]);
-  const surpriseRef = useRef(false);
 
-  // ── Intro auto-advance ────────────────────────────────────────────────────
+  // Intro auto-advance
   useEffect(() => {
     if (phase !== "intro") return;
     const t = setTimeout(() => setPhase("interactive"), 2600);
     return () => clearTimeout(t);
   }, [phase]);
 
-  // ── Menu action ───────────────────────────────────────────────────────────
-  const handleAction = useCallback((action: MenuAction) => {
-    if (surpriseRef.current) return;
+  // Menu action handler — surprise is handled internally by TerminalMenu
+  const handleAction = useCallback((action: Exclude<MenuAction, "surprise">) => {
     if (action === "game")    { setPhase("game"); return; }
     if (action === "work")    { document.getElementById("work")?.scrollIntoView({ behavior: "smooth" }); return; }
     if (action === "book")    { window.open("https://cal.com/kunal-gursal-cxyibu/30min", "_blank"); return; }
     if (action === "contact") { window.location.href = "/contact"; return; }
-    if (action === "surprise") {
-      surpriseRef.current = true;
-      setSurpriseLines(SURPRISE_POOLS[Math.floor(Math.random() * SURPRISE_POOLS.length)]);
-      setSurpriseActive(true);
-      setTimeout(() => { surpriseRef.current = false; setSurpriseActive(false); }, 2800);
-    }
   }, []);
 
-  // ── Keyboard — interactive phase only (game phase handled by SpaceDefenderGame) ──
+  // Keyboard shortcuts — interactive phase; key "5" delegated to TerminalMenu
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (phase === "interactive" && !surpriseRef.current) {
-        const item = MENU.find(m => m.key === e.key);
-        if (item) handleAction(item.action);
-      }
+      if (phase !== "interactive") return;
+      const item = MENU.find(m => m.key === e.key);
+      if (item && item.action !== "surprise") handleAction(item.action);
     };
     window.addEventListener("keydown", down);
-    return () => { window.removeEventListener("keydown", down); };
+    return () => window.removeEventListener("keydown", down);
   }, [phase, handleAction]);
 
   return (
     <div className="terminal-wrap" style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 28px 40px 12px" }}>
       <div style={{ position: "relative", width: "100%", maxWidth: 500 }}>
 
-        {/* ── Terminal window ─────────────────────────────────────────────── */}
-        <div style={{
-          background: "#06080D",
-          borderRadius: 10,
-          border: "1px solid rgba(245,158,11,0.22)",
-          boxShadow: [
-            "0 0 0 1px rgba(0,0,0,0.7)",
-            "0 32px 80px rgba(0,0,0,0.70)",
-            "0 0 60px rgba(245,158,11,0.06)",
-            "inset 0 1px 0 rgba(255,255,255,0.04)",
-          ].join(", "),
-          overflow: "hidden",
-          position: "relative",
-          animation: "borderPulse 4s ease-in-out infinite",
-        }}>
+        {/* Terminal window */}
+        <div style={{ background: "#06080D", borderRadius: 10, border: "1px solid rgba(245,158,11,0.22)", boxShadow: "0 0 0 1px rgba(0,0,0,0.7), 0 32px 80px rgba(0,0,0,0.70), 0 0 60px rgba(245,158,11,0.06), inset 0 1px 0 rgba(255,255,255,0.04)", overflow: "hidden", position: "relative", animation: "borderPulse 4s ease-in-out infinite" }}>
 
           {/* Scanline grid overlay */}
-          <div style={{
-            position: "absolute", inset: 0, pointerEvents: "none", zIndex: 20,
-            background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px)",
-          }} />
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 20, background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px)" }} />
 
           {/* CRT vignette */}
-          <div style={{
-            position: "absolute", inset: 0, pointerEvents: "none", zIndex: 15,
-            background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.50) 100%)",
-          }} />
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 15, background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.50) 100%)" }} />
 
           {/* Sweep line */}
-          <div style={{
-            position: "absolute", left: 0, right: 0, height: 2, top: 0,
-            background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 40%, rgba(245,158,11,0.18) 60%, transparent)",
-            pointerEvents: "none", zIndex: 18,
-            animation: "sweepLine 5s linear infinite",
-          }} />
+          <div style={{ position: "absolute", left: 0, right: 0, height: 2, top: 0, background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 40%, rgba(245,158,11,0.18) 60%, transparent)", pointerEvents: "none", zIndex: 18, animation: "sweepLine 5s linear infinite" }} />
 
           {/* Title bar */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: 7, padding: "10px 16px",
-            borderBottom: "1px solid rgba(245,158,11,0.10)",
-            background: "linear-gradient(180deg, #0A0D16 0%, #06080D 100%)",
-          }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 16px", borderBottom: "1px solid rgba(245,158,11,0.10)", background: "linear-gradient(180deg, #0A0D16 0%, #06080D 100%)" }}>
             {["#FF5F57", "#FEBC2E", "#28C840"].map(c => (
               <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, flexShrink: 0, boxShadow: `0 0 7px ${c}70` }} />
             ))}
-            <span style={{
-              flex: 1, textAlign: "center", fontFamily: MONO,
-              fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
-              color: "rgba(245,158,11,0.45)",
-            }}>
+            <span style={{ flex: 1, textAlign: "center", fontFamily: MONO, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,158,11,0.45)" }}>
               {phase === "game" ? "space-defender" : "orbitx · terminal"}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
@@ -145,97 +100,22 @@ export function HeroVisualB() {
           </div>
 
           {/* Body */}
-          <div
-            className="terminal-body"
-            style={{
-              padding: "18px 20px 20px", height: 310, overflowY: "hidden",
-              display: "flex", flexDirection: "column",
-              justifyContent: phase === "game" ? "flex-start" : "flex-end",
-              position: "relative",
-            }}
-          >
-
-            {/* ── INTRO ──────────────────────────────────────────────────── */}
-            {phase === "intro" && (
-              <div style={{ animation: "fadeIn 0.5s ease" }}>
-                <div style={{
-                  border: "1px solid rgba(245,158,11,0.28)",
-                  borderRadius: 7, padding: "14px 18px", marginBottom: 14,
-                  background: "rgba(245,158,11,0.03)",
-                  boxShadow: "0 0 30px rgba(245,158,11,0.05), inset 0 0 30px rgba(245,158,11,0.02)",
-                }}>
-                  <div style={{
-                    fontFamily: MONO, fontSize: 15, fontWeight: 700,
-                    color: "#F59E0B", letterSpacing: "0.24em", textAlign: "center",
-                    textShadow: "0 0 24px rgba(245,158,11,0.7)",
-                    marginBottom: 3,
-                    animation: "glitch 4s ease-in-out infinite",
-                  }}>
-                    ORBITX TERMINAL
-                  </div>
-                  <div style={{ fontFamily: MONO, fontSize: 9, color: "rgba(245,158,11,0.32)", letterSpacing: "0.16em", textAlign: "center" }}>
-                    v2.0 · MISSION CONTROL
-                  </div>
-                </div>
-
-                {[
-                  { text: "Connecting to mission control…", color: "#93C5FD", delay: "0.3s"  },
-                  { text: "Auth handshake complete.     ✓", color: "#4ADE80", delay: "0.7s"  },
-                  { text: "All systems nominal.         ✓", color: "#4ADE80", delay: "1.05s" },
-                  { text: "Welcome, Commander.",           color: "#F59E0B", delay: "1.45s", glow: true },
-                ].map((l, i) => (
-                  <div key={i} style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    fontFamily: MONO, fontSize: FS, lineHeight: 1.75,
-                    color: l.color,
-                    textShadow: l.glow ? "0 0 16px rgba(245,158,11,0.5)" : "none",
-                    animation: `riseIn 0.4s ease ${l.delay} both`,
-                  }}>
-                    <span style={{ opacity: 0.35, flexShrink: 0 }}>›</span>
-                    <span>{l.text}</span>
-                  </div>
-                ))}
-
-                <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, animation: "fadeIn 0.4s ease 1.9s both" }}>
-                  <span style={{ fontFamily: MONO, fontSize: FS, color: "rgba(245,158,11,0.30)" }}>›</span>
-                  <Cursor />
-                </div>
-              </div>
-            )}
-
-            {/* ── INTERACTIVE ────────────────────────────────────────────── */}
-            {phase === "interactive" && (
-              <TerminalMenu
-                onAction={handleAction}
-                surpriseActive={surpriseActive}
-                surpriseLines={surpriseLines}
-              />
-            )}
-
-            {/* ── GAME ───────────────────────────────────────────────────── */}
-            {phase === "game" && <SpaceDefenderGame onExit={() => setPhase("interactive")} />}
+          <div className="terminal-body" style={{ padding: "18px 20px 20px", height: 310, overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: phase === "game" ? "flex-start" : "flex-end", position: "relative" }}>
+            {phase === "intro"       && <IntroPhase />}
+            {phase === "interactive" && <TerminalMenu onAction={handleAction} />}
+            {phase === "game"        && <SpaceDefenderGame onExit={() => setPhase("interactive")} />}
           </div>
         </div>
 
-        {/* ── Badge ───────────────────────────────────────────────────────── */}
-        <div style={{
-          position: "absolute", top: -16, right: -8,
-          background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)",
-          borderRadius: 10, padding: "8px 14px",
-          boxShadow: "0 8px 24px rgba(201,101,0,0.50), 0 0 0 1px rgba(245,158,11,0.25)",
-          display: "flex", alignItems: "center", gap: 8,
-        }}>
-          <div style={{
-            width: 7, height: 7, borderRadius: "50%", background: "#fff",
-            boxShadow: "0 0 0 3px rgba(255,255,255,0.25)",
-            animation: "pulse-white 2s infinite", flexShrink: 0,
-          }} />
+        {/* Badge */}
+        <div style={{ position: "absolute", top: -16, right: -8, background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)", borderRadius: 10, padding: "8px 14px", boxShadow: "0 8px 24px rgba(201,101,0,0.50), 0 0 0 1px rgba(245,158,11,0.25)", display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#fff", boxShadow: "0 0 0 3px rgba(255,255,255,0.25)", animation: "pulse-white 2s infinite", flexShrink: 0 }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#fff", fontFamily: "var(--font-body)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
             {phase === "game" ? "SPACE DEFENDER" : "MISSION CONTROL"}
           </span>
         </div>
 
-        {/* ── Stats strip ─────────────────────────────────────────────────── */}
+        {/* Stats strip */}
         {phase !== "game" && (
           <div style={{ display: "flex", marginTop: 14, background: "#06080D", borderRadius: 8, border: "1px solid rgba(245,158,11,0.10)", overflow: "hidden" }}>
             {[
@@ -251,12 +131,8 @@ export function HeroVisualB() {
           </div>
         )}
 
-        {/* ── Ambient glow ────────────────────────────────────────────────── */}
-        <div style={{
-          position: "absolute", inset: "-30%",
-          background: "radial-gradient(ellipse 55% 45% at 50% 45%, rgba(245,158,11,0.06) 0%, transparent 70%)",
-          pointerEvents: "none", zIndex: -1,
-        }} />
+        {/* Ambient glow */}
+        <div style={{ position: "absolute", inset: "-30%", background: "radial-gradient(ellipse 55% 45% at 50% 45%, rgba(245,158,11,0.06) 0%, transparent 70%)", pointerEvents: "none", zIndex: -1 }} />
       </div>
 
       <style>{`
@@ -275,21 +151,8 @@ export function HeroVisualB() {
           93% { transform: translateX(1px); }
           95% { transform: none; }
         }
-
-        /* Game grid — responsive font-size keeps 42 chars in viewport */
-        .game-grid {
-          font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-          font-size: clamp(11px, 1.6vw, 12px);
-        }
-        .game-cell {
-          width: 1ch;
-          display: inline-block;
-          text-align: center;
-          line-height: 1;
-          letter-spacing: 0;
-        }
-
-        /* Mobile — scale terminal down, enlarge touch targets */
+        .game-grid { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: clamp(11px, 1.6vw, 12px); }
+        .game-cell { width: 1ch; display: inline-block; text-align: center; line-height: 1; letter-spacing: 0; }
         @media (max-width: 540px) {
           .terminal-wrap { padding: 20px 10px 20px 6px !important; }
           .terminal-body { height: 270px !important; padding: 14px 14px 16px !important; }
@@ -300,13 +163,10 @@ export function HeroVisualB() {
           .terminal-body { height: 240px !important; padding: 12px 10px 12px !important; }
           .game-grid     { font-size: clamp(5.5px, calc((100vw - 48px) / 42), 10px); }
         }
-
-        /* Prevent double-tap zoom on game buttons */
         .mobile-controls button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-
-        /* Menu buttons — larger tap target on touch screens */
-        @media (hover: none) {
-          .terminal-body button { min-height: 44px; }
+        @media (hover: none) { .terminal-body button { min-height: 44px; } }
+        @media (prefers-reduced-motion: reduce) {
+          .terminal-wrap * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
         }
       `}</style>
     </div>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 // ─── Types / constants ─────────────────────────────────────────────────────────
 export type MenuAction = "game" | "work" | "book" | "contact" | "surprise";
@@ -13,6 +13,37 @@ export const MENU: Array<{ key: string; icon: string; label: string; action: Men
   { key: "3", icon: "📅", label: "Book a 30-min call",   action: "book"     },
   { key: "4", icon: "📩", label: "Start a project",      action: "contact"  },
   { key: "5", icon: "🎲", label: "Surprise me",          action: "surprise" },
+];
+
+// ─── Surprise pools ────────────────────────────────────────────────────────────
+const SURPRISE_POOLS = [
+  [
+    { text: "$ orbitx --surprise",               color: "#F59E0B" },
+    { text: "",                                  color: "" },
+    { text: "→  Scanning for easter eggs…",      color: "#93C5FD" },
+    { text: "✓  Curiosity detected.  🎯",        color: "#4ADE80" },
+    { text: "✓  You passed the vibe check.",     color: "#4ADE80" },
+    { text: "",                                  color: "" },
+    { text: "→  Returning to base…",             color: "#93C5FD" },
+  ],
+  [
+    { text: "$ orbitx --unlock-secret",          color: "#F59E0B" },
+    { text: "",                                  color: "" },
+    { text: "→  Initializing fun protocol…",     color: "#93C5FD" },
+    { text: "✓  You are officially an explorer.",color: "#4ADE80" },
+    { text: "✓  The real MVP was you all along.",color: "#4ADE80" },
+    { text: "",                                  color: "" },
+    { text: "→  Back to mission control…",       color: "#93C5FD" },
+  ],
+  [
+    { text: "$ orbitx --chaos-mode",             color: "#F59E0B" },
+    { text: "",                                  color: "" },
+    { text: "→  Running chaos subroutine…",      color: "#93C5FD" },
+    { text: "✓  Fortune favours the curious.",   color: "#4ADE80" },
+    { text: "✓  Ship it. Then perfect it.",      color: "#4ADE80" },
+    { text: "",                                  color: "" },
+    { text: "→  Returning to base…",             color: "#93C5FD" },
+  ],
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -64,12 +95,33 @@ const MenuBtn = React.memo(function MenuBtn({ item, onAction, delay }: { item: t
 
 // ─── TerminalMenu ─────────────────────────────────────────────────────────────
 interface TerminalMenuProps {
-  onAction: (action: MenuAction) => void;
-  surpriseActive: boolean;
-  surpriseLines: Array<{ text: string; color: string }>;
+  onAction: (action: Exclude<MenuAction, "surprise">) => void;
 }
 
-export const TerminalMenu = React.memo(function TerminalMenu({ onAction, surpriseActive, surpriseLines }: TerminalMenuProps) {
+export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: TerminalMenuProps) {
+  const [surpriseActive, setSurpriseActive] = useState(false);
+  const [surpriseLines, setSurpriseLines] = useState(SURPRISE_POOLS[0]);
+  const surpriseRef = useRef(false);
+
+  const handleMenuAction = useCallback((action: MenuAction) => {
+    if (surpriseRef.current) return;
+    if (action === "surprise") {
+      surpriseRef.current = true;
+      setSurpriseLines(SURPRISE_POOLS[Math.floor(Math.random() * SURPRISE_POOLS.length)]);
+      setSurpriseActive(true);
+      setTimeout(() => { surpriseRef.current = false; setSurpriseActive(false); }, 2800);
+      return;
+    }
+    onAction(action);
+  }, [onAction]);
+
+  // Key "5" — handled here so HeroVisualB stays unaware of surprise
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => { if (e.key === "5") handleMenuAction("surprise"); };
+    window.addEventListener("keydown", down);
+    return () => window.removeEventListener("keydown", down);
+  }, [handleMenuAction]);
+
   return (
     <div>
       {surpriseActive ? (
@@ -108,7 +160,7 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction, surpris
 
           <div role="menu" style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             {MENU.map((item, i) => (
-              <MenuBtn key={item.key} item={item} onAction={onAction} delay={80 + i * 70} />
+              <MenuBtn key={item.key} item={item} onAction={handleMenuAction} delay={80 + i * 70} />
             ))}
           </div>
 
