@@ -1,14 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import {
-  useSpaceDefender,
-  cellStyle,
-  ENEMIES_PER_ROW,
-  ENEMY_TOTAL_ROWS,
-} from "@/hooks/useSpaceDefender";
 import { TerminalMenu, Cursor, MENU } from "./TerminalMenu";
 import type { MenuAction } from "./TerminalMenu";
+import { SpaceDefenderGame } from "./SpaceDefenderGame";
 
 // ─── Surprise pools (kept here; used by handleAction) ─────────────────────────
 const SURPRISE_POOLS = [
@@ -52,9 +47,6 @@ export function HeroVisualB() {
   const [surpriseActive, setSurpriseActive] = useState(false);
   const [surpriseLines, setSurpriseLines] = useState(SURPRISE_POOLS[0]);
   const surpriseRef = useRef(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const { cells, gs, keysRef, shootRef } = useSpaceDefender(phase === "game");
 
   // ── Intro auto-advance ────────────────────────────────────────────────────
   useEffect(() => {
@@ -78,28 +70,17 @@ export function HeroVisualB() {
     }
   }, []);
 
-  // ── Keyboard ──────────────────────────────────────────────────────────────
+  // ── Keyboard — interactive phase only (game phase handled by SpaceDefenderGame) ──
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      keysRef.current.add(e.key);
       if (phase === "interactive" && !surpriseRef.current) {
         const item = MENU.find(m => m.key === e.key);
         if (item) handleAction(item.action);
       }
-      if (phase === "game") {
-        if (e.key === " ") { e.preventDefault(); shootRef.current = true; }
-        if (e.key === "Escape") setPhase("interactive");
-      }
     };
-    const up = (e: KeyboardEvent) => keysRef.current.delete(e.key);
     window.addEventListener("keydown", down);
-    window.addEventListener("keyup", up);
-    return () => { window.removeEventListener("keydown", down); window.removeEventListener("keyup", up); };
+    return () => { window.removeEventListener("keydown", down); };
   }, [phase, handleAction]);
-
-  // ── Derived ───────────────────────────────────────────────────────────────
-  const aliveCount = gs.enemies.filter(e => e.alive).length;
-  const total      = ENEMIES_PER_ROW * ENEMY_TOTAL_ROWS;
 
   return (
     <div className="terminal-wrap" style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 28px 40px 12px" }}>
@@ -155,7 +136,7 @@ export function HeroVisualB() {
               fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
               color: "rgba(245,158,11,0.45)",
             }}>
-              {phase === "game" ? `space-defender · score: ${gs.score}` : "orbitx · terminal"}
+              {phase === "game" ? "space-defender" : "orbitx · terminal"}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#28C840", animation: "pulseDot 2.5s infinite", boxShadow: "0 0 7px #28C84090" }} />
@@ -165,7 +146,6 @@ export function HeroVisualB() {
 
           {/* Body */}
           <div
-            ref={scrollRef}
             className="terminal-body"
             style={{
               padding: "18px 20px 20px", height: 310, overflowY: "hidden",
@@ -233,104 +213,9 @@ export function HeroVisualB() {
             )}
 
             {/* ── GAME ───────────────────────────────────────────────────── */}
-            {phase === "game" && (
-              <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                {/* HUD */}
-                <div style={{
-                  display: "flex", justifyContent: "space-between", marginBottom: 5,
-                  fontFamily: MONO, fontSize: 9, letterSpacing: "0.08em",
-                  paddingBottom: 4, borderBottom: "1px solid rgba(245,158,11,0.08)",
-                }}>
-                  <span style={{ color: "rgba(255,255,255,0.20)" }}>← → MOVE · SPC FIRE · ESC EXIT</span>
-                  <span style={{ color: "#F87171", textShadow: "0 0 8px rgba(248,113,113,0.4)" }}>
-                    HOSTILES {aliveCount}/{total}
-                  </span>
-                </div>
-
-                {/* Per-character game grid */}
-                <div className="game-grid" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                  {cells.map((row, ri) => (
-                    <div key={ri} style={{ display: "flex", lineHeight: 1 }}>
-                      {row.map((cell, ci) => {
-                        const st = cellStyle(cell.type);
-                        return (
-                          <span key={ci} className="game-cell" style={{
-                            color: st.color, textShadow: st.textShadow,
-                            opacity: st.opacity,
-                          }}>
-                            {cell.char}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Game over/win overlay */}
-                {(gs.gameOver || gs.won) && (
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                    background: "rgba(6,8,13,0.93)", gap: 8,
-                    animation: "fadeIn 0.4s ease",
-                  }}>
-                    <div style={{
-                      fontFamily: MONO, fontSize: 18, fontWeight: 700, letterSpacing: "0.12em",
-                      color: gs.won ? "#4ADE80" : "#F87171",
-                      textShadow: gs.won ? "0 0 30px rgba(74,222,128,0.7), 0 0 60px rgba(74,222,128,0.3)" : "0 0 30px rgba(248,113,113,0.7), 0 0 60px rgba(248,113,113,0.3)",
-                    }}>
-                      {gs.won ? "◈ SYSTEM CLEARED" : "✕ MISSION FAILED"}
-                    </div>
-                    <div style={{ fontFamily: MONO, fontSize: 10, color: "rgba(255,255,255,0.28)", letterSpacing: "0.12em" }}>
-                      FINAL SCORE: {gs.score}
-                    </div>
-                    <button
-                      onClick={() => setPhase("interactive")}
-                      style={{
-                        marginTop: 10, padding: "7px 22px",
-                        background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.30)",
-                        borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 10,
-                        cursor: "pointer", letterSpacing: "0.10em", transition: "all 150ms",
-                      }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(245,158,11,0.18)"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(245,158,11,0.08)"; }}
-                    >
-                      RETURN TO BASE
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+            {phase === "game" && <SpaceDefenderGame onExit={() => setPhase("interactive")} />}
           </div>
         </div>
-
-        {/* ── Mobile game controls ─────────────────────────────────────────── */}
-        {phase === "game" && (
-          <div className="mobile-controls" style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12 }}>
-            {[
-              { label: "◄", onStart: () => keysRef.current.add("ArrowLeft"),  onEnd: () => keysRef.current.delete("ArrowLeft")  },
-              { label: "◆", onStart: () => { shootRef.current = true; },       onEnd: () => {}                                   },
-              { label: "►", onStart: () => keysRef.current.add("ArrowRight"), onEnd: () => keysRef.current.delete("ArrowRight") },
-            ].map(btn => (
-              <button
-                key={btn.label}
-                onMouseDown={btn.onStart} onMouseUp={btn.onEnd} onMouseLeave={btn.onEnd}
-                onTouchStart={e => { e.preventDefault(); btn.onStart(); }}
-                onTouchEnd={e => { e.preventDefault(); btn.onEnd(); }}
-                style={{
-                  minWidth: 64, minHeight: 48,
-                  background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.25)",
-                  borderRadius: 8, color: "#F59E0B", fontFamily: MONO, fontSize: 16,
-                  cursor: "pointer", userSelect: "none", touchAction: "manipulation",
-                  boxShadow: "0 0 12px rgba(245,158,11,0.06)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}
-              >
-                {btn.label}
-              </button>
-            ))}
-          </div>
-        )}
 
         {/* ── Badge ───────────────────────────────────────────────────────── */}
         <div style={{
