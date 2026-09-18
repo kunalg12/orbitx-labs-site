@@ -156,6 +156,9 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
         @media (max-width: 540px) { .game-grid { font-size: clamp(6px, calc((100vw - 60px) / 42), 11px); } .mobile-controls { gap: 12px !important; } }
         @media (max-width: 390px) { .game-grid { font-size: clamp(5.5px, calc((100vw - 48px) / 42), 10px); } }
         .mobile-controls button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        @media (prefers-reduced-motion: reduce) {
+          .game-grid * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+        }
       `}</style>
     </div>
   );
