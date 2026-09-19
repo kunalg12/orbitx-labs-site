@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useId } from "react";
 
 // ─── Types / constants ─────────────────────────────────────────────────────────
 export type MenuAction = "game" | "work" | "book" | "contact" | "surprise";
@@ -101,7 +101,15 @@ interface TerminalMenuProps {
 export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: TerminalMenuProps) {
   const [surpriseActive, setSurpriseActive] = useState(false);
   const [surpriseLines, setSurpriseLines] = useState(SURPRISE_POOLS[0]);
+  const [inputValue, setInputValue] = useState("");
+  const [inputError, setInputError] = useState(false);
   const surpriseRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
+
+  // Cleanup timer on unmount
+  useEffect(() => { return () => { if (timerRef.current) clearTimeout(timerRef.current); }; }, []);
 
   const handleMenuAction = useCallback((action: MenuAction) => {
     if (surpriseRef.current) return;
@@ -109,18 +117,41 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
       surpriseRef.current = true;
       setSurpriseLines(SURPRISE_POOLS[Math.floor(Math.random() * SURPRISE_POOLS.length)]);
       setSurpriseActive(true);
-      setTimeout(() => { surpriseRef.current = false; setSurpriseActive(false); }, 2800);
+      timerRef.current = setTimeout(() => { surpriseRef.current = false; setSurpriseActive(false); }, 2800);
       return;
     }
     onAction(action);
   }, [onAction]);
 
+  const handleInputSubmit = useCallback((raw: string) => {
+    const v = raw.trim().toLowerCase();
+    const byKey = MENU.find(m => m.key === v);
+    if (byKey) { setInputValue(""); handleMenuAction(byKey.action); return; }
+    const byLabel: Record<string, MenuAction> = {
+      game: "game", play: "game", defender: "game",
+      work: "work", portfolio: "work",
+      book: "book", call: "book", meeting: "book",
+      contact: "contact", project: "contact", hire: "contact",
+      surprise: "surprise", random: "surprise", easter: "surprise",
+    };
+    const matched = byLabel[v];
+    if (matched) { setInputValue(""); handleMenuAction(matched); return; }
+    setInputError(true);
+    setTimeout(() => setInputError(false), 700);
+  }, [handleMenuAction]);
+
   // Key "5" — handled here so HeroVisualB stays unaware of surprise
   useEffect(() => {
-    const down = (e: KeyboardEvent) => { if (e.key === "5") handleMenuAction("surprise"); };
+    const down = (e: KeyboardEvent) => {
+      if (document.activeElement === inputRef.current) return;
+      if (e.key === "5") handleMenuAction("surprise");
+    };
     window.addEventListener("keydown", down);
     return () => window.removeEventListener("keydown", down);
   }, [handleMenuAction]);
+
+  // Auto-focus input when menu appears
+  useEffect(() => { inputRef.current?.focus(); }, []);
 
   return (
     <div>
@@ -158,20 +189,44 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
             → Select your mission, Commander:
           </div>
 
-          <div role="menu" style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <div role="menu" aria-label="Mission Control menu" style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             {MENU.map((item, i) => (
               <MenuBtn key={item.key} item={item} onAction={handleMenuAction} delay={80 + i * 70} />
             ))}
           </div>
 
+          {/* Real command input */}
           <div style={{
             display: "flex", alignItems: "center", gap: 6, marginTop: 10,
             paddingTop: 8, borderTop: "1px solid rgba(245,158,11,0.08)",
             animation: "riseIn 0.35s ease 0.55s both",
+            border: inputError ? "1px solid rgba(248,113,113,0.35)" : "1px solid transparent",
+            borderRadius: 5, padding: "4px 6px", marginLeft: -6,
+            transition: "border-color 0.15s",
           }}>
-            <span style={{ fontFamily: MONO, fontSize: FS, color: "rgba(245,158,11,0.30)" }}>›</span>
-            <span style={{ fontFamily: MONO, fontSize: 9, color: "rgba(245,158,11,0.22)", letterSpacing: "0.12em" }}>ENTER COMMAND</span>
-            <Cursor />
+            <span style={{ fontFamily: MONO, fontSize: FS, color: inputError ? "#F87171" : "rgba(245,158,11,0.40)", flexShrink: 0 }}>›</span>
+            <label htmlFor={inputId} style={{ position: "absolute", left: -9999 }}>Enter command</label>
+            <input
+              id={inputId}
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === "Enter") { handleInputSubmit(inputValue); }
+                if (e.key === "Escape") { setInputValue(""); }
+              }}
+              placeholder="type 1-5 or a command…"
+              autoComplete="off"
+              spellCheck={false}
+              style={{
+                flex: 1, background: "transparent", border: "none", outline: "none",
+                fontFamily: MONO, fontSize: FS,
+                color: inputError ? "#F87171" : "#F59E0B",
+                caretColor: "#F59E0B",
+                minWidth: 0,
+              }}
+            />
           </div>
         </div>
       )}

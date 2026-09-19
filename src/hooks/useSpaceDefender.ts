@@ -107,10 +107,10 @@ export function renderCells(gs: GameState): { char: string; type: CellType }[][]
     for (let c = 0; c < COLS; c++)
       if (STARS[r][c]) grid[r][c] = { char: "·", type: "star" };
 
-  // Enemies  tier 1 = ◉  tier 2 = ◈
+  // Enemies  tier 1 = ▾ (scout)  tier 2 = ◆ (commander)
   for (const e of gs.enemies) {
     if (e.alive && e.row >= 0 && e.row < ROWS && e.col < COLS)
-      grid[e.row][e.col] = { char: e.tier === 1 ? "◉" : "◈", type: e.tier === 1 ? "enemy1" : "enemy2" };
+      grid[e.row][e.col] = { char: e.tier === 1 ? "▾" : "◆", type: e.tier === 1 ? "enemy1" : "enemy2" };
   }
 
   // Explosions
@@ -127,11 +127,11 @@ export function renderCells(gs: GameState): { char: string; type: CellType }[][]
       grid[b.row][b.col] = { char: "|", type: "bullet" };
   }
 
-  // Ship — 3-wide
+  // Ship — 3-wide  ‹^›
   if (!gs.gameOver) {
-    if (gs.shipCol > 0)        grid[SHIP_ROW][gs.shipCol - 1] = { char: "<", type: "ship" };
-    grid[SHIP_ROW][gs.shipCol]  = { char: "A", type: "ship" };
-    if (gs.shipCol < COLS - 1) grid[SHIP_ROW][gs.shipCol + 1] = { char: ">", type: "ship" };
+    if (gs.shipCol > 0)        grid[SHIP_ROW][gs.shipCol - 1] = { char: "‹", type: "ship" };
+    grid[SHIP_ROW][gs.shipCol]  = { char: "^", type: "ship" };
+    if (gs.shipCol < COLS - 1) grid[SHIP_ROW][gs.shipCol + 1] = { char: "›", type: "ship" };
   }
 
   return grid;

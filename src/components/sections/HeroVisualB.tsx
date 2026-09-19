@@ -42,6 +42,7 @@ function IntroPhase() {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export function HeroVisualB() {
   const [phase, setPhase] = useState<Phase>("intro");
+  const handleExit = useCallback(() => setPhase("interactive"), []);
 
   // Intro auto-advance
   useEffect(() => {
@@ -103,12 +104,12 @@ export function HeroVisualB() {
           <div className="terminal-body" style={{ padding: "18px 20px 20px", height: 310, overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: phase === "game" ? "flex-start" : "flex-end", position: "relative" }}>
             {phase === "intro"       && <IntroPhase />}
             {phase === "interactive" && <TerminalMenu onAction={handleAction} />}
-            {phase === "game"        && <SpaceDefenderGame onExit={() => setPhase("interactive")} />}
+            {phase === "game"        && <SpaceDefenderGame onExit={handleExit} />}
           </div>
         </div>
 
-        {/* Badge */}
-        <div style={{ position: "absolute", top: -16, right: -8, background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)", borderRadius: 10, padding: "8px 14px", boxShadow: "0 8px 24px rgba(201,101,0,0.50), 0 0 0 1px rgba(245,158,11,0.25)", display: "flex", alignItems: "center", gap: 8 }}>
+        {/* Badge — sits on the top-right corner of the terminal window */}
+        <div style={{ position: "absolute", top: 2, right: 0, background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)", borderRadius: "0 10px 0 10px", padding: "7px 13px", boxShadow: "0 4px 18px rgba(201,101,0,0.55), 0 0 0 1px rgba(245,158,11,0.30)", display: "flex", alignItems: "center", gap: 7, zIndex: 10 }}>
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#fff", boxShadow: "0 0 0 3px rgba(255,255,255,0.25)", animation: "pulse-white 2s infinite", flexShrink: 0 }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#fff", fontFamily: "var(--font-body)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
             {phase === "game" ? "SPACE DEFENDER" : "MISSION CONTROL"}
