@@ -88,8 +88,8 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
         ))}
       </div>
 
-      {/* Mobile controls */}
-      <div className="mobile-controls" style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 10 }}>
+      {/* Mobile controls — touch-only devices; hidden on desktop via CSS */}
+      <div className="mobile-controls" style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 8 }}>
         {[
           { label: "◄", onStart: () => keysRef.current.add("ArrowLeft"),  onEnd: () => keysRef.current.delete("ArrowLeft")  },
           { label: "◆", onStart: () => { shootRef.current = true; },       onEnd: () => {}                                   },
@@ -101,11 +101,10 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
             onTouchStart={e => { e.preventDefault(); btn.onStart(); }}
             onTouchEnd={e => { e.preventDefault(); btn.onEnd(); }}
             style={{
-              minWidth: 64, minHeight: 48,
-              background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.25)",
-              borderRadius: 8, color: "#F59E0B", fontFamily: MONO, fontSize: 16,
+              width: 52, height: 30,
+              background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.22)",
+              borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 13,
               cursor: "pointer", userSelect: "none", touchAction: "manipulation",
-              boxShadow: "0 0 12px rgba(245,158,11,0.06)",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}
           >
@@ -156,6 +155,8 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
         @media (max-width: 540px) { .game-grid { font-size: clamp(6px, calc((100vw - 60px) / 42), 11px); } .mobile-controls { gap: 12px !important; } }
         @media (max-width: 390px) { .game-grid { font-size: clamp(5.5px, calc((100vw - 48px) / 42), 10px); } }
         .mobile-controls button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        /* Hide mobile controls on desktop (hover-capable) devices */
+        @media (hover: hover) { .mobile-controls { display: none !important; } }
         @media (prefers-reduced-motion: reduce) {
           .game-grid * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
         }

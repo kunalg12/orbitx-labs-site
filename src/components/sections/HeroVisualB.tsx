@@ -83,8 +83,8 @@ export function HeroVisualB() {
           {/* CRT vignette */}
           <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 15, background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.50) 100%)" }} />
 
-          {/* Sweep line */}
-          <div style={{ position: "absolute", left: 0, right: 0, height: 2, top: 0, background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 40%, rgba(245,158,11,0.18) 60%, transparent)", pointerEvents: "none", zIndex: 18, animation: "sweepLine 5s linear infinite" }} />
+          {/* Sweep line — only in game phase */}
+          {phase === "game" && <div style={{ position: "absolute", left: 0, right: 0, height: 2, top: 0, background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 40%, rgba(245,158,11,0.18) 60%, transparent)", pointerEvents: "none", zIndex: 18, animation: "sweepLine 5s linear infinite" }} />}
 
           {/* Title bar */}
           <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "10px 16px", borderBottom: "1px solid rgba(245,158,11,0.10)", background: "linear-gradient(180deg, #0A0D16 0%, #06080D 100%)" }}>
