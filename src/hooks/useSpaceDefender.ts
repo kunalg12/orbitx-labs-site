@@ -164,12 +164,20 @@ export function useSpaceDefender(active: boolean): {
   useEffect(() => {
     if (!active) return;
     gameRef.current = initGame();
-    const id = setInterval(() => {
-      gameRef.current = stepGame(gameRef.current, keysRef.current, shootRef.current);
-      shootRef.current = false;
-      setRenderTick(t => t + 1);
-    }, 80);
-    return () => clearInterval(id);
+    let lastTime = 0;
+    let rafId: number;
+    const STEP = 80;
+    const loop = (now: number) => {
+      if (now - lastTime >= STEP) {
+        lastTime = now;
+        gameRef.current = stepGame(gameRef.current, keysRef.current, shootRef.current);
+        shootRef.current = false;
+        setRenderTick(t => t + 1);
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
   }, [active]);
 
   const gs    = gameRef.current;
