@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // ─── Constants (match TerminalMenu) ───────────────────────────────────────────
 const MONO = "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace";
@@ -51,6 +52,7 @@ interface AgentDemoProps {
 }
 
 export function AgentDemo({ onExit }: AgentDemoProps) {
+  const router = useRouter();
   const [displayedLines, setDisplayedLines] = useState<DemoLine[]>([]);
   const [charBuffer, setCharBuffer]         = useState("");
   const [showCTAs, setShowCTAs]             = useState(false);
@@ -195,7 +197,7 @@ export function AgentDemo({ onExit }: AgentDemoProps) {
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <button
                 onClick={() =>
-                  window.open("https://cal.com/kunal-gursal-cxyibu/30min", "_blank")
+                  window.open("https://cal.com/kunal-gursal-cxyibu/30min", "_blank", "noopener,noreferrer")
                 }
                 style={{
                   fontFamily: MONO,
@@ -216,7 +218,7 @@ export function AgentDemo({ onExit }: AgentDemoProps) {
               </button>
 
               <button
-                onClick={() => { window.location.href = "/work"; }}
+                onClick={() => { router.push("/work"); }}
                 style={{
                   fontFamily: MONO,
                   fontSize: FS,

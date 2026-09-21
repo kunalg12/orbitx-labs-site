@@ -65,6 +65,8 @@ export function HeroVisualB() {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (phase !== "interactive") return;
+      const el = document.activeElement;
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) return;
       const item = MENU.find(m => m.key === e.key);
       if (item) handleAction(item.action);
     };
