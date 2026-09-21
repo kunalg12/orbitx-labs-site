@@ -4,9 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 import { TerminalMenu, Cursor, MENU } from "./TerminalMenu";
 import type { MenuAction } from "./TerminalMenu";
 import { SpaceDefenderGame } from "./SpaceDefenderGame";
+import { AgentDemo } from "./AgentDemo";
 
 // ─── Types / constants ─────────────────────────────────────────────────────────
-type Phase = "intro" | "interactive" | "game";
+type Phase = "intro" | "interactive" | "demo" | "game";
 const MONO = "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace";
 const FS   = "clamp(11px, 1.3vw, 12.5px)";
 
@@ -51,8 +52,9 @@ export function HeroVisualB() {
     return () => clearTimeout(t);
   }, [phase]);
 
-  // Menu action handler — surprise is handled internally by TerminalMenu
-  const handleAction = useCallback((action: Exclude<MenuAction, "surprise">) => {
+  // Menu action handler
+  const handleAction = useCallback((action: MenuAction) => {
+    if (action === "demo")    { setPhase("demo"); return; }
     if (action === "game")    { setPhase("game"); return; }
     if (action === "work")    { document.getElementById("work")?.scrollIntoView({ behavior: "smooth" }); return; }
     if (action === "book")    { window.open("https://cal.com/kunal-gursal-cxyibu/30min", "_blank"); return; }
@@ -64,7 +66,7 @@ export function HeroVisualB() {
     const down = (e: KeyboardEvent) => {
       if (phase !== "interactive") return;
       const item = MENU.find(m => m.key === e.key);
-      if (item && item.action !== "surprise") handleAction(item.action);
+      if (item) handleAction(item.action);
     };
     window.addEventListener("keydown", down);
     return () => window.removeEventListener("keydown", down);
@@ -92,7 +94,7 @@ export function HeroVisualB() {
               <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, flexShrink: 0, boxShadow: `0 0 7px ${c}70` }} />
             ))}
             <span style={{ flex: 1, textAlign: "center", fontFamily: MONO, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,158,11,0.45)" }}>
-              {phase === "game" ? "space-defender" : "orbitx · terminal"}
+              {phase === "game" ? "space-defender" : phase === "demo" ? "ai-agent · demo" : "orbitx · terminal"}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#28C840", animation: "pulseDot 2.5s infinite", boxShadow: "0 0 7px #28C84090" }} />
@@ -104,6 +106,7 @@ export function HeroVisualB() {
           <div className="terminal-body" style={{ padding: "18px 20px 20px", height: 310, overflowY: "hidden", display: "flex", flexDirection: "column", justifyContent: phase === "game" ? "flex-start" : "flex-end", position: "relative" }}>
             {phase === "intro"       && <IntroPhase />}
             {phase === "interactive" && <TerminalMenu onAction={handleAction} />}
+            {phase === "demo"        && <AgentDemo onExit={handleExit} />}
             {phase === "game"        && <SpaceDefenderGame onExit={handleExit} />}
           </div>
         </div>
@@ -112,12 +115,12 @@ export function HeroVisualB() {
         <div style={{ position: "absolute", top: 2, right: 0, background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)", borderRadius: "0 10px 0 10px", padding: "7px 13px", boxShadow: "0 4px 18px rgba(201,101,0,0.55), 0 0 0 1px rgba(245,158,11,0.30)", display: "flex", alignItems: "center", gap: 7, zIndex: 10 }}>
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#fff", boxShadow: "0 0 0 3px rgba(255,255,255,0.25)", animation: "pulse-white 2s infinite", flexShrink: 0 }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#fff", fontFamily: "var(--font-body)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
-            {phase === "game" ? "SPACE DEFENDER" : "MISSION CONTROL"}
+            {phase === "game" ? "SPACE DEFENDER" : phase === "demo" ? "AI DEMO" : "MISSION CONTROL"}
           </span>
         </div>
 
         {/* Stats strip */}
-        {phase !== "game" && (
+        {phase !== "game" && phase !== "demo" && (
           <div style={{ display: "flex", marginTop: 14, background: "#06080D", borderRadius: 8, border: "1px solid rgba(245,158,11,0.10)", overflow: "hidden" }}>
             {[
               { value: "8+",  label: "Projects shipped", color: "#F59E0B" },
