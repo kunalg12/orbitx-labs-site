@@ -1,27 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const steps = [
   {
-    title: "Discover",
-    description: "One focused kickoff call to map goals, users, and scope. No weeks of discovery theatre.",
+    num: "01",
+    title: "Kickoff",
+    tagline: "48-Hour Scope Alignment",
+    description: "One deep-dive strategy session to lock goals, tech stack, and user flows. No discovery theatre or bloated paperwork.",
   },
   {
-    title: "Design",
-    description: "Wireframes and visual design reviewed and approved before a line of code is written.",
+    num: "02",
+    title: "Prototype",
+    tagline: "Interactive UI & Architecture",
+    description: "Clickable prototypes and system architectures reviewed and approved before production code begins.",
   },
   {
-    title: "Build",
-    description: "Iterative sprints with weekly demos. Real progress, visible early — no big reveal at the end.",
+    num: "03",
+    title: "Sprint Build",
+    tagline: "Weekly Live Demos",
+    description: "Rapid agile development with staged preview URLs every 7 days. Real working software visible immediately.",
   },
   {
-    title: "Ship",
-    description: "Tested across devices, deployed to your infra, with docs and handover call included.",
+    num: "04",
+    title: "Verification",
+    tagline: "Stress & Device Testing",
+    description: "Comprehensive audits across mobile browsers, lighthouse benchmarks, and real-device responsive checks.",
   },
   {
-    title: "Support",
-    description: "Post-launch fixes and optional retainer. We don't disappear after launch.",
+    num: "05",
+    title: "Deployment",
+    tagline: "Zero-Downtime Launch",
+    description: "Deployed directly to your infrastructure with full docs, ownership transfer, and ongoing retainer warranty.",
   },
 ];
 
@@ -37,51 +48,39 @@ export function Process() {
     >
       <div className="container">
         {/* Header */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: "80px",
-            alignItems: "end",
-            marginBottom: "80px",
-          }}
-          className="process-header"
-        >
+        <div style={{ maxWidth: "680px", marginBottom: "56px" }}>
+          <SectionLabel number="03">Engineering Workflow</SectionLabel>
           <h2
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "var(--text-display)",
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
+              fontWeight: 700,
+              letterSpacing: "var(--tracking-display)",
               color: "var(--color-text-primary)",
-              lineHeight: 1.0,
-              margin: 0,
+              lineHeight: 1.1,
+              marginBottom: "16px",
             }}
           >
-            Five steps,
-            <br />
-            no surprises.
+            Five disciplined milestones. Zero surprises.
           </h2>
           <p
             style={{
+              fontFamily: "var(--font-body)",
               fontSize: "17px",
               color: "var(--color-text-secondary)",
-              lineHeight: 1.7,
-              maxWidth: "480px",
-              alignSelf: "flex-end",
-              paddingBottom: "8px",
-              margin: 0,
+              lineHeight: 1.6,
             }}
           >
-            Our process is designed around one thing: eliminating the uncertainty that kills most agency relationships. Every phase has a clear output, a clear owner, and a clear timeline.
+            Built to eliminate the uncertainty that breaks typical agency engagements. Every stage has an unambiguous deliverable, a dedicated engineer, and a guaranteed timeline.
           </p>
         </div>
 
-        {/* Steps — horizontal grid */}
+        {/* Steps Grid - Apple Stepper Layout */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(5, 1fr)",
+            gap: "16px",
           }}
           className="process-steps"
         >
@@ -92,52 +91,69 @@ export function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
-                duration: 0.55,
+                duration: 0.5,
                 delay: i * 0.08,
-                ease: [0.19, 1, 0.22, 1],
+                ease: [0.25, 1, 0.5, 1],
               }}
+              whileHover={{ y: -3 }}
+              className="apple-card"
               style={{
-                borderLeft: i > 0 ? "1px solid var(--color-border)" : "none",
-                borderTop: "1px solid var(--color-border)",
-                padding: "32px 28px",
+                padding: "28px 22px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "16px",
+                position: "relative",
               }}
             >
-              {/* Step number — amber-tinted, branded rather than invisible */}
-              <span
+              {/* Number Capsule */}
+              <div
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(40px, 4vw, 64px)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.05em",
-                  color: `color-mix(in srgb, var(--color-accent) 22%, var(--color-bg-base))`,
-                  lineHeight: 1,
-                  display: "block",
-                  fontVariantNumeric: "tabular-nums",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "10px",
+                  background: "var(--color-accent-light)",
+                  color: "var(--color-accent)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  fontFamily: "var(--font-mono)",
+                  marginBottom: "20px",
                 }}
               >
-                0{i + 1}
-              </span>
+                {step.num}
+              </div>
+
               <h3
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "20px",
+                  fontSize: "18px",
                   fontWeight: 700,
-                  letterSpacing: "-0.025em",
+                  letterSpacing: "-0.015em",
                   color: "var(--color-text-primary)",
-                  margin: 0,
-                  lineHeight: 1.1,
+                  marginBottom: "6px",
                 }}
               >
                 {step.title}
               </h3>
+
+              <div
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "var(--color-accent)",
+                  marginBottom: "12px",
+                  letterSpacing: "0.01em",
+                }}
+              >
+                {step.tagline}
+              </div>
+
               <p
                 style={{
                   fontSize: "14px",
                   color: "var(--color-text-secondary)",
-                  lineHeight: 1.65,
+                  lineHeight: 1.55,
                   margin: 0,
                 }}
               >
@@ -149,16 +165,11 @@ export function Process() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .process-header { grid-template-columns: 1fr !important; gap: 24px !important; }
-          .process-steps { grid-template-columns: repeat(3, 1fr) !important; }
+        @media (max-width: 1024px) {
+          .process-steps { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
         }
         @media (max-width: 640px) {
-          .process-steps { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 420px) {
           .process-steps { grid-template-columns: 1fr !important; }
-          .process-steps > div { border-left: none !important; }
         }
       `}</style>
     </section>

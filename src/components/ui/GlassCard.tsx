@@ -20,16 +20,19 @@ export function GlassCard({
 }: GlassCardProps) {
   return (
     <motion.div
-      whileHover={hover ? { y: -4, boxShadow: "0 12px 32px rgba(0,0,0,0.12)" } : undefined}
-      transition={{ duration: 0.25, ease: [0.19, 1, 0.22, 1] }}
+      whileHover={
+        hover
+          ? {
+              y: -3,
+              boxShadow: "0 12px 32px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04)",
+              borderColor: "var(--color-border-strong)",
+            }
+          : undefined
+      }
+      transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
       onClick={onClick}
-      className={cn(className)}
+      className={cn("apple-card", className)}
       style={{
-        background: "var(--color-bg-base)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-lg)",
-        boxShadow: "var(--shadow-card)",
-        overflow: "hidden",
         cursor: onClick ? "pointer" : "default",
         ...style,
       }}

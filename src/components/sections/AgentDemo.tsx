@@ -62,7 +62,8 @@ export function AgentDemo({ onExit }: AgentDemoProps) {
 
   // Cancel all pending timeouts on unmount
   useEffect(() => {
-    return () => { timeoutsRef.current.forEach(clearTimeout); };
+    const timeouts = timeoutsRef.current;
+    return () => { timeouts.forEach(clearTimeout); };
   }, []);
 
   // Escape key → exit

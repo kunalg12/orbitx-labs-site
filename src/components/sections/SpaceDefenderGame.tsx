@@ -20,15 +20,23 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
 
   // Load hi score from localStorage on mount
   useEffect(() => {
-    try { setHiScore(Number(localStorage.getItem("orbitx-hiscore") ?? "0")); } catch {}
+    const timer = setTimeout(() => {
+      try {
+        setHiScore(Number(localStorage.getItem("orbitx-hiscore") ?? "0"));
+      } catch {}
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Save hi score after game ends
   useEffect(() => {
     if (!gs.gameOver && !gs.won) return;
     if (gs.score > hiScore) {
-      setHiScore(gs.score);
       try { localStorage.setItem("orbitx-hiscore", String(gs.score)); } catch {}
+      const timer = setTimeout(() => {
+        setHiScore(gs.score);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [gs.gameOver, gs.won, gs.score, hiScore]);
 
@@ -90,27 +98,51 @@ export function SpaceDefenderGame({ onExit }: SpaceDefenderGameProps) {
 
       {/* Mobile controls — touch-only devices; hidden on desktop via CSS */}
       <div className="mobile-controls" style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 8 }}>
-        {[
-          { label: "◄", onStart: () => keysRef.current.add("ArrowLeft"),  onEnd: () => keysRef.current.delete("ArrowLeft")  },
-          { label: "◆", onStart: () => { shootRef.current = true; },       onEnd: () => {}                                   },
-          { label: "►", onStart: () => keysRef.current.add("ArrowRight"), onEnd: () => keysRef.current.delete("ArrowRight") },
-        ].map(btn => (
-          <button
-            key={btn.label}
-            onMouseDown={btn.onStart} onMouseUp={btn.onEnd} onMouseLeave={btn.onEnd}
-            onTouchStart={e => { e.preventDefault(); btn.onStart(); }}
-            onTouchEnd={e => { e.preventDefault(); btn.onEnd(); }}
-            style={{
-              width: 52, height: 30,
-              background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.22)",
-              borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 13,
-              cursor: "pointer", userSelect: "none", touchAction: "manipulation",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            {btn.label}
-          </button>
-        ))}
+        <button
+          onMouseDown={() => { keysRef.current?.add("ArrowLeft"); }}
+          onMouseUp={() => { keysRef.current?.delete("ArrowLeft"); }}
+          onMouseLeave={() => { keysRef.current?.delete("ArrowLeft"); }}
+          onTouchStart={e => { e.preventDefault(); keysRef.current?.add("ArrowLeft"); }}
+          onTouchEnd={e => { e.preventDefault(); keysRef.current?.delete("ArrowLeft"); }}
+          style={{
+            width: 52, height: 30,
+            background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.22)",
+            borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 13,
+            cursor: "pointer", userSelect: "none", touchAction: "manipulation",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}
+        >
+          ◄
+        </button>
+        <button
+          onMouseDown={() => { if (shootRef.current !== undefined) { (shootRef as React.MutableRefObject<boolean>).current = true; } }}
+          onTouchStart={e => { e.preventDefault(); if (shootRef.current !== undefined) { (shootRef as React.MutableRefObject<boolean>).current = true; } }}
+          style={{
+            width: 52, height: 30,
+            background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.22)",
+            borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 13,
+            cursor: "pointer", userSelect: "none", touchAction: "manipulation",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}
+        >
+          ◆
+        </button>
+        <button
+          onMouseDown={() => { keysRef.current?.add("ArrowRight"); }}
+          onMouseUp={() => { keysRef.current?.delete("ArrowRight"); }}
+          onMouseLeave={() => { keysRef.current?.delete("ArrowRight"); }}
+          onTouchStart={e => { e.preventDefault(); keysRef.current?.add("ArrowRight"); }}
+          onTouchEnd={e => { e.preventDefault(); keysRef.current?.delete("ArrowRight"); }}
+          style={{
+            width: 52, height: 30,
+            background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.22)",
+            borderRadius: 6, color: "#F59E0B", fontFamily: MONO, fontSize: 13,
+            cursor: "pointer", userSelect: "none", touchAction: "manipulation",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}
+        >
+          ►
+        </button>
       </div>
 
       {/* Game over / win overlay */}

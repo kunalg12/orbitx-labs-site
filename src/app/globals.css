@@ -1,91 +1,116 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Colors: Light Theme (Default) ─────────────────────────── */
-  --color-bg-base:          #FAFAF9;
-  --color-bg-base-rgb:      250 250 249;
-  --color-bg-surface:       #F2F2EE;
-  --color-bg-ink:           #0E0E0C;
-  --nav-height:             72px;
-  --color-bg-muted:         #EAEAE5;
-  --color-text-primary:     #111110;
-  --color-text-secondary:   #4B5563;
-  --color-text-muted:       #9CA3AF;
-  --color-accent:           #C96500;
+  /* ── Colors: Apple Light Theme (Default) ───────────────────────── */
+  --color-bg-base:          #FFFFFF;
+  --color-bg-base-rgb:      255 255 255;
+  --color-bg-surface:       #F2F2F7;
+  --color-bg-card:          rgba(255, 255, 255, 0.85);
+  --color-bg-ink:           #1C1C1E;
+  --nav-height:             64px;
+  --color-bg-muted:         #E5E5EA;
+  --color-text-primary:     #000000;
+  --color-text-secondary:   rgba(60, 60, 67, 0.65);
+  --color-text-muted:       rgba(60, 60, 67, 0.40);
+  
+  /* ── Brand Colors: Warm Orange & Amber-Yellow ────────────────── */
+  --color-accent:           #C96500; /* Rich warm amber-orange */
   --color-accent-hover:     #A85400;
-  --color-accent-light:     #F59E0B;
-  --color-accent-neon:      #FBBF24;
-  --color-border:           rgba(0, 0, 0, 0.08);
-  --color-border-strong:    rgba(0, 0, 0, 0.16);
+  --color-accent-light:     rgba(201, 101, 0, 0.10);
+  --color-accent-neon:      #F59E0B;
+  --color-system-green:     #34C759;
+  --color-system-orange:    #C96500;
+  --color-system-yellow:    #F59E0B;
+  --color-system-red:       #FF3B30;
+  --color-system-purple:    #AF52DE;
+  --color-system-indigo:    #5856D6;
+  --color-system-cyan:      #32ADE6;
 
-  /* ── Typography ─────────────────────────────────────────────── */
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-body:    "Inter", system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", "Courier New", monospace;
+  --color-border:           rgba(60, 60, 67, 0.12);
+  --color-border-strong:    rgba(60, 60, 67, 0.22);
 
-  /* ── Type Scale ─────────────────────────────────────────────── */
-  --text-hero:    clamp(40px, 5.5vw, 72px);
-  --text-display: clamp(28px, 3.5vw, 52px);
-  --text-heading: clamp(24px, 3vw, 40px);
-  --text-subhead: clamp(16px, 1.5vw, 20px);
-  --text-body:    16px;
+  /* ── Apple Typography Stack ──────────────────────────────────── */
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "SF Mono", "Fira Code", ui-monospace, "Cascadia Code", monospace;
+
+  /* ── Apple HIG Type Scale ────────────────────────────────────── */
+  --text-hero:    clamp(38px, 5.2vw, 68px);
+  --text-display: clamp(28px, 3.6vw, 48px);
+  --text-heading: clamp(22px, 2.5vw, 34px);
+  --text-subhead: clamp(16px, 1.4vw, 19px);
+  --text-body:    17px;
+  --text-callout: 16px;
   --text-small:   14px;
-  --text-label:   12px;
+  --text-footnote: 13px;
+  --text-caption: 12px;
+  --text-caption2: 11px;
 
   /* ── Letter Spacing ─────────────────────────────────────────── */
-  --tracking-hero:    -0.04em;
-  --tracking-display: -0.03em;
-  --tracking-tight:   -0.02em;
-  --tracking-label:   0.12em;
+  --tracking-hero:    -0.035em;
+  --tracking-display: -0.025em;
+  --tracking-tight:   -0.015em;
+  --tracking-label:   0.06em;
 
-  /* ── Spacing ────────────────────────────────────────────────── */
-  --section-gap:       clamp(80px, 10vw, 160px);
-  --container-max:     1280px;
-  --container-padding: clamp(20px, 5vw, 80px);
+  /* ── Spacing (Apple 8pt Grid) ───────────────────────────────── */
+  --section-gap:       clamp(64px, 8vw, 120px);
+  --container-max:     1200px;
+  --container-padding: clamp(20px, 4vw, 40px);
 
-  /* ── Elevation ──────────────────────────────────────────────── */
-  --shadow-card:   0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
-  --shadow-raised: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.06);
-  --shadow-float:  0 12px 32px rgba(0,0,0,0.12), 0 32px 80px rgba(0,0,0,0.08);
+  /* ── Apple Layered Elevation & Shadows ──────────────────────── */
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-raised: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-float:  0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
 
-  /* ── Radius ─────────────────────────────────────────────────── */
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   20px;
-  --radius-xl:   32px;
+  /* ── Apple Corner Radii ─────────────────────────────────────── */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-2xl:  18px;
+  --radius-3xl:  24px;
   --radius-full: 9999px;
 
-  /* ── Animation Easings ──────────────────────────────────────── */
-  --ease-out-expo:   cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-in-expo:    cubic-bezier(0.95, 0.05, 0.795, 0.035);
-  --ease-out-quart:  cubic-bezier(0.165, 0.84, 0.44, 1);
-  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* ── Animation Easings (Apple Spring Physics) ──────────────── */
+  --ease-apple-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-apple-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo:     cubic-bezier(0.19, 1, 0.22, 1);
 
   /* ── Durations ──────────────────────────────────────────────── */
   --duration-fast:   150ms;
-  --duration-base:   300ms;
-  --duration-slow:   600ms;
-  --duration-slower: 1000ms;
+  --duration-base:   250ms;
+  --duration-slow:   450ms;
 }
 
-/* ── Dark Theme Overrides ───────────────────────────────────────── */
+/* ── Dark Theme Overrides (Apple True Black & Slate) ──────────── */
 [data-theme="dark"] {
-  --color-bg-base:          #050508;
-  --color-bg-base-rgb:      5 5 8;
-  --color-bg-surface:       #0A0A10;
-  --color-bg-ink:           #16160F;
-  --color-bg-muted:         #12121A;
-  --color-text-primary:     #E8E8E8;
-  --color-text-secondary:   #9CA3AF;
-  --color-text-muted:       #4B5563;
-  --color-border:           rgba(255, 255, 255, 0.08);
-  --color-border-strong:    rgba(255, 255, 255, 0.16);
-  --shadow-card:   none;
-  --shadow-raised: none;
-  --shadow-float:  none;
-  --color-accent:        #F59E0B;
-  --color-accent-light:  #F59E0B;
-  --color-accent-hover:  #D97706;
+  --color-bg-base:          #000000;
+  --color-bg-base-rgb:      0 0 0;
+  --color-bg-surface:       #1C1C1E;
+  --color-bg-card:          rgba(28, 28, 30, 0.80);
+  --color-bg-ink:           #2C2C2E;
+  --color-bg-muted:         #2C2C2E;
+  --color-text-primary:     #FFFFFF;
+  --color-text-secondary:   rgba(235, 235, 245, 0.65);
+  --color-text-muted:       rgba(235, 235, 245, 0.38);
+  --color-border:           rgba(255, 255, 255, 0.10);
+  --color-border-strong:    rgba(255, 255, 255, 0.20);
+  
+  --color-accent:           #F59E0B; /* Vivid glowing amber-yellow */
+  --color-accent-hover:     #FBBF24;
+  --color-accent-light:     rgba(245, 158, 11, 0.16);
+  --color-accent-neon:      #FBBF24;
+  --color-system-green:     #30D158;
+  --color-system-orange:    #FF9F0A;
+  --color-system-yellow:    #FBBF24;
+  --color-system-red:       #FF453A;
+  --color-system-purple:    #BF5AF2;
+  --color-system-cyan:      #64D2FF;
+
+  --shadow-card:   0 2px 8px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.08);
+  --shadow-raised: 0 8px 24px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.10);
+  --shadow-float:  0 16px 48px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.12);
 }
 
 /* ── Base Resets ────────────────────────────────────────────────── */
@@ -102,32 +127,130 @@ html {
   font-size: var(--text-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* scroll-behavior intentionally omitted — Lenis manages smooth scroll */
 }
 
 body {
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
-  line-height: 1.6;
-  overflow-x: clip; /* clip doesn't create a scroll container, preventing interference with Lenis */
+  line-height: 1.5;
+  overflow-x: clip;
   transition: background-color 300ms ease, color 300ms ease;
 }
 
-/* Prevent layout shift when custom cursor is active */
-@media (pointer: fine) {
-  * { cursor: none !important; }
+/* Apple Translucent Materials */
+.material-regular {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
-/* Theme switch transitions — only on elements that actually change */
-body,
-nav,
-footer,
-section,
-.glass-card,
-button {
-  transition-property: background-color, border-color, color;
-  transition-duration: 300ms;
-  transition-timing-function: ease;
+.material-thin {
+  background: color-mix(in srgb, var(--color-bg-surface) 65%, transparent);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+}
+
+/* Apple Card */
+.apple-card {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transition: transform 250ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 250ms ease, border-color 200ms ease;
+}
+
+.apple-card:hover {
+  border-color: var(--color-border-strong);
+}
+
+/* Apple Primary Button */
+.btn-apple-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-accent);
+  color: #FFFFFF !important;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 150ms ease, transform 120ms var(--ease-apple-spring), box-shadow 200ms ease;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.35);
+}
+
+.btn-apple-primary:hover {
+  opacity: 0.92;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45);
+}
+
+.btn-apple-primary:active {
+  transform: scale(0.97);
+  opacity: 0.84;
+}
+
+/* Apple Secondary / Tinted Button */
+.btn-apple-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-accent-light);
+  color: var(--color-accent) !important;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms ease, transform 120ms var(--ease-apple-spring);
+}
+
+.btn-apple-secondary:hover {
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.btn-apple-secondary:active {
+  transform: scale(0.97);
+}
+
+/* Apple Ghost / Outline Button */
+.btn-apple-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--color-text-primary) !important;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 150ms ease, background 150ms ease, transform 120ms ease;
+}
+
+.btn-apple-ghost:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-surface);
+}
+
+.btn-apple-ghost:active {
+  transform: scale(0.97);
 }
 
 /* ── Reduced Motion ─────────────────────────────────────────────── */
@@ -166,12 +289,12 @@ button {
   padding-block: var(--section-gap);
 }
 
-/* ── Form Field Focus Rings (WCAG 2.4.7) ───────────────────────── */
+/* ── Form Field Focus Rings (Apple HIG Focus) ──────────────────── */
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   border-color: var(--color-accent) !important;
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.20);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.22);
 }
 
 /* Native select option background in dark mode */
@@ -180,7 +303,7 @@ option {
   color: var(--color-text-primary);
 }
 
-/* ── Marquee Animation (shared by LogoMarquee + TechStack) ─────── */
+/* ── Marquee Animation ──────────────────────────────────────────── */
 @keyframes marquee-left {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -188,3 +311,4 @@ option {
 .marquee-row:hover .marquee-track {
   animation-play-state: paused;
 }
+

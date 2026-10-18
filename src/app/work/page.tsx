@@ -1,11 +1,12 @@
 import { getAllWork } from "@/lib/work";
 import { WorkGrid } from "./WorkGrid";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Work",
+  title: "Work — OrbitX Labs",
   description:
-    "Case studies and projects from OrbitX Labs — AI agents, web platforms, mobile apps, and software.",
+    "Case studies and production systems built by OrbitX Labs — AI agents, web platforms, mobile apps, and software.",
 };
 
 export default async function WorkPage() {
@@ -15,38 +16,39 @@ export default async function WorkPage() {
     <>
       <div
         style={{
-          paddingTop: "calc(var(--nav-height) + 48px)",
-          paddingBottom: "40px",
+          paddingTop: "calc(var(--nav-height) + 40px)",
+          paddingBottom: "36px",
           background: "var(--color-bg-base)",
           borderBottom: "1px solid var(--color-border)",
         }}
       >
         <div className="container">
-          <div
-            style={{
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--color-accent)",
-              marginBottom: "16px",
-            }}
-          >
-            Portfolio
-          </div>
+          <SectionLabel>Portfolio</SectionLabel>
           <h1
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(48px, 7vw, 96px)",
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
+              fontSize: "clamp(40px, 6vw, 76px)",
+              fontWeight: 700,
+              letterSpacing: "var(--tracking-hero)",
               color: "var(--color-text-primary)",
               lineHeight: 1.05,
+              marginTop: "8px",
             }}
           >
-            Things we&apos;ve{" "}
-            <span style={{ fontWeight: 300, fontStyle: "italic" }}>shipped</span>
+            Things we have shipped.
           </h1>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "17px",
+              color: "var(--color-text-secondary)",
+              lineHeight: 1.6,
+              maxWidth: "560px",
+              marginTop: "12px",
+            }}
+          >
+            Every product below is in active daily production — serving live medical admissions, student attendance, and clinical document parsing.
+          </p>
         </div>
       </div>
 
@@ -56,35 +58,29 @@ export default async function WorkPage() {
         style={{
           background: "var(--color-bg-base)",
           borderTop: "1px solid var(--color-border)",
-          padding: "80px var(--container-padding)",
+          padding: "72px var(--container-padding)",
           textAlign: "center",
         }}
       >
         <p
           style={{
-            fontSize: "16px",
+            fontFamily: "var(--font-body)",
+            fontSize: "17px",
             color: "var(--color-text-secondary)",
-            marginBottom: "24px",
+            marginBottom: "20px",
           }}
         >
-          Have a project in mind?
+          Have a project ready to kick off?
         </p>
         <a
           href="/contact"
+          className="btn-apple-primary"
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "14px 28px",
-            background: "var(--color-accent)",
-            color: "#fff",
-            borderRadius: "9999px",
             fontSize: "15px",
-            fontWeight: 600,
-            textDecoration: "none",
+            padding: "14px 28px",
           }}
         >
-          Let&apos;s talk →
+          Start a project <span>›</span>
         </a>
       </div>
     </>

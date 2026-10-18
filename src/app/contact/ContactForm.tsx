@@ -8,12 +8,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email"),
+  email: z.string().email("Please enter a valid email address"),
   service: z.enum(["ai-agents", "software", "mobile", "web", "other"]),
   budget: z.string().optional(),
   message: z
     .string()
-    .min(20, "Message must be at least 20 characters")
+    .min(15, "Please describe your project in at least 15 characters")
     .max(2000),
 });
 
@@ -21,34 +21,52 @@ type FormData = z.infer<typeof schema>;
 
 const fieldStyle: React.CSSProperties = {
   width: "100%",
-  padding: "14px 16px",
-  background: "var(--color-bg-base)",
-  border: "1.5px solid var(--color-border)",
-  borderRadius: "12px",
+  padding: "12px 16px",
+  background: "color-mix(in srgb, var(--color-bg-surface) 60%, transparent)",
+  border: "1px solid var(--color-border)",
+  borderRadius: "var(--radius-md)",
   fontSize: "15px",
   color: "var(--color-text-primary)",
   fontFamily: "var(--font-body)",
   outline: "none",
-  transition: "border-color 200ms ease, box-shadow 200ms ease",
+  transition: "border-color 150ms ease, box-shadow 150ms ease, background 150ms ease",
 };
 
 const labelStyle: React.CSSProperties = {
   fontSize: "13px",
   fontWeight: 600,
-  color: "var(--color-text-secondary)",
+  color: "var(--color-text-primary)",
   marginBottom: "8px",
   display: "block",
 };
 
+const serviceOptions = [
+  { id: "ai-agents", label: "AI Agents" },
+  { id: "software",  label: "Software" },
+  { id: "mobile",    label: "Mobile App" },
+  { id: "web",       label: "Web Platform" },
+  { id: "other",     label: "Other" },
+] as const;
+
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [selectedService, setSelectedService] = useState<string>("ai-agents");
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { service: "ai-agents" },
+  });
+
+  const handleServiceSelect = (val: "ai-agents" | "software" | "mobile" | "web" | "other") => {
+    setSelectedService(val);
+    setValue("service", val);
+  };
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
@@ -72,48 +90,59 @@ export function ContactForm() {
   if (status === "success") {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
+        className="apple-card"
         style={{
-          padding: "48px",
-          background: "var(--color-bg-base)",
-          border: "1px solid var(--color-border)",
-          borderRadius: "20px",
+          padding: "56px 40px",
           textAlign: "center",
-          boxShadow: "var(--shadow-raised)",
         }}
       >
-        <div style={{ fontSize: "48px", marginBottom: "20px" }}>🎉</div>
+        <div
+          style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "50%",
+            background: "color-mix(in srgb, var(--color-system-green) 15%, transparent)",
+            color: "var(--color-system-green)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 20px",
+            fontSize: "24px",
+          }}
+        >
+          ✓
+        </div>
         <h3
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "24px",
             fontWeight: 700,
             color: "var(--color-text-primary)",
-            marginBottom: "12px",
+            marginBottom: "10px",
+            letterSpacing: "-0.02em",
           }}
         >
-          Message received!
+          Message Dispatched
         </h3>
-        <p style={{ fontSize: "16px", color: "var(--color-text-secondary)" }}>
-          We&apos;ll get back to you within 24 hours with an honest assessment.
+        <p
+          style={{
+            fontSize: "15px",
+            color: "var(--color-text-secondary)",
+            maxWidth: "380px",
+            margin: "0 auto 28px",
+            lineHeight: 1.55,
+          }}
+        >
+          We have received your specifications. An engineer will review your requirements and reach out within 24 hours.
         </p>
         <button
           onClick={() => setStatus("idle")}
-          style={{
-            marginTop: "24px",
-            padding: "12px 24px",
-            background: "var(--color-accent)",
-            color: "#fff",
-            border: "none",
-            borderRadius: "9999px",
-            fontSize: "14px",
-            fontWeight: 600,
-            cursor: "pointer",
-            fontFamily: "var(--font-body)",
-          }}
+          className="btn-apple-secondary"
+          style={{ fontSize: "14px" }}
         >
-          Send another message
+          Send another inquiry
         </button>
       </motion.div>
     );
@@ -122,109 +151,125 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      className="apple-card"
       style={{
-        background: "var(--color-bg-base)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "20px",
-        padding: "40px",
-        boxShadow: "var(--shadow-raised)",
+        padding: "36px",
         display: "flex",
         flexDirection: "column",
         gap: "24px",
       }}
     >
-      {/* Name + Email row */}
+      {/* Service Segmented Selector */}
+      <div>
+        <label style={labelStyle}>What discipline are you building? *</label>
+        <div
+          style={{
+            display: "flex",
+            gap: "6px",
+            flexWrap: "wrap",
+            padding: "4px",
+            borderRadius: "var(--radius-lg)",
+            background: "color-mix(in srgb, var(--color-bg-surface) 60%, transparent)",
+            border: "1px solid var(--color-border)",
+          }}
+        >
+          {serviceOptions.map((opt) => {
+            const isSelected = selectedService === opt.id;
+            return (
+              <button
+                type="button"
+                key={opt.id}
+                onClick={() => handleServiceSelect(opt.id)}
+                style={{
+                  flex: "1 0 auto",
+                  padding: "8px 14px",
+                  borderRadius: "var(--radius-md)",
+                  border: "none",
+                  background: isSelected ? "var(--color-accent)" : "transparent",
+                  color: isSelected ? "#FFFFFF" : "var(--color-text-secondary)",
+                  fontSize: "13px",
+                  fontWeight: isSelected ? 600 : 500,
+                  cursor: "pointer",
+                  transition: "all 150ms ease",
+                  fontFamily: "var(--font-body)",
+                }}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Name + Email Row */}
       <div
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}
         className="form-row"
       >
         <div>
-          <label style={labelStyle}>Name *</label>
+          <label style={labelStyle}>Your Name *</label>
           <input
             {...register("name")}
-            placeholder="Jane Smith"
+            placeholder="Kunal Gursal"
             style={{
               ...fieldStyle,
-              borderColor: errors.name ? "#E11D48" : "var(--color-border)",
+              borderColor: errors.name ? "var(--color-system-red)" : "var(--color-border)",
             }}
           />
           {errors.name && (
-            <span style={{ fontSize: "12px", color: "#E11D48", marginTop: "4px", display: "block" }}>
+            <span style={{ fontSize: "12px", color: "var(--color-system-red)", marginTop: "4px", display: "block" }}>
               {errors.name.message}
             </span>
           )}
         </div>
+
         <div>
-          <label style={labelStyle}>Email *</label>
+          <label style={labelStyle}>Work Email *</label>
           <input
             {...register("email")}
             type="email"
-            placeholder="jane@company.com"
+            placeholder="kunal@company.com"
             style={{
               ...fieldStyle,
-              borderColor: errors.email ? "#E11D48" : "var(--color-border)",
+              borderColor: errors.email ? "var(--color-system-red)" : "var(--color-border)",
             }}
           />
           {errors.email && (
-            <span style={{ fontSize: "12px", color: "#E11D48", marginTop: "4px", display: "block" }}>
+            <span style={{ fontSize: "12px", color: "var(--color-system-red)", marginTop: "4px", display: "block" }}>
               {errors.email.message}
             </span>
           )}
         </div>
       </div>
 
-      {/* Service */}
-      <div>
-        <label style={labelStyle}>What do you need? *</label>
-        <select
-          {...register("service")}
-          style={{
-            ...fieldStyle,
-            borderColor: errors.service ? "#E11D48" : "var(--color-border)",
-          }}
-        >
-          <option value="">Select a service...</option>
-          <option value="ai-agents">AI Agents</option>
-          <option value="software">Software Development</option>
-          <option value="mobile">Mobile App</option>
-          <option value="web">Web Platform / Site</option>
-          <option value="other">Something else</option>
-        </select>
-        {errors.service && (
-          <span style={{ fontSize: "12px", color: "#E11D48", marginTop: "4px", display: "block" }}>
-            Please select a service
-          </span>
-        )}
-      </div>
-
       {/* Budget */}
       <div>
-        <label style={labelStyle}>Budget range (optional)</label>
+        <label style={labelStyle}>Estimated budget (optional)</label>
         <select {...register("budget")} style={fieldStyle}>
-          <option value="">Prefer not to say</option>
-          <option value="under-5k">Under $5,000</option>
-          <option value="5k-15k">$5,000 – $15,000</option>
-          <option value="15k-50k">$15,000 – $50,000</option>
-          <option value="50k+">$50,000+</option>
+          <option value="">Select scope or prefer to discuss</option>
+          <option value="under-5k">Under $5,000 / ₹4L</option>
+          <option value="5k-15k">$5,000 – $15,000 / ₹4L – ₹12L</option>
+          <option value="15k-50k">$15,000 – $50,000 / ₹12L – ₹40L</option>
+          <option value="50k+">$50,000+ / Enterprise</option>
         </select>
       </div>
 
       {/* Message */}
       <div>
-        <label style={labelStyle}>Tell us about your project *</label>
+        <label style={labelStyle}>Project Outline &amp; Target Deliverables *</label>
         <textarea
           {...register("message")}
           rows={5}
-          placeholder="What are you building? What problem does it solve? Any timeline constraints?"
+          placeholder="Briefly describe your objectives, target platforms (web, mobile, backend), and ideal deployment date..."
           style={{
             ...fieldStyle,
             resize: "vertical",
             minHeight: "120px",
-            borderColor: errors.message ? "#E11D48" : "var(--color-border)",
+            borderColor: errors.message ? "var(--color-system-red)" : "var(--color-border)",
           }}
         />
         {errors.message && (
-          <span style={{ fontSize: "12px", color: "#E11D48", marginTop: "4px", display: "block" }}>
+          <span style={{ fontSize: "12px", color: "var(--color-system-red)", marginTop: "4px", display: "block" }}>
             {errors.message.message}
           </span>
         )}
@@ -233,19 +278,19 @@ export function ContactForm() {
       <AnimatePresence>
         {status === "error" && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
             style={{
               padding: "12px 16px",
-              background: "#FFF1F2",
-              border: "1px solid #FECDD3",
-              borderRadius: "10px",
-              fontSize: "14px",
-              color: "#E11D48",
+              background: "color-mix(in srgb, var(--color-system-red) 12%, transparent)",
+              border: "1px solid color-mix(in srgb, var(--color-system-red) 25%, transparent)",
+              borderRadius: "var(--radius-md)",
+              fontSize: "13px",
+              color: "var(--color-system-red)",
             }}
           >
-            Something went wrong. Please try again or email us directly.
+            Connection error while dispatching form. Please verify connection and retry.
           </motion.div>
         )}
       </AnimatePresence>
@@ -253,46 +298,19 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "loading"}
+        className="btn-apple-primary"
         style={{
-          padding: "16px 32px",
-          background: status === "loading" ? "var(--color-text-muted)" : "var(--color-accent)",
-          color: "#fff",
-          border: "none",
-          borderRadius: "9999px",
-          fontSize: "16px",
-          fontWeight: 700,
+          width: "100%",
+          padding: "14px 28px",
+          fontSize: "15px",
           cursor: status === "loading" ? "not-allowed" : "pointer",
-          fontFamily: "var(--font-body)",
-          transition: "background 200ms ease",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "8px",
         }}
       >
-        {status === "loading" ? (
-          <>
-            <span
-              style={{
-                width: "16px",
-                height: "16px",
-                border: "2px solid rgba(255,255,255,0.4)",
-                borderTopColor: "#fff",
-                borderRadius: "50%",
-                animation: "spin 0.7s linear infinite",
-                display: "inline-block",
-              }}
-            />
-            Sending...
-          </>
-        ) : (
-          "Send message →"
-        )}
+        {status === "loading" ? "Transmitting..." : "Send project inquiry ›"}
       </button>
 
       <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @media (max-width: 480px) {
+        @media (max-width: 520px) {
           .form-row { grid-template-columns: 1fr !important; }
         }
       `}</style>

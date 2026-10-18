@@ -8,12 +8,13 @@ const navLinks = [
   { label: "Services", href: "/#services" },
   { label: "Process",  href: "/#process" },
   { label: "About",    href: "/#why" },
+  { label: "Contact",  href: "/contact" },
 ];
 
 const socialLinks = [
   { label: "GitHub",      href: "https://github.com/kunalg12" },
   { label: "LinkedIn",    href: "https://linkedin.com" },
-  { label: "Twitter / X", href: "https://x.com" },
+  { label: "X / Twitter", href: "https://x.com" },
 ];
 
 export function Footer() {
@@ -26,174 +27,169 @@ export function Footer() {
       style={{
         background: "var(--color-bg-surface)",
         borderTop: "1px solid var(--color-border)",
-        paddingTop: "80px",
+        paddingTop: "64px",
       }}
     >
       <div className="container">
-
-        {/* CTA strip — hidden on contact page (redundant there) */}
-        <div
-          style={{
-            paddingBottom: "72px",
-            borderBottom: "1px solid var(--color-border)",
-            display: isContactPage ? "none" : "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: "40px",
-            flexWrap: "wrap",
-          }}
-          className="footer-cta"
-        >
-          <div>
-            <p
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(32px, 4vw, 56px)",
-                fontWeight: 800,
-                letterSpacing: "-0.04em",
-                color: "var(--color-text-primary)",
-                lineHeight: 1.05,
-                margin: "0 0 16px",
-              }}
-            >
-              Ready to ship
-              <br />
-              something real?
-            </p>
-            <p
-              style={{
-                fontSize: "15px",
-                color: "var(--color-text-secondary)",
-                margin: 0,
-                lineHeight: 1.6,
-              }}
-            >
-              No discovery theatre. No months of waiting.
-              <br />
-              Just a kickoff call and a build that starts this week.
-            </p>
-          </div>
-
-          <Link
-            href="/contact"
+        {/* Optional CTA strip — hidden on contact page */}
+        {!isContactPage && (
+          <div
             style={{
-              display: "inline-flex",
+              paddingBottom: "56px",
+              borderBottom: "1px solid var(--color-border)",
+              display: "flex",
               alignItems: "center",
-              gap: "10px",
-              padding: "16px 32px",
-              background: "var(--color-accent)",
-              color: "#fff",
-              borderRadius: "var(--radius-full)",
-              fontSize: "15px",
-              fontWeight: 600,
-              textDecoration: "none",
-              fontFamily: "var(--font-body)",
-              letterSpacing: "0.01em",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-              boxShadow: "0 4px 24px rgba(201,101,0,0.40)",
-              transition: "transform 200ms ease, box-shadow 200ms ease",
+              justifyContent: "space-between",
+              gap: "32px",
+              flexWrap: "wrap",
             }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 36px rgba(201,101,0,0.55)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(201,101,0,0.40)";
-            }}
+            className="footer-cta"
           >
-            Start a project
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
-        </div>
+            <div>
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(26px, 3.2vw, 44px)",
+                  fontWeight: 700,
+                  letterSpacing: "var(--tracking-display)",
+                  color: "var(--color-text-primary)",
+                  lineHeight: 1.1,
+                  margin: "0 0 10px",
+                }}
+              >
+                Ready to ship your next product?
+              </h3>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "15px",
+                  color: "var(--color-text-secondary)",
+                  margin: 0,
+                  lineHeight: 1.5,
+                }}
+              >
+                Kick off in days. Full product delivery in 2–8 weeks.
+              </p>
+            </div>
 
-        {/* Utility columns */}
+            <Link
+              href="/contact"
+              className="btn-apple-primary"
+              style={{ fontSize: "14px", padding: "12px 24px" }}
+            >
+              Start a project <span>›</span>
+            </Link>
+          </div>
+        )}
+
+        {/* Directory Columns */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "2fr 1fr 1fr",
-            gap: "60px",
-            paddingTop: "52px",
+            gap: "48px",
+            paddingTop: "48px",
             paddingBottom: "40px",
           }}
           className="footer-grid"
         >
-          {/* Brand */}
+          {/* Brand Info */}
           <div>
-            <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "7px", marginBottom: "18px" }}>
-              <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-                <circle cx="11" cy="11" r="10" stroke="#C96500" strokeWidth="1.5" fill="none" />
-                <circle cx="11" cy="11" r="4" fill="#C96500" />
-                <ellipse cx="11" cy="11" rx="10" ry="4.2" stroke="#C96500" strokeWidth="1" fill="none" opacity="0.40" />
-              </svg>
+            <Link
+              href="/"
+              style={{
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                marginBottom: "16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "6px",
+                  background: "linear-gradient(135deg, #F59E0B 0%, #C96500 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3" fill="#FFFFFF" />
+                  <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" />
+                </svg>
+              </div>
               <span
                 style={{
                   fontFamily: "var(--font-display)",
                   fontSize: "15px",
-                  fontWeight: 700,
-                  letterSpacing: "-0.04em",
+                  fontWeight: 600,
+                  letterSpacing: "-0.02em",
                   color: "var(--color-text-primary)",
                   lineHeight: 1,
                 }}
               >
-                OrbitX Labs
+                OrbitX<span style={{ fontWeight: 400, opacity: 0.65, marginLeft: "3px" }}>Labs</span>
               </span>
             </Link>
+
             <p
               style={{
+                fontFamily: "var(--font-body)",
                 fontSize: "13px",
                 color: "var(--color-text-muted)",
-                lineHeight: 1.7,
-                maxWidth: "260px",
-                margin: "0 0 24px",
+                lineHeight: 1.6,
+                maxWidth: "280px",
+                margin: "0 0 20px",
               }}
             >
-              A small, founder-led agency building AI agents, software, and mobile apps — fast, and built to last.
+              Founder-led agency building production AI agents, software platforms, and mobile apps. Designed and engineered in Maharashtra, India.
             </p>
-            {/* Availability indicator */}
+
+            {/* Apple availability indicator */}
             <span
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "7px",
+                gap: "8px",
                 fontSize: "12px",
-                color: "var(--color-text-muted)",
+                color: "var(--color-text-secondary)",
                 fontWeight: 500,
               }}
             >
               <span
                 style={{
-                  width: "6px", height: "6px",
+                  width: "7px",
+                  height: "7px",
                   borderRadius: "50%",
-                  background: "#22C55E",
-                  boxShadow: "0 0 0 3px rgba(34,197,94,0.18)",
+                  background: "var(--color-system-green)",
+                  boxShadow: "0 0 0 3px rgba(52,199,89,0.22)",
                   display: "inline-block",
                   flexShrink: 0,
                   animation: "footer-pulse 2.4s infinite",
                 }}
               />
-              Taking on new projects
+              Taking on new client builds
             </span>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Links */}
           <div>
             <p
               style={{
-                fontSize: "11px",
+                fontSize: "12px",
                 fontWeight: 600,
-                color: "var(--color-text-muted)",
-                letterSpacing: "0.08em",
-                marginBottom: "20px",
+                color: "var(--color-text-primary)",
+                letterSpacing: "0.04em",
+                marginBottom: "16px",
                 textTransform: "uppercase",
               }}
             >
-              Navigate
+              Directory
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "13px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -213,28 +209,28 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Connect */}
+          {/* Social Links */}
           <div>
             <p
               style={{
-                fontSize: "11px",
+                fontSize: "12px",
                 fontWeight: 600,
-                color: "var(--color-text-muted)",
-                letterSpacing: "0.08em",
-                marginBottom: "20px",
+                color: "var(--color-text-primary)",
+                letterSpacing: "0.04em",
+                marginBottom: "16px",
                 textTransform: "uppercase",
               }}
             >
               Connect
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "13px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-social"
+                  className="footer-link"
                   style={{
                     fontSize: "14px",
                     color: "var(--color-text-secondary)",
@@ -243,14 +239,14 @@ export function Footer() {
                     fontFamily: "var(--font-body)",
                   }}
                 >
-                  {link.label}
+                  {link.label} ↗
                 </a>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom Legal / Metadata Row */}
         <div
           style={{
             paddingBlock: "20px",
@@ -259,31 +255,27 @@ export function Footer() {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            gap: "10px",
+            gap: "12px",
           }}
         >
           <span style={{ fontSize: "12px", color: "var(--color-text-muted)", fontFamily: "var(--font-body)" }}>
-            © {year} OrbitX Labs. All rights reserved.
+            © {year} OrbitX Labs. Built to Apple Human Interface Guidelines.
           </span>
           <span style={{ fontSize: "12px", color: "var(--color-text-muted)", fontFamily: "var(--font-body)" }}>
-            Built with Next.js
+            Next.js 16 · React 19 · San Francisco Font Stack
           </span>
         </div>
       </div>
 
       <style>{`
         @keyframes footer-pulse {
-          0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.18); }
-          50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0.06); }
+          0%, 100% { box-shadow: 0 0 0 3px rgba(52,199,89,0.22); }
+          50%       { box-shadow: 0 0 0 6px rgba(52,199,89,0.06); }
         }
-        .footer-link:hover  { color: var(--color-accent) !important; }
-        .footer-social:hover { color: var(--color-accent) !important; }
+        .footer-link:hover { color: var(--color-accent) !important; }
         @media (max-width: 768px) {
           .footer-cta  { flex-direction: column !important; align-items: flex-start !important; }
-          .footer-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
-        }
-        @media (min-width: 768px) and (max-width: 1024px) {
-          .footer-grid { grid-template-columns: 1fr 1fr !important; }
+          .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
         }
       `}</style>
     </footer>

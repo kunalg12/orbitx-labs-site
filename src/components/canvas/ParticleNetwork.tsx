@@ -3,7 +3,7 @@
 import { useRef, useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { ScrollTrigger } from "@/lib/gsap";
 
 // Tech stack layers — Database (bottom, widest) → UI (top, narrowest)
 const LAYERS = [
@@ -18,11 +18,9 @@ const LAYERS = [
 function StackLayer({
   config,
   isDark,
-  stackRef,
 }: {
   config: (typeof LAYERS)[number];
   isDark: boolean;
-  stackRef: React.RefObject<THREE.Group | null>;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const edgeRef = useRef<THREE.LineSegments>(null);
@@ -82,10 +80,9 @@ function DataParticles({ isDark }: { isDark: boolean }) {
   const COUNT = 120;
 
   // Bake positions deterministically — each particle gets a lane inside the stack XZ bounds
-  const { positions, speeds, phases } = useMemo(() => {
+  const { positions, speeds } = useMemo(() => {
     const positions = new Float32Array(COUNT * 3);
     const speeds = new Float32Array(COUNT);
-    const phases = new Float32Array(COUNT);
 
     for (let i = 0; i < COUNT; i++) {
       // Deterministic golden-angle spread within the footprint of the widest layer
@@ -95,9 +92,8 @@ function DataParticles({ isDark }: { isDark: boolean }) {
       positions[i * 3 + 1] = -1.5 + ((i * 47) % COUNT) / COUNT * 3.0; // spread across stack height
       positions[i * 3 + 2] = Math.sin(theta) * r * 0.65;
       speeds[i]  = 0.18 + (i % 7) * 0.04;
-      phases[i]  = (i * 0.618) % 1.0;
     }
-    return { positions, speeds, phases };
+    return { positions, speeds };
   }, []);
 
   const geo = useMemo(() => {
@@ -106,9 +102,8 @@ function DataParticles({ isDark }: { isDark: boolean }) {
     return g;
   }, [positions]);
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (!ref.current) return;
-    const t = clock.getElapsedTime();
     const pos = geo.getAttribute("position") as THREE.BufferAttribute;
     const arr = pos.array as Float32Array;
 
@@ -203,7 +198,7 @@ export function ParticleNetwork({ theme, isMobile }: { theme: number; isMobile: 
   return (
     <group ref={stackRef}>
       {LAYERS.map((layer) => (
-        <StackLayer key={layer.name} config={layer} isDark={isDark} stackRef={stackRef} />
+        <StackLayer key={layer.name} config={layer} isDark={isDark} />
       ))}
       <SpineLines isDark={isDark} />
       <DataParticles isDark={isDark} />

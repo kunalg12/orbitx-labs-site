@@ -9,7 +9,7 @@ interface MagneticButtonProps {
   className?: string;
   onClick?: () => void;
   href?: string;
-  variant?: "primary" | "outline" | "ghost";
+  variant?: "primary" | "secondary" | "outline" | "ghost";
   style?: React.CSSProperties;
 }
 
@@ -29,8 +29,8 @@ export function MagneticButton({
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    x.current = (e.clientX - centerX) * 0.25;
-    y.current = (e.clientY - centerY) * 0.25;
+    x.current = (e.clientX - centerX) * 0.18;
+    y.current = (e.clientY - centerY) * 0.18;
     ref.current.style.transform = `translate(${x.current}px, ${y.current}px)`;
   };
 
@@ -44,14 +44,14 @@ export function MagneticButton({
     alignItems: "center",
     justifyContent: "center",
     gap: "8px",
-    padding: "14px 28px",
+    padding: "12px 24px",
     borderRadius: "var(--radius-full)",
     fontFamily: "var(--font-body)",
     fontSize: "15px",
     fontWeight: 600,
     cursor: "pointer",
     border: "none",
-    transition: "background 200ms ease, box-shadow 200ms ease, transform 300ms var(--ease-out-expo)",
+    transition: "background 150ms ease, box-shadow 200ms ease, border-color 150ms ease, transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1)",
     whiteSpace: "nowrap",
     ...style,
   };
@@ -59,12 +59,18 @@ export function MagneticButton({
   const variantStyles: Record<string, React.CSSProperties> = {
     primary: {
       background: "var(--color-accent)",
-      color: "#fff",
+      color: "#FFFFFF",
+      boxShadow: "0 2px 8px rgba(0, 122, 255, 0.28)",
+    },
+    secondary: {
+      background: "var(--color-accent-light)",
+      color: "var(--color-accent)",
+      border: "1px solid transparent",
     },
     outline: {
       background: "transparent",
       color: "var(--color-text-primary)",
-      border: "1.5px solid var(--color-border-strong)",
+      border: "1px solid var(--color-border-strong)",
     },
     ghost: {
       background: "transparent",
@@ -75,7 +81,7 @@ export function MagneticButton({
   return (
     <motion.button
       ref={ref}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.015 }}
       whileTap={{ scale: 0.97 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

@@ -4,25 +4,26 @@ import React, { useCallback, useEffect, useRef, useState, useId } from "react";
 // ─── Types / constants ─────────────────────────────────────────────────────────
 export type MenuAction = "demo" | "game" | "work" | "book" | "contact";
 
-const MONO = "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace";
+const MONO = "'SF Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace";
 const FS   = "clamp(11px, 1.3vw, 12.5px)";
 
 export const MENU: Array<{ key: string; icon: string; label: string; action: MenuAction }> = [
-  { key: "1", icon: "🤖", label: "Run AI demo",         action: "demo"     },
-  { key: "2", icon: "📂", label: "View our work",        action: "work"     },
-  { key: "3", icon: "📅", label: "Book a 30-min call",   action: "book"     },
-  { key: "4", icon: "📩", label: "Start a project",      action: "contact"  },
-  { key: "5", icon: "🚀", label: "Play Space Defender",  action: "game"     },
+  { key: "1", icon: "⚡", label: "Run AI Agent Demo",      action: "demo"     },
+  { key: "2", icon: "📂", label: "Inspect Live Portfolios",  action: "work"     },
+  { key: "3", icon: "📅", label: "Schedule 30-min Call",     action: "book"     },
+  { key: "4", icon: "✨", label: "Start a New Build",        action: "contact"  },
+  { key: "5", icon: "🚀", label: "Launch Space Defender",    action: "game"     },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 export const Cursor = React.memo(function Cursor() {
   return (
     <span style={{
-      display: "inline-block", width: 7, height: "1em",
-      background: "#F59E0B", marginLeft: 2, verticalAlign: "text-bottom",
+      display: "inline-block", width: 7, height: "1.1em",
+      background: "var(--color-accent)", marginLeft: 2, verticalAlign: "text-bottom",
+      borderRadius: "1px",
       animation: "term-blink 1s step-end infinite",
-      boxShadow: "0 0 8px rgba(245,158,11,0.8)",
+      boxShadow: "0 0 8px rgba(245,158,11,0.7)",
     }} />
   );
 });
@@ -33,30 +34,28 @@ const MenuBtn = React.memo(function MenuBtn({ item, onAction, delay }: { item: t
       role="menuitem"
       onClick={() => onAction(item.action)}
       style={{
-        display: "flex", alignItems: "center", gap: 10, padding: "5px 9px",
+        display: "flex", alignItems: "center", gap: 10, padding: "7px 10px",
         background: "transparent", border: "1px solid transparent", cursor: "pointer",
-        fontFamily: MONO, fontSize: FS, lineHeight: 1.65, borderRadius: 5,
-        color: "#A8B6C4", textAlign: "left", width: "100%", transition: "all 160ms ease",
+        fontFamily: MONO, fontSize: FS, lineHeight: 1.6, borderRadius: "var(--radius-sm)",
+        color: "var(--color-text-secondary)", textAlign: "left", width: "100%", transition: "all 140ms ease",
         animation: `riseIn 0.35s ease both`,
         animationDelay: `${delay}ms`,
       }}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLElement;
-        el.style.color = "#F59E0B";
-        el.style.background = "rgba(245,158,11,0.07)";
-        el.style.borderColor = "rgba(245,158,11,0.20)";
-        el.style.boxShadow = "0 0 16px rgba(245,158,11,0.05), inset 0 0 16px rgba(245,158,11,0.03)";
+        el.style.color = "var(--color-text-primary)";
+        el.style.background = "var(--color-accent-light)";
+        el.style.borderColor = "color-mix(in srgb, var(--color-accent) 25%, transparent)";
       }}
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLElement;
-        el.style.color = "#A8B6C4";
+        el.style.color = "var(--color-text-secondary)";
         el.style.background = "transparent";
         el.style.borderColor = "transparent";
-        el.style.boxShadow = "none";
       }}
     >
-      <span style={{ color: "#F59E0B", fontWeight: 700, minWidth: 26, flexShrink: 0, opacity: 0.85 }}>[{item.key}]</span>
-      <span style={{ fontSize: 14, flexShrink: 0 }}>{item.icon}</span>
+      <span style={{ color: "var(--color-accent)", fontWeight: 700, minWidth: 26, flexShrink: 0 }}>[{item.key}]</span>
+      <span style={{ fontSize: 13, flexShrink: 0 }}>{item.icon}</span>
       <span style={{ letterSpacing: "0.01em" }}>{item.label}</span>
     </button>
   );
@@ -82,7 +81,7 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
     const byKey = MENU.find(m => m.key === v);
     if (byKey) { setInputValue(""); handleMenuAction(byKey.action); return; }
     const byLabel: Record<string, MenuAction> = {
-      demo: "demo", ai: "demo",
+      demo: "demo", ai: "demo", agent: "demo",
       game: "game", play: "game", defender: "game",
       work: "work", portfolio: "work",
       book: "book", call: "book", meeting: "book",
@@ -94,7 +93,6 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
     setTimeout(() => setInputError(false), 700);
   }, [handleMenuAction]);
 
-  // Auto-focus input when menu appears
   useEffect(() => { inputRef.current?.focus(); }, []);
 
   return (
@@ -103,37 +101,36 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           marginBottom: 10, paddingBottom: 8,
-          borderBottom: "1px solid rgba(245,158,11,0.10)",
+          borderBottom: "1px solid var(--color-border)",
         }}>
-          <span style={{ fontFamily: MONO, fontSize: 9, color: "rgba(245,158,11,0.50)", letterSpacing: "0.14em", fontWeight: 700 }}>
-            ◈ MISSION CONTROL
+          <span style={{ fontFamily: MONO, fontSize: 10, color: "var(--color-accent)", letterSpacing: "0.10em", fontWeight: 700 }}>
+            PRO STUDIO CONSOLE
           </span>
-          <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: MONO, fontSize: 9, color: "#4ADE80", letterSpacing: "0.10em" }}>
-            <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: "#4ADE80", animation: "pulseDot 2.5s infinite", boxShadow: "0 0 6px #4ADE8080" }} />
-            ALL SYSTEMS GO
+          <span style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: MONO, fontSize: 10, color: "var(--color-system-green)", letterSpacing: "0.08em" }}>
+            <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--color-system-green)", animation: "pulseDot 2.5s infinite", boxShadow: "0 0 6px rgba(52,199,89,0.5)" }} />
+            SYSTEMS READY
           </span>
         </div>
 
-        <div style={{ fontFamily: MONO, fontSize: FS, color: "#7DD3FC", lineHeight: 1.65, marginBottom: 8, animation: "riseIn 0.35s ease 0.05s both" }}>
-          → Select your mission, Commander:
+        <div style={{ fontFamily: MONO, fontSize: FS, color: "var(--color-text-secondary)", lineHeight: 1.65, marginBottom: 8, animation: "riseIn 0.35s ease 0.05s both" }}>
+          → Select operation or type shortcut [1-5]:
         </div>
 
-        <div role="menu" aria-label="Mission Control menu" style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <div role="menu" aria-label="Developer Console menu" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {MENU.map((item, i) => (
-            <MenuBtn key={item.key} item={item} onAction={handleMenuAction} delay={80 + i * 70} />
+            <MenuBtn key={item.key} item={item} onAction={handleMenuAction} delay={60 + i * 50} />
           ))}
         </div>
 
         {/* Real command input */}
         <div style={{
-          display: "flex", alignItems: "center", gap: 6, marginTop: 10,
-          paddingTop: 8, borderTop: "1px solid rgba(245,158,11,0.08)",
-          animation: "riseIn 0.35s ease 0.55s both",
-          border: inputError ? "1px solid rgba(248,113,113,0.35)" : "1px solid transparent",
-          borderRadius: 5, padding: "4px 6px", marginLeft: -6,
-          transition: "border-color 0.15s",
+          display: "flex", alignItems: "center", gap: 8, marginTop: 10,
+          border: inputError ? "1px solid var(--color-system-red)" : "1px solid var(--color-border)",
+          background: "color-mix(in srgb, var(--color-bg-base) 60%, transparent)",
+          borderRadius: "var(--radius-sm)", padding: "6px 10px",
+          transition: "border-color 0.15s ease",
         }}>
-          <span style={{ fontFamily: MONO, fontSize: FS, color: inputError ? "#F87171" : "rgba(245,158,11,0.40)", flexShrink: 0 }}>›</span>
+          <span style={{ fontFamily: MONO, fontSize: FS, color: inputError ? "var(--color-system-red)" : "var(--color-accent)", flexShrink: 0, fontWeight: 700 }}>›</span>
           <label htmlFor={inputId} style={{ position: "absolute", left: -9999 }}>Enter command</label>
           <input
             id={inputId}
@@ -145,14 +142,14 @@ export const TerminalMenu = React.memo(function TerminalMenu({ onAction }: Termi
               if (e.key === "Enter") { handleInputSubmit(inputValue); }
               if (e.key === "Escape") { setInputValue(""); }
             }}
-            placeholder="type 1-5 or a command…"
+            placeholder="type 1-5 or enter command…"
             autoComplete="off"
             spellCheck={false}
             style={{
               flex: 1, background: "transparent", border: "none", outline: "none",
               fontFamily: MONO, fontSize: FS,
-              color: inputError ? "#F87171" : "#F59E0B",
-              caretColor: "#F59E0B",
+              color: inputError ? "var(--color-system-red)" : "var(--color-text-primary)",
+              caretColor: "var(--color-accent)",
               minWidth: 0,
             }}
           />

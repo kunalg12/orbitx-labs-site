@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 export function ContactCTA() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -10,17 +11,17 @@ export function ContactCTA() {
   const target = useRef({ x: 0.5, y: 0.5 });
   const current = useRef({ x: 0.5, y: 0.5 });
 
-  // Lerped cursor glow — follows mouse with soft lag
+  // Smooth lerped Apple ambient glow
   useEffect(() => {
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
     let id = 0;
     const tick = () => {
-      current.current.x = lerp(current.current.x, target.current.x, 0.06);
-      current.current.y = lerp(current.current.y, target.current.y, 0.06);
+      current.current.x = lerp(current.current.x, target.current.x, 0.05);
+      current.current.y = lerp(current.current.y, target.current.y, 0.05);
       if (glowRef.current) {
         const x = current.current.x * 100;
         const y = current.current.y * 100;
-        glowRef.current.style.background = `radial-gradient(circle 600px at ${x}% ${y}%, rgba(201,101,0,0.14) 0%, transparent 70%)`;
+        glowRef.current.style.background = `radial-gradient(circle 500px at ${x}% ${y}%, color-mix(in srgb, var(--color-accent) 10%, transparent) 0%, transparent 70%)`;
       }
       id = requestAnimationFrame(tick);
     };
@@ -41,14 +42,14 @@ export function ContactCTA() {
       id="contact-cta"
       onMouseMove={handleMouseMove}
       style={{
-        background: "var(--color-bg-surface)",
+        background: "var(--color-bg-base)",
         borderTop: "1px solid var(--color-border)",
-        paddingBlock: "clamp(100px, 14vw, 180px)",
+        paddingBlock: "clamp(80px, 12vw, 140px)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Cursor glow layer */}
+      {/* Ambient Cursor Glow */}
       <div
         ref={glowRef}
         aria-hidden="true"
@@ -56,196 +57,100 @@ export function ContactCTA() {
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          transition: "none",
-        }}
-      />
-
-      {/* Subtle dot grid — theme-aware opacity */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "radial-gradient(circle, var(--color-border) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-          pointerEvents: "none",
-          opacity: 0.6,
         }}
       />
 
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, ease: [0.19, 1, 0.22, 1] }}
-          style={{ textAlign: "center" }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+          style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto" }}
         >
-          {/* Overture line */}
-          <p
-            style={{
-              fontSize: "13px",
-              fontWeight: 500,
-              color: "var(--color-text-muted)",
-              marginBottom: "32px",
-              letterSpacing: "0.06em",
-            }}
-          >
-            orbitxlabs.com · ready when you are
-          </p>
+          <div style={{ marginBottom: "20px" }}>
+            <SectionLabel number="07">Get In Touch</SectionLabel>
+          </div>
 
-          {/* Oversized headline — the only thing on the screen */}
           <h2
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(48px, 8vw, 110px)",
-              fontWeight: 800,
-              letterSpacing: "-0.045em",
+              fontSize: "clamp(40px, 6.5vw, 84px)",
+              fontWeight: 700,
+              letterSpacing: "var(--tracking-hero)",
               color: "var(--color-text-primary)",
-              lineHeight: 1.0,
-              margin: "0 auto 48px",
-              maxWidth: "900px",
+              lineHeight: 1.05,
+              marginBottom: "24px",
             }}
           >
-            Let&apos;s build
-            <br />
-            <span style={{ color: "var(--color-accent)" }}>something real.</span>
+            Let&apos;s build <span style={{ color: "var(--color-accent)" }}>something real.</span>
           </h2>
 
-          {/* Short qualifier */}
           <p
             style={{
-              fontSize: "clamp(15px, 1.4vw, 18px)",
+              fontFamily: "var(--font-body)",
+              fontSize: "clamp(16px, 1.4vw, 19px)",
               color: "var(--color-text-secondary)",
-              lineHeight: 1.7,
-              maxWidth: "480px",
-              margin: "0 auto 48px",
+              lineHeight: 1.6,
+              maxWidth: "520px",
+              margin: "0 auto 36px",
             }}
           >
-            Tell us what you&apos;re building. We&apos;ll respond within 24 hours
-            and have a proposal ready within the week.
+            Tell us about your project or target timeline. We will evaluate technical feasibility and return a detailed plan within 24 hours.
           </p>
 
-          {/* CTAs */}
+          {/* Action Buttons */}
           <div
             className="cta-buttons"
-            style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}
+            style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", marginBottom: "32px" }}
           >
-            {/* Primary — contact form */}
             <Link
               href="/contact"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "18px 40px",
-                background: "var(--color-accent)",
-                color: "#fff",
-                borderRadius: "var(--radius-md)",
-                fontSize: "16px",
-                fontWeight: 700,
-                textDecoration: "none",
-                fontFamily: "var(--font-body)",
-                boxShadow: "0 4px 32px rgba(245,158,11,0.35)",
-                transition: "transform 220ms ease, box-shadow 220ms ease, background 150ms ease",
-                letterSpacing: "-0.01em",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(-3px)";
-                el.style.boxShadow = "0 12px 48px rgba(245,158,11,0.50)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(0)";
-                el.style.boxShadow = "0 4px 32px rgba(245,158,11,0.35)";
-              }}
+              className="btn-apple-primary"
+              style={{ fontSize: "15px", padding: "14px 32px" }}
             >
-              Start a conversation
+              Start a project
             </Link>
 
-            {/* Secondary — Cal.com booking popup */}
-            {/* Replace YOUR_CAL_USERNAME with your actual Cal.com username, e.g. "orbitxlabs/intro" */}
             <button
               data-cal-link="kunal-gursal-cxyibu/30min"
               data-cal-config='{"layout":"month_view"}'
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "18px 40px",
-                background: "transparent",
-                color: "var(--color-text-primary)",
-                border: "1.5px solid var(--color-border-strong)",
-                borderRadius: "var(--radius-md)",
-                fontSize: "16px",
-                fontWeight: 700,
-                fontFamily: "var(--font-body)",
-                cursor: "pointer",
-                transition: "border-color 200ms ease, background 200ms ease, transform 200ms ease",
-                letterSpacing: "-0.01em",
-                whiteSpace: "nowrap",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--color-accent)";
-                el.style.background = "color-mix(in srgb, var(--color-accent) 6%, transparent)";
-                el.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.borderColor = "var(--color-border-strong)";
-                el.style.background = "transparent";
-                el.style.transform = "translateY(0)";
-              }}
+              className="btn-apple-ghost"
+              style={{ fontSize: "15px", padding: "14px 28px" }}
             >
-              📅 Book a 30-min call
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.75 }}>
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Book a 30-min call
             </button>
           </div>
 
-          {/* Supporting links */}
           <div
-            className="cta-links"
             style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "32px",
-              marginTop: "48px",
-              flexWrap: "wrap",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "12px",
+              color: "var(--color-text-muted)",
+              fontWeight: 500,
             }}
           >
-            <Link
-              href="/work"
+            <span
               style={{
-                fontSize: "13px",
-                fontWeight: 500,
-                color: "var(--color-text-muted)",
-                textDecoration: "none",
-                transition: "color 150ms ease",
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--color-system-green)",
+                display: "inline-block",
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")
-              }
-            >
-              See our work
-            </Link>
-            <span className="cta-dot-sep" style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
-            <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Response: within 24 hrs</span>
-            <span className="cta-dot-sep" style={{ color: "var(--color-border)", userSelect: "none" }}>·</span>
-            <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>Kickoff: within 1 week</span>
+            />
+            Typical reply time: Under 4 hours
           </div>
         </motion.div>
       </div>
-
-      <style>{`
-        @media (max-width: 560px) {
-          .cta-links { gap: 16px !important; flex-direction: column !important; align-items: center !important; }
-          .cta-dot-sep { display: none !important; }
-        }
-      `}</style>
     </section>
   );
 }

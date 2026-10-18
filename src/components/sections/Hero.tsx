@@ -6,29 +6,29 @@ import { HeroVisualB } from "./HeroVisualB";
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
 };
 
 const lineVariants: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
-    clipPath: "inset(0 0 0% 0)",
     opacity: 1,
-    transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] },
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.19, 1, 0.22, 1] } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } },
 };
 
 const HEADLINE: React.CSSProperties = {
   fontFamily: "var(--font-display)",
-  fontSize: "clamp(36px, 4.5vw, 58px)",
-  fontWeight: 800,
-  lineHeight: 1.06,
-  letterSpacing: "-0.05em",
+  fontSize: "clamp(34px, 4.2vw, 54px)",
+  fontWeight: 700,
+  lineHeight: 1.08,
+  letterSpacing: "var(--tracking-hero)",
   margin: 0,
 };
 
@@ -42,20 +42,21 @@ export function Hero() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-        overflow: "clip",
+        overflowX: "clip",
         background: "var(--color-bg-base)",
         paddingTop: "var(--nav-height)",
       }}
     >
-      {/* Bottom fade */}
+      {/* Subtle Apple ambient radial glow */}
       <div
         style={{
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "140px",
-          background: "linear-gradient(to top, var(--color-bg-base), transparent)",
+          top: "8%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(1000px, 90vw)",
+          height: "400px",
+          background: "radial-gradient(ellipse at center, color-mix(in srgb, var(--color-accent) 8%, transparent) 0%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 1,
         }}
@@ -67,27 +68,35 @@ export function Hero() {
           position: "relative",
           zIndex: 2,
           display: "flex",
-          alignItems: "center",
-          gap: "40px",
-          paddingBottom: "clamp(32px, 5vh, 80px)",
-          paddingTop: "clamp(28px, 5vh, 64px)",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: "48px",
+          paddingBottom: "clamp(28px, 4vh, 56px)",
+          paddingTop: "clamp(24px, 3vh, 40px)",
           flex: 1,
         }}
       >
-        {/* Left: text content */}
-        <div className="hero-text-col" style={{ flex: "0 0 auto", width: "min(520px, 48%)" }}>
+        {/* Left: Apple typographic content */}
+        <div className="hero-text-col" style={{ flex: "0 0 auto", width: "min(560px, 52%)" }}>
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
-            {/* Availability badge */}
-            <motion.div variants={itemVariants} style={{ marginBottom: "clamp(16px, 3vh, 32px)" }}>
+            {/* Apple Vision Status Badge */}
+            <motion.div variants={itemVariants} style={{ marginBottom: "20px" }}>
               <span
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "10px",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color: "var(--color-text-muted)",
+                  gap: "8px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "var(--color-text-primary)",
+                  background: "var(--color-bg-card)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "var(--radius-full)",
+                  padding: "6px 14px",
+                  backdropFilter: "blur(16px) saturate(180%)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                  letterSpacing: "0.02em",
                 }}
               >
                 <span
@@ -95,34 +104,34 @@ export function Hero() {
                     width: "7px",
                     height: "7px",
                     borderRadius: "50%",
-                    background: "#22C55E",
+                    background: "var(--color-system-green)",
                     display: "inline-block",
-                    boxShadow: "0 0 0 3px rgba(34,197,94,0.2)",
+                    boxShadow: "0 0 0 3px rgba(52,199,89,0.25)",
                     animation: "pulse-green 2.4s infinite",
                     flexShrink: 0,
                   }}
                 />
-                Taking on new projects · AI agency since 2024
+                Available for new projects · 2026
               </span>
             </motion.div>
 
-            {/* Headline — clip-path reveal per line */}
-            <div style={{ overflow: "hidden", marginBottom: "2px" }}>
+            {/* Headline */}
+            <div style={{ marginBottom: "2px" }}>
               <motion.h1 variants={lineVariants} style={{ ...HEADLINE, color: "var(--color-text-primary)" }}>
                 We build AI,
               </motion.h1>
             </div>
-            <div style={{ overflow: "hidden", marginBottom: "2px" }}>
+            <div style={{ marginBottom: "2px" }}>
               <motion.div variants={lineVariants} style={{ ...HEADLINE, color: "var(--color-text-primary)" }}>
                 software &amp; apps
               </motion.div>
             </div>
-            <div style={{ overflow: "hidden", marginBottom: "2px" }}>
-              <motion.div variants={lineVariants} style={{ ...HEADLINE, fontWeight: 300, color: "var(--color-text-secondary)" }}>
+            <div style={{ marginBottom: "2px" }}>
+              <motion.div variants={lineVariants} style={{ ...HEADLINE, fontWeight: 400, color: "var(--color-text-secondary)" }}>
                 competitors haven&apos;t
               </motion.div>
             </div>
-            <div style={{ overflow: "hidden", marginBottom: "clamp(20px, 3vh, 40px)" }}>
+            <div style={{ marginBottom: "16px" }}>
               <motion.div variants={lineVariants} style={{ ...HEADLINE, color: "var(--color-accent)" }}>
                 shipped yet.
               </motion.div>
@@ -132,117 +141,90 @@ export function Hero() {
             <motion.p
               variants={itemVariants}
               style={{
-                fontSize: "clamp(14px, 1.3vw, 16px)",
+                fontFamily: "var(--font-body)",
+                fontSize: "16.5px",
                 color: "var(--color-text-secondary)",
-                lineHeight: 1.72,
-                maxWidth: "440px",
-                marginBottom: "clamp(20px, 3vh, 40px)",
+                lineHeight: 1.55,
+                maxWidth: "480px",
+                marginBottom: "26px",
+                letterSpacing: "-0.01em",
               }}
             >
-              Founder-led team building AI agents, web platforms, and mobile apps.
-              Real quality, shipped in weeks — not quarters.
+              Founder-led agency building production AI agents, high-performance web platforms, and mobile apps. Real quality, shipped in weeks.
             </motion.p>
 
-            {/* CTAs — contact is the primary conversion action */}
+            {/* Apple Action Button Group */}
             <motion.div
               variants={itemVariants}
-              style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}
+              style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", marginBottom: "28px" }}
             >
               <Link
                 href="/contact"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "14px 28px",
-                  background: "var(--color-accent)",
-                  color: "#fff",
-                  borderRadius: "var(--radius-md)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  fontFamily: "var(--font-body)",
-                  boxShadow: "0 4px 20px rgba(201,101,0,0.30)",
-                  transition: "transform 200ms ease, box-shadow 200ms ease, background 150ms ease",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.transform = "translateY(-2px)";
-                  el.style.boxShadow = "0 8px 28px rgba(201,101,0,0.42)";
-                  el.style.background = "var(--color-accent-hover)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.transform = "translateY(0)";
-                  el.style.boxShadow = "0 4px 20px rgba(201,101,0,0.30)";
-                  el.style.background = "var(--color-accent)";
-                }}
+                className="btn-apple-primary"
+                style={{ fontSize: "14px", padding: "12px 24px" }}
               >
                 Start a project
               </Link>
               <Link
                 href="/work"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "14px 28px",
-                  background: "transparent",
-                  color: "var(--color-text-primary)",
-                  border: "1.5px solid var(--color-border-strong)",
-                  borderRadius: "var(--radius-full)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  fontFamily: "var(--font-body)",
-                  transition: "border-color 200ms ease, background 200ms ease",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "var(--color-accent)";
-                  el.style.background = "rgba(201,101,0,0.05)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "var(--color-border-strong)";
-                  el.style.background = "transparent";
-                }}
+                className="btn-apple-secondary"
+                style={{ fontSize: "14px", padding: "12px 24px" }}
               >
                 View our work
               </Link>
+              <button
+                data-cal-link="kunal-gursal-cxyibu/30min"
+                data-cal-config='{"layout":"month_view"}'
+                className="btn-apple-ghost"
+                style={{ fontSize: "14px", padding: "12px 20px" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.75 }}>
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                Book call
+              </button>
             </motion.div>
 
-            {/* Stats — larger numbers in amber */}
+            {/* Apple Metrics Row */}
             <motion.div
               variants={itemVariants}
               className="hero-stats"
-              style={{ display: "flex", marginTop: "clamp(20px, 3vh, 40px)", flexWrap: "wrap", gap: "20px 0" }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gap: "12px",
+                paddingTop: "24px",
+                borderTop: "1px solid var(--color-border)",
+                width: "100%",
+              }}
             >
               {[
                 { value: "8+", label: "Projects shipped" },
-                { value: "4", label: "Live client sites" },
-                { value: "3+", label: "AI agents built" },
-                { value: "≤6wks", label: "Avg delivery" },
+                { value: "4", label: "Live client portals" },
+                { value: "3+", label: "AI agents deployed" },
+                { value: "≤6wks", label: "Average delivery" },
               ].map((stat, i) => (
                 <div
                   key={stat.label}
                   className="hero-stat-item"
                   style={{
-                    paddingRight: "24px",
-                    paddingLeft: i > 0 ? "24px" : "0",
+                    paddingLeft: i > 0 ? "14px" : "0",
                     borderLeft: i > 0 ? "1px solid var(--color-border)" : "none",
-                    flexShrink: 0,
+                    minWidth: 0,
                   }}
                 >
                   <div
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: "clamp(22px, 2.5vw, 34px)",
-                      fontWeight: 800,
-                      color: "var(--color-accent)",
-                      letterSpacing: "-0.04em",
+                      fontSize: "clamp(22px, 2.2vw, 28px)",
+                      fontWeight: 700,
+                      color: "var(--color-text-primary)",
+                      letterSpacing: "-0.03em",
                       lineHeight: 1,
-                      marginBottom: "4px",
+                      marginBottom: "6px",
                       fontVariantNumeric: "tabular-nums",
                     }}
                   >
@@ -250,10 +232,11 @@ export function Hero() {
                   </div>
                   <div
                     style={{
-                      fontSize: "11px",
+                      fontSize: "12px",
                       color: "var(--color-text-muted)",
                       fontWeight: 500,
-                      whiteSpace: "nowrap",
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.35,
                     }}
                   >
                     {stat.label}
@@ -264,69 +247,31 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Right: terminal visual */}
+        {/* Right: macOS Developer Studio Window */}
         <div className="hero-visual-col" style={{ flex: 1, minWidth: 0 }}>
           <HeroVisualB />
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 0.8 }}
-        style={{
-          position: "absolute",
-          bottom: "32px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 2,
-        }}
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-          style={{
-            width: "20px",
-            height: "32px",
-            borderRadius: "10px",
-            border: "1.5px solid var(--color-border-strong)",
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "6px",
-          }}
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            style={{
-              width: "3px",
-              height: "6px",
-              borderRadius: "2px",
-              background: "var(--color-text-muted)",
-            }}
-          />
-        </motion.div>
-      </motion.div>
-
       <style>{`
         @keyframes pulse-green {
-          0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-          50% { box-shadow: 0 0 0 6px rgba(34,197,94,0.06); }
+          0%, 100% { box-shadow: 0 0 0 3px rgba(52,199,89,0.25); }
+          50% { box-shadow: 0 0 0 6px rgba(52,199,89,0.06); }
         }
-        @keyframes glow-breathe {
-          0%, 100% { opacity: 0.8; }
-          50% { opacity: 1; }
-        }
-        @media (max-width: 900px) {
-          .hero-outer      { flex-direction: column !important; align-items: stretch !important; }
+        @media (max-width: 960px) {
+          .hero-outer      { flex-direction: column !important; align-items: stretch !important; gap: 36px !important; }
           .hero-text-col   { width: 100% !important; flex: none !important; }
           .hero-visual-col { width: 100% !important; flex: none !important; }
         }
-        @media (max-width: 480px) {
-          .hero-stats { gap: 16px 0 !important; }
-          .hero-stat-item { padding-right: 16px !important; padding-left: 16px !important; }
-          .hero-stat-item:first-child { padding-left: 0 !important; }
+        @media (max-width: 640px) {
+          .hero-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 16px 20px !important;
+          }
+          .hero-stat-item {
+            padding-left: 0 !important;
+            border-left: none !important;
+          }
         }
       `}</style>
     </section>

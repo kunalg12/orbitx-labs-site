@@ -1,18 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const projects = [
   {
     slug: "cnsg-nursing",
     title: "Chaitanya Nursing School",
-    subtitle: "CNSG Nursing, Badnapur · Maharashtra",
+    subtitle: "CNSG Nursing · Maharashtra",
     category: "Web Platform",
-    result: "Zero to live enrollment site — applications open within 3 weeks of kickoff.",
+    result: "Complete institutional admissions portal. Live enrollment applications active within 3 weeks of kickoff.",
     year: "2024",
     tags: ["Next.js", "TypeScript", "Tailwind", "Vercel"],
-    accent: "#2563EB",
+    accent: "#007AFF",
     initial: "CN",
     url: "https://www.cnsgnmnursing.org/",
     preview: "/previews/cnsg-nursing.png",
@@ -20,39 +22,39 @@ const projects = [
   },
   {
     slug: "digno-x",
-    title: "DignoX",
-    subtitle: "AI-powered medical document analysis",
+    title: "DignoX Clinical AI",
+    subtitle: "AI-Powered Medical Records",
     category: "AI Agent",
-    result: "LLM pipeline that reads medical PDFs and returns structured clinical summaries.",
+    result: "Autonomous LLM pipeline parsing multi-page clinical lab PDFs into structured diagnostic summaries.",
     year: "2024",
-    tags: ["Python", "OpenAI", "FastAPI"],
-    accent: "#7C3AED",
+    tags: ["Python", "OpenAI", "FastAPI", "Vector DB"],
+    accent: "#AF52DE",
     initial: "DX",
     url: null,
     large: false,
   },
   {
     slug: "attend-x",
-    title: "AttendX",
-    subtitle: "School attendance tracking app",
+    title: "AttendX Mobile",
+    subtitle: "Cross-Platform School Attendance",
     category: "Mobile App",
-    result: "iOS & Android attendance system for schools — built on one React Native codebase.",
+    result: "Offline-first iOS & Android attendance tracking with realtime sync for educators across Maharashtra.",
     year: "2024",
-    tags: ["React Native", "Expo", "Supabase"],
-    accent: "#DC2626",
+    tags: ["React Native", "Expo", "Supabase", "SQLite"],
+    accent: "#34C759",
     initial: "AX",
     url: null,
     large: false,
   },
   {
     slug: "sei-nursing",
-    title: "Sant Eknath Institute of Nursing",
-    subtitle: "SEI Nursing, Bhagur · Maharashtra",
+    title: "Sant Eknath Nursing",
+    subtitle: "SEI Nursing · Bhagur",
     category: "Web Platform",
-    result: "INC-approved institute goes digital — program info, hostel details, and inquiry flow.",
+    result: "INC-approved nursing institute digital portal featuring program curriculums, hostel tours, and inquiry CRM.",
     year: "2024",
-    tags: ["React", "Tailwind", "SEO", "Vercel"],
-    accent: "#059669",
+    tags: ["Next.js", "Tailwind", "SEO", "Vercel"],
+    accent: "#32ADE6",
     initial: "SE",
     url: "https://www.seinursing.org/",
     preview: "/previews/sei-nursing.png",
@@ -60,13 +62,13 @@ const projects = [
   },
   {
     slug: "pacific-nursing",
-    title: "Swami Vivekanand School of Nursing",
-    subtitle: "SVS Nursing, Chhatrapati Sambhajinagar",
+    title: "Swami Vivekanand Nursing",
+    subtitle: "SVS Nursing · Sambhajinagar",
     category: "Web Platform",
-    result: "Premier GNM & ANM institute — full program site with hospital affiliations and online enquiry.",
+    result: "GNM & ANM admissions portal with hospital affiliation directories and automated student applicant tracking.",
     year: "2024",
     tags: ["Next.js", "TypeScript", "SEO", "Vercel"],
-    accent: "#EA580C",
+    accent: "#FF9500",
     initial: "SV",
     url: "https://svsnursing.org/",
     preview: "/previews/svs-nursing.png",
@@ -75,12 +77,12 @@ const projects = [
   {
     slug: "chaitanya-eng",
     title: "Chaitanya English School",
-    subtitle: "CES & Junior College, Badnapur · Maharashtra",
+    subtitle: "CES & Junior College · Badnapur",
     category: "Web Platform",
-    result: "English-medium school & junior college gets a modern web presence — academics, admissions, and campus life all in one place.",
+    result: "Modern educational web presence unifying K-12 academics, junior college admissions, and campus facilities.",
     year: "2025",
     tags: ["Next.js", "TypeScript", "Tailwind", "Vercel"],
-    accent: "#0891B2",
+    accent: "#5856D6",
     initial: "CE",
     url: "https://www.chaitanyaengschool.org/",
     preview: "/previews/chaitanyaengschool.png",
@@ -88,13 +90,13 @@ const projects = [
   },
   {
     slug: "metro-nursing",
-    title: "Late Arvind Gaikwad School of Nursing",
-    subtitle: "LAGS Nursing, Chhatrapati Sambhajinagar",
+    title: "Late Arvind Gaikwad Nursing",
+    subtitle: "LAGS Nursing · Sambhajinagar",
     category: "Web Platform",
-    result: "Trusted local GNM program gets a professional online presence and inquiry pipeline.",
+    result: "Recognized nursing academy portal driving direct applicant conversions and verified prospectus downloads.",
     year: "2024",
     tags: ["Next.js", "TypeScript", "Tailwind", "Vercel"],
-    accent: "#0284C7",
+    accent: "#007AFF",
     initial: "LA",
     url: "https://www.lagsnursing.org/",
     preview: "/previews/lagsn-nursing.png",
@@ -105,301 +107,186 @@ const projects = [
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   return (
     <motion.div
-      initial={{ clipPath: "inset(24px 0 0 0 round 12px)", opacity: 0 }}
-      whileInView={{ clipPath: "inset(0px 0 0 0 round 12px)", opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, delay: (index % 3) * 0.09, ease: [0.19, 1, 0.22, 1] }}
+      transition={{ duration: 0.5, delay: (index % 3) * 0.08, ease: [0.25, 1, 0.5, 1] }}
       style={{ height: "100%" }}
     >
       <Link href={`/work/${project.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
         <motion.div
-          whileHover={{ y: -5 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          whileHover={{ y: -4 }}
+          transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
+          className="apple-card"
           style={{
-            background: "var(--color-bg-base)",
-            border: "1px solid var(--color-border)",
-            borderRadius: "var(--radius-lg)",
             overflow: "hidden",
-            boxShadow: "var(--shadow-card)",
             display: "flex",
             flexDirection: "column",
             height: "100%",
-            transition: "border-color 200ms ease, box-shadow 200ms ease",
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = `${project.accent}40`;
-            el.style.boxShadow = `0 12px 40px ${project.accent}18`;
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = "var(--color-border)";
-            el.style.boxShadow = "var(--shadow-card)";
+            borderRadius: project.large ? "var(--radius-2xl)" : "var(--radius-xl)",
           }}
         >
-          {/* Visual header — real screenshot, browser mockup, or geometric placeholder */}
+          {/* Card Preview Banner */}
           <div
             style={{
-              height: project.large ? "240px" : "160px",
+              height: project.large ? "260px" : "180px",
               background: project.preview
-                ? project.large
-                  ? "#000"
-                  : "var(--color-bg-surface)"
-                : project.url
-                  ? `linear-gradient(160deg, color-mix(in srgb, ${project.accent} 8%, #0A0F1E) 0%, color-mix(in srgb, ${project.accent} 3%, #0D1220) 100%)`
-                  : `linear-gradient(135deg, color-mix(in srgb, ${project.accent} 12%, var(--color-bg-surface)) 0%, color-mix(in srgb, ${project.accent} 4%, var(--color-bg-surface)) 100%)`,
+                ? "var(--color-bg-ink)"
+                : `linear-gradient(135deg, color-mix(in srgb, ${project.accent} 15%, var(--color-bg-surface)) 0%, var(--color-bg-surface) 100%)`,
               display: "flex",
-              alignItems: project.preview ? "stretch" : project.url ? "flex-start" : "center",
+              alignItems: "center",
               justifyContent: "center",
               position: "relative",
               overflow: "hidden",
-              padding: (!project.preview && project.url) ? "14px 14px 0" : "0",
-              flexDirection: "column",
             }}
           >
             {project.preview ? (
-              /* Real screenshot — scales to fill, slight zoom on hover */
-              <motion.img
-                src={project.preview}
-                alt={`${project.title} website screenshot`}
-                whileHover={{ scale: 1.04 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: project.large ? "cover" : "contain",
-                  objectPosition: project.large ? "top center" : "center",
-                  display: "block",
-                }}
-              />
-            ) : project.url ? (
-              /* Browser frame mockup for live sites without a screenshot */
-              <motion.div
-                whileHover={{ scale: 1.016, y: -3 }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                style={{ width: "100%", flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}
-              >
-                {/* Browser chrome */}
-                <div
+              <div style={{ position: "absolute", inset: 0 }}>
+                <Image
+                  src={project.preview}
+                  alt={`${project.title} screenshot`}
+                  fill
+                  sizes={project.large ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderBottom: "none",
-                    borderRadius: "8px 8px 0 0",
-                    padding: "8px 10px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    flexShrink: 0,
+                    objectFit: "cover",
+                    objectPosition: "top center",
+                    transition: "transform 400ms ease",
                   }}
-                >
-                  <div style={{ display: "flex", gap: "5px" }}>
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF5F57" }} />
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FEBC2E" }} />
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#28C840" }} />
-                  </div>
-                  <div
-                    style={{
-                      flex: 1,
-                      background: "rgba(255,255,255,0.07)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      borderRadius: "4px",
-                      padding: "3px 8px",
-                      fontSize: "10px",
-                      color: "rgba(255,255,255,0.55)",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    <span aria-hidden="true">🔒</span>{" "}
-                    {project.url.replace(/^https?:\/\//, "")}
-                  </div>
-                </div>
+                  className="preview-img"
+                  priority={project.large}
+                />
+              </div>
+            ) : (
+              /* Apple Icon Monogram */
+              <div style={{ position: "relative", textAlign: "center" }}>
                 <div
                   style={{
-                    flex: 1,
-                    background: `linear-gradient(180deg, color-mix(in srgb, ${project.accent} 18%, #111827) 0%, color-mix(in srgb, ${project.accent} 6%, #0D1220) 100%)`,
-                    borderRadius: "0 0 6px 6px",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    borderTop: "none",
+                    width: project.large ? "64px" : "48px",
+                    height: project.large ? "64px" : "48px",
+                    borderRadius: "14px",
+                    background: project.accent,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    position: "relative",
-                    overflow: "hidden",
-                    minHeight: 0,
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      backgroundImage: `linear-gradient(${project.accent}18 1px, transparent 1px), linear-gradient(90deg, ${project.accent}18 1px, transparent 1px)`,
-                      backgroundSize: "24px 24px",
-                    }}
-                  />
-                  <div style={{ position: "relative", textAlign: "center" }}>
-                    <div
-                      style={{
-                        width: project.large ? "52px" : "40px",
-                        height: project.large ? "52px" : "40px",
-                        borderRadius: "10px",
-                        background: project.accent,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: "0 auto 8px",
-                        fontSize: project.large ? "20px" : "16px",
-                        fontWeight: 800,
-                        color: "#fff",
-                        fontFamily: "var(--font-display)",
-                        letterSpacing: "-0.04em",
-                        boxShadow: `0 4px 20px ${project.accent}60`,
-                      }}
-                    >
-                      {project.initial}
-                    </div>
-                    <div style={{ fontSize: project.large ? "13px" : "11px", fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "0.01em" }}>
-                      {project.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ) : (
-              /* Geometric placeholder for internal/upcoming projects */
-              <>
-                <span
-                  style={{
+                    margin: "0 auto 10px",
+                    fontSize: project.large ? "22px" : "18px",
+                    fontWeight: 700,
+                    color: "#FFFFFF",
                     fontFamily: "var(--font-display)",
-                    fontSize: project.large ? "96px" : "72px",
-                    fontWeight: 900,
-                    letterSpacing: "-0.06em",
-                    color: project.accent,
-                    opacity: 0.12,
-                    lineHeight: 1,
-                    userSelect: "none",
+                    boxShadow: `0 4px 16px ${project.accent}40`,
                   }}
                 >
                   {project.initial}
-                </span>
-                <div
-                  style={{
-                    position: "absolute",
-                    width: project.large ? "160px" : "120px",
-                    height: project.large ? "160px" : "120px",
-                    borderRadius: "50%",
-                    border: `1.5px solid ${project.accent}`,
-                    opacity: 0.15,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    width: project.large ? "220px" : "160px",
-                    height: project.large ? "220px" : "160px",
-                    borderRadius: "50%",
-                    border: `1px solid ${project.accent}`,
-                    opacity: 0.08,
-                  }}
-                />
-              </>
+                </div>
+                <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-text-secondary)" }}>
+                  {project.category}
+                </div>
+              </div>
             )}
-            {/* Category badge — top offset clears browser chrome bar (~30px) on url cards */}
+
+            {/* Top Tag Badges */}
             <div
               style={{
                 position: "absolute",
-                top: project.url ? "50px" : "12px",
+                top: "12px",
                 left: "12px",
-                padding: "4px 10px",
-                borderRadius: "6px",
-                background: "rgba(255,255,255,0.88)",
-                backdropFilter: "blur(8px)",
-                fontSize: "11px",
-                fontWeight: 700,
-                color: project.accent,
-                letterSpacing: "0.02em",
+                display: "flex",
+                gap: "6px",
                 zIndex: 2,
               }}
             >
-              {project.category}
-            </div>
-            {/* Arrow on large card */}
-            {project.large && (
-              <div
+              <span
                 style={{
-                  position: "absolute",
-                  top: "12px",
-                  right: "12px",
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: project.accent,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "14px",
-                  color: "#fff",
-                  zIndex: 2,
+                  padding: "4px 10px",
+                  borderRadius: "var(--radius-full)",
+                  background: "rgba(0, 0, 0, 0.65)",
+                  backdropFilter: "blur(12px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(12px) saturate(180%)",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  color: "#FFFFFF",
+                  letterSpacing: "0.02em",
                 }}
               >
-                →
-              </div>
-            )}
-          </div>
-
-          {/* Content */}
-          <div style={{ padding: "20px 24px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
-            {/* Year + live indicator */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-              <span style={{ fontSize: "11px", color: "var(--color-text-muted)", fontWeight: 500 }}>
-                {project.year}
+                {project.category}
               </span>
               {project.url && (
                 <span
                   style={{
+                    padding: "4px 8px",
+                    borderRadius: "var(--radius-full)",
+                    background: "rgba(52, 199, 89, 0.85)",
+                    backdropFilter: "blur(12px)",
                     fontSize: "10px",
-                    fontWeight: 600,
-                    color: "#16A34A",
-                    background: "rgba(22,163,74,0.1)",
-                    padding: "2px 7px",
-                    borderRadius: "4px",
+                    fontWeight: 700,
+                    color: "#FFFFFF",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
                   }}
                 >
-                  Live ↗
+                  <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#FFF" }} />
+                  Live
                 </span>
               )}
             </div>
+
+            {/* Apple Arrow glyph */}
+            <div
+              style={{
+                position: "absolute",
+                top: "12px",
+                right: "12px",
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                background: "rgba(0,0,0,0.55)",
+                backdropFilter: "blur(12px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#FFFFFF",
+                fontSize: "13px",
+                zIndex: 2,
+              }}
+            >
+              ↗
+            </div>
+          </div>
+
+          {/* Text Content */}
+          <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: "12px", color: "var(--color-text-muted)", fontWeight: 500, marginBottom: "4px" }}>
+              {project.subtitle} · {project.year}
+            </div>
+
             <h3
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: project.large ? "20px" : "16px",
+                fontSize: project.large ? "22px" : "18px",
                 fontWeight: 700,
                 color: "var(--color-text-primary)",
-                letterSpacing: "-0.025em",
-                marginBottom: "3px",
-                lineHeight: 1.2,
+                letterSpacing: "-0.02em",
+                marginBottom: "8px",
+                lineHeight: 1.25,
               }}
             >
               {project.title}
             </h3>
-            {project.subtitle && (
-              <p style={{ fontSize: "11px", color: "var(--color-text-muted)", marginBottom: "8px", lineHeight: 1.4 }}>
-                {project.subtitle}
-              </p>
-            )}
+
             <p
               style={{
-                fontSize: "13px",
-                color: "var(--color-text-muted)",
-                lineHeight: 1.6,
-                marginBottom: "16px",
+                fontSize: "14px",
+                color: "var(--color-text-secondary)",
+                lineHeight: 1.55,
+                marginBottom: "20px",
                 flex: 1,
               }}
             >
               {project.result}
             </p>
+
+            {/* Tech tags */}
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
               {project.tags.map((tag) => (
                 <span
@@ -407,10 +294,10 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
                   style={{
                     fontSize: "11px",
                     fontWeight: 500,
-                    padding: "3px 8px",
-                    borderRadius: "5px",
-                    background: "var(--color-bg-surface)",
-                    color: "var(--color-text-muted)",
+                    padding: "3px 9px",
+                    borderRadius: "var(--radius-sm)",
+                    background: "color-mix(in srgb, var(--color-bg-surface) 80%, transparent)",
+                    color: "var(--color-text-secondary)",
                     border: "1px solid var(--color-border)",
                   }}
                 >
@@ -446,88 +333,70 @@ export function FeaturedWork() {
             gridTemplateColumns: "1fr 1fr",
             gap: "48px",
             alignItems: "flex-end",
-            marginBottom: "56px",
+            marginBottom: "52px",
             borderBottom: "1px solid var(--color-border)",
-            paddingBottom: "40px",
+            paddingBottom: "36px",
           }}
           className="work-header"
         >
           <div>
+            <SectionLabel number="02">Featured Builds</SectionLabel>
             <h2
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "var(--text-display)",
-                fontWeight: 800,
-                letterSpacing: "-0.04em",
+                fontWeight: 700,
+                letterSpacing: "var(--tracking-display)",
                 color: "var(--color-text-primary)",
-                lineHeight: 1.0,
+                lineHeight: 1.1,
                 margin: 0,
               }}
             >
-              Things we&apos;ve shipped.
+              Real products. Real outcomes.
             </h2>
           </div>
+
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-end",
-              gap: "24px",
+              gap: "20px",
             }}
           >
             <p
               style={{
-                fontSize: "15px",
+                fontSize: "16px",
                 color: "var(--color-text-secondary)",
-                lineHeight: 1.7,
+                lineHeight: 1.6,
                 margin: 0,
               }}
             >
-              AI agents, web platforms, and mobile apps — each one shipped to production and in use by real people.
+              A selection of recent systems built for founders, medical colleges, and institutions across India.
             </p>
             <Link
               href="/work"
-              style={{
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "var(--color-text-primary)",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                alignSelf: "flex-start",
-                padding: "10px 20px",
-                border: "1.5px solid var(--color-border-strong)",
-                borderRadius: "var(--radius-full)",
-                transition: "border-color 150ms ease, background 150ms ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "var(--color-accent)";
-                (e.currentTarget as HTMLElement).style.background = "rgba(217,119,6,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "var(--color-border-strong)";
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-              }}
+              className="btn-apple-secondary"
+              style={{ alignSelf: "flex-start", fontSize: "14px", padding: "10px 20px" }}
             >
-              View all work →
+              Browse all case studies <span>→</span>
             </Link>
           </div>
         </div>
 
         {/* Featured large card */}
         {large[0] && (
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "24px" }}>
             <ProjectCard project={large[0]} index={0} />
           </div>
         )}
 
-        {/* Grid */}
+        {/* Grid of 6 remaining projects */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "20px",
+            gap: "24px",
           }}
           className="work-grid"
         >
@@ -538,8 +407,11 @@ export function FeaturedWork() {
       </div>
 
       <style>{`
+        .apple-card:hover .preview-img {
+          transform: scale(1.03);
+        }
         @media (max-width: 900px) {
-          .work-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .work-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
         }
         @media (max-width: 640px) {
           .work-grid { grid-template-columns: 1fr !important; }

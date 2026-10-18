@@ -1,31 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const testimonials = [
   {
     quote:
-      "OrbitX Labs delivered our nursing college site faster than we thought possible. The result looks incredibly professional and our enrollment inquiries went up immediately.",
-    name: "Sarah Johnson",
-    role: "Director, CNSG Nursing College",
+      "OrbitX Labs delivered our nursing college enrollment portal faster than we thought possible. The outcome looks world-class and our online applicant inquiries increased immediately.",
+    name: "Dr. Sarah Johnson",
+    role: "Director · CNSG Nursing College",
     initials: "SJ",
-    accent: "#2563EB",
+    accent: "var(--color-accent)",
+    accentBg: "var(--color-accent-light)",
   },
   {
     quote:
-      "They built exactly what we described — clean, modern, and working. No back-and-forth, no surprises on the invoice. We'll be back for the mobile app next.",
+      "They engineered exactly what was promised: clean, fast, and stable. No communication lag, no surprise invoices. We're launching our mobile attendance app with them next.",
     name: "Michael Chen",
-    role: "Administrator, SEI Nursing Institute",
+    role: "Administrator · SEI Nursing Institute",
     initials: "MC",
-    accent: "#16A34A",
+    accent: "var(--color-system-green)",
+    accentBg: "color-mix(in srgb, var(--color-system-green) 12%, transparent)",
   },
   {
     quote:
-      "The AI document analysis agent they built saves hours every week. It actually understands medical reports — not just keyword matching.",
+      "The clinical document analysis agent they built saves our medical team hours daily. It accurately parses structured diagnoses from complex laboratory PDF reports.",
     name: "Dr. Priya Patel",
-    role: "Founder, DignoX",
+    role: "Chief Medical Officer · DignoX AI",
     initials: "PP",
-    accent: "#9333EA",
+    accent: "var(--color-system-purple)",
+    accentBg: "color-mix(in srgb, var(--color-system-purple) 12%, transparent)",
   },
 ];
 
@@ -41,127 +45,116 @@ export function Testimonials() {
     >
       <div className="container">
         {/* Header */}
-        <div style={{ marginBottom: "64px" }}>
+        <div style={{ maxWidth: "680px", marginBottom: "56px" }}>
+          <SectionLabel number="06">Endorsements</SectionLabel>
           <h2
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "var(--text-display)",
-              fontWeight: 800,
-              letterSpacing: "-0.04em",
+              fontWeight: 700,
+              letterSpacing: "var(--tracking-display)",
               color: "var(--color-text-primary)",
-              lineHeight: 1.0,
-              margin: 0,
+              lineHeight: 1.1,
+              marginBottom: "16px",
             }}
           >
-            What clients say.
+            Trusted by founders and institutional leaders.
           </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "17px",
+              color: "var(--color-text-secondary)",
+              lineHeight: 1.6,
+            }}
+          >
+            Direct feedback from clients whose critical infrastructure, AI models, and student portals we engineered and deployed.
+          </p>
         </div>
 
-        {/* Cards grid — 3 columns desktop, stacked mobile */}
+        {/* Apple Testimonial Cards */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "20px",
-            alignItems: "start",
+            gap: "24px",
           }}
           className="testimonial-grid"
         >
           {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
-                duration: 0.65,
+                duration: 0.5,
                 delay: i * 0.1,
-                ease: [0.19, 1, 0.22, 1],
+                ease: [0.25, 1, 0.5, 1],
               }}
+              whileHover={{ y: -4 }}
+              className="apple-card"
               style={{
-                background: "var(--color-bg-base)",
-                border: "1px solid var(--color-border)",
-                borderTop: `3px solid ${t.accent}`,
-                borderRadius: "var(--radius-lg)",
-                padding: "clamp(28px, 3vw, 40px)",
+                padding: "36px 30px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "24px",
-                position: "relative",
-                overflow: "hidden",
+                justifyContent: "space-between",
               }}
             >
-              {/* Large decorative quote mark */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  top: "-12px",
-                  right: "24px",
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontSize: "120px",
-                  lineHeight: 1,
-                  color: t.accent,
-                  opacity: 0.08,
-                  userSelect: "none",
-                  pointerEvents: "none",
-                }}
-              >
-                &ldquo;
-              </div>
-
               {/* Quote text */}
               <p
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(15px, 1.4vw, 18px)",
-                  fontWeight: 400,
+                  fontFamily: "var(--font-body)",
+                  fontSize: "16px",
                   color: "var(--color-text-primary)",
-                  lineHeight: 1.6,
-                  letterSpacing: "-0.015em",
-                  margin: 0,
-                  position: "relative",
+                  lineHeight: 1.65,
+                  letterSpacing: "-0.01em",
+                  margin: "0 0 28px 0",
                   flex: 1,
                 }}
               >
                 &ldquo;{t.quote}&rdquo;
               </p>
 
-              {/* Attribution */}
+              {/* Client Profile Row */}
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "12px",
+                  gap: "14px",
                   paddingTop: "20px",
                   borderTop: "1px solid var(--color-border)",
                 }}
               >
+                {/* Apple squircle avatar monogram */}
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50%",
-                    background: `color-mix(in srgb, ${t.accent} 15%, var(--color-bg-surface))`,
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "12px",
+                    background: t.accentBg,
+                    color: t.accent,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     fontWeight: 700,
-                    color: t.accent,
+                    fontFamily: "var(--font-display)",
                     flexShrink: 0,
-                    border: `1px solid color-mix(in srgb, ${t.accent} 25%, transparent)`,
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
                   }}
                 >
                   {t.initials}
                 </div>
+
                 <div>
                   <div
                     style={{
-                      fontSize: "14px",
+                      fontSize: "15px",
                       fontWeight: 600,
                       color: "var(--color-text-primary)",
-                      lineHeight: 1.3,
+                      lineHeight: 1.25,
+                      marginBottom: "3px",
                     }}
                   >
                     {t.name}
@@ -170,7 +163,7 @@ export function Testimonials() {
                     style={{
                       fontSize: "12px",
                       color: "var(--color-text-muted)",
-                      marginTop: "2px",
+                      fontWeight: 500,
                     }}
                   >
                     {t.role}
@@ -184,10 +177,7 @@ export function Testimonials() {
 
       <style>{`
         @media (max-width: 900px) {
-          .testimonial-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 560px) and (max-width: 900px) {
-          .testimonial-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .testimonial-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
         }
       `}</style>
     </section>

@@ -51,7 +51,8 @@ function initGame(): GameState {
 function stepGame(gs: GameState, keys: Set<string>, shoot: boolean): GameState {
   if (gs.gameOver || gs.won) return gs;
   const tick = gs.tick + 1;
-  let { shipCol, bullets, enemies, explosions, score, dirX, lastShotTick, nextId } = gs;
+  const { enemies, explosions } = gs;
+  let { shipCol, bullets, score, dirX, lastShotTick, nextId } = gs;
 
   if (tick % 2 === 0) {
     if (keys.has("ArrowLeft")  || keys.has("a") || keys.has("A")) shipCol = Math.max(1, shipCol - 1);
@@ -153,17 +154,21 @@ export function cellStyle(type: CellType): { color: string; textShadow: string; 
 export function useSpaceDefender(active: boolean): {
   cells: ReturnType<typeof renderCells>;
   gs: GameState;
-  keysRef: React.MutableRefObject<Set<string>>;
-  shootRef: React.MutableRefObject<boolean>;
+  keysRef: React.RefObject<Set<string>>;
+  shootRef: React.RefObject<boolean>;
 } {
-  const gameRef  = useRef<GameState>(initGame());
-  const keysRef  = useRef<Set<string>>(new Set());
-  const shootRef = useRef(false);
-  const [, setRenderTick] = useState(0);
+  const gameRef   = useRef<GameState>(initGame());
+  const keysRef   = useRef<Set<string>>(new Set());
+  const shootRef  = useRef(false);
+  const [gameState, setGameState] = useState<GameState>(initGame);
 
   useEffect(() => {
     if (!active) return;
-    gameRef.current = initGame();
+    const initial = initGame();
+    gameRef.current = initial;
+    const timer = setTimeout(() => {
+      setGameState(initial);
+    }, 0);
     let lastTime = 0;
     let rafId: number;
     const STEP = 80;
@@ -172,16 +177,18 @@ export function useSpaceDefender(active: boolean): {
         lastTime = now;
         gameRef.current = stepGame(gameRef.current, keysRef.current, shootRef.current);
         shootRef.current = false;
-        setRenderTick(t => t + 1);
+        setGameState(gameRef.current);
       }
       rafId = requestAnimationFrame(loop);
     };
     rafId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
+    };
   }, [active]);
 
-  const gs    = gameRef.current;
-  const cells = active ? renderCells(gs) : [];
+  const cells = active ? renderCells(gameState) : [];
 
-  return { cells, gs, keysRef, shootRef };
+  return { cells, gs: gameState, keysRef, shootRef };
 }

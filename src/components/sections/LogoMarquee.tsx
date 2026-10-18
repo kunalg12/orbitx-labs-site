@@ -1,15 +1,16 @@
 const clients = [
   "CNSG Nursing",
-  "SEI Nursing",
-  "Pacific Nursing",
-  "Metro Nursing",
+  "SEI Nursing Institute",
+  "SVS Nursing",
+  "LAGS Medical",
   "DignoX AI",
-  "AttendX",
-  "JobMatch AI",
-  "React",
-  "Next.js",
-  "Python",
+  "AttendX Mobile",
+  "Chaitanya College",
+  "JobMatching AI",
+  "Next.js 16",
+  "React 19",
   "OpenAI",
+  "Supabase",
 ];
 
 export function LogoMarquee() {
@@ -18,7 +19,7 @@ export function LogoMarquee() {
   return (
     <section
       style={{
-        padding: "40px 0",
+        padding: "32px 0",
         background: "var(--color-bg-surface)",
         borderTop: "1px solid var(--color-border)",
         borderBottom: "1px solid var(--color-border)",
@@ -26,44 +27,35 @@ export function LogoMarquee() {
       }}
     >
       <div
+        className="container"
         style={{
           display: "flex",
           alignItems: "center",
           gap: "12px",
-          marginBottom: "4px",
+          marginBottom: "16px",
         }}
       >
-        <div
-          style={{
-            width: "32px",
-            height: "1px",
-            background: "var(--color-border-strong)",
-            flexShrink: 0,
-            marginLeft: "var(--container-padding)",
-          }}
-        />
         <span
           style={{
             fontSize: "11px",
             fontWeight: 600,
-            letterSpacing: "0.12em",
+            letterSpacing: "0.08em",
             textTransform: "uppercase",
             color: "var(--color-text-muted)",
             whiteSpace: "nowrap",
           }}
         >
-          Trusted by & built with
+          Selected clients &amp; live production systems
         </span>
       </div>
 
       <div
         className="marquee-row"
         style={{
-          marginTop: "20px",
           position: "relative",
         }}
       >
-        {/* Fade edges */}
+        {/* Soft edge gradients */}
         <div
           style={{
             position: "absolute",
@@ -93,29 +85,45 @@ export function LogoMarquee() {
           className="marquee-track"
           style={{
             display: "flex",
-            gap: "64px",
-            animation: "marquee-left 35s linear infinite",
+            alignItems: "center",
+            gap: "56px",
+            animation: "marquee-left 38s linear infinite",
             width: "max-content",
           }}
         >
           {doubled.map((name, i) => (
-            <span
+            <div
               key={i}
               style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "15px",
-                fontWeight: 600,
-                color: "var(--color-text-muted)",
-                whiteSpace: "nowrap",
-                letterSpacing: "-0.01em",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
-              {name}
-            </span>
+              <span
+                style={{
+                  width: "5px",
+                  height: "5px",
+                  borderRadius: "50%",
+                  background: "var(--color-border-strong)",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "var(--color-text-secondary)",
+                  whiteSpace: "nowrap",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {name}
+              </span>
+            </div>
           ))}
         </div>
       </div>
-
     </section>
   );
 }
