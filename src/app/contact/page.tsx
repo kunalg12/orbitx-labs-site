@@ -84,7 +84,7 @@ export default function ContactPage() {
               maxWidth: "520px",
             }}
           >
-            Tell us about your application, platform, or workflow automation. We will reply within 24 hours with an honest technical assessment.
+            Tell us what you&apos;re looking to build — whether it&apos;s a high-impact website, an AI agent, or custom software. We&apos;ll reply within 24 hours with clear technical insights and next steps.
           </p>
         </div>
       </div>

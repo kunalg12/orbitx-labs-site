@@ -4,9 +4,9 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
-  service: z.enum(["ai-agents", "software", "mobile", "web", "other"]),
+  service: z.enum(["website", "ai-agents", "software", "mobile", "web", "other"]),
   budget: z.string().optional(),
-  message: z.string().min(20, "Message must be at least 20 characters").max(2000),
+  message: z.string().min(5, "Message must be at least 5 characters").max(2000),
 });
 
 export async function POST(req: NextRequest) {

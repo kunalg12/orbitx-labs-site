@@ -7,13 +7,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 
 const schema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "Please enter your name"),
   email: z.string().email("Please enter a valid email address"),
-  service: z.enum(["ai-agents", "software", "mobile", "web", "other"]),
+  service: z.enum(["website", "ai-agents", "software", "mobile", "web", "other"]),
   budget: z.string().optional(),
   message: z
     .string()
-    .min(15, "Please describe your project in at least 15 characters")
+    .min(5, "Please briefly describe what you need")
     .max(2000),
 });
 
@@ -21,10 +21,10 @@ type FormData = z.infer<typeof schema>;
 
 const fieldStyle: React.CSSProperties = {
   width: "100%",
-  padding: "12px 16px",
+  padding: "13px 16px",
   background: "color-mix(in srgb, var(--color-bg-surface) 60%, transparent)",
   border: "1px solid var(--color-border)",
-  borderRadius: "var(--radius-md)",
+  borderRadius: "var(--radius-lg)",
   fontSize: "15px",
   color: "var(--color-text-primary)",
   fontFamily: "var(--font-body)",
@@ -41,16 +41,16 @@ const labelStyle: React.CSSProperties = {
 };
 
 const serviceOptions = [
+  { id: "website",   label: "Website" },
   { id: "ai-agents", label: "AI Agents" },
-  { id: "software",  label: "Software" },
   { id: "mobile",    label: "Mobile App" },
-  { id: "web",       label: "Web Platform" },
+  { id: "software",  label: "Software" },
   { id: "other",     label: "Other" },
 ] as const;
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [selectedService, setSelectedService] = useState<string>("ai-agents");
+  const [selectedService, setSelectedService] = useState<string>("website");
 
   const {
     register,
@@ -60,10 +60,10 @@ export function ContactForm() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { service: "ai-agents" },
+    defaultValues: { service: "website" },
   });
 
-  const handleServiceSelect = (val: "ai-agents" | "software" | "mobile" | "web" | "other") => {
+  const handleServiceSelect = (val: (typeof serviceOptions)[number]["id"]) => {
     setSelectedService(val);
     setValue("service", val);
   };
@@ -161,7 +161,7 @@ export function ContactForm() {
     >
       {/* Service Segmented Selector */}
       <div>
-        <label style={labelStyle}>What discipline are you building? *</label>
+        <label style={labelStyle}>What are you looking to build?</label>
         <div
           style={{
             display: "flex",
@@ -182,12 +182,12 @@ export function ContactForm() {
                 onClick={() => handleServiceSelect(opt.id)}
                 style={{
                   flex: "1 0 auto",
-                  padding: "8px 14px",
+                  padding: "8px 16px",
                   borderRadius: "var(--radius-md)",
                   border: "none",
                   background: isSelected ? "var(--color-accent)" : "transparent",
                   color: isSelected ? "#FFFFFF" : "var(--color-text-secondary)",
-                  fontSize: "13px",
+                  fontSize: "13.5px",
                   fontWeight: isSelected ? 600 : 500,
                   cursor: "pointer",
                   transition: "all 150ms ease",
@@ -210,7 +210,7 @@ export function ContactForm() {
           <label style={labelStyle}>Your Name *</label>
           <input
             {...register("name")}
-            placeholder="Kunal Gursal"
+            placeholder="Alex Morgan"
             style={{
               ...fieldStyle,
               borderColor: errors.name ? "var(--color-system-red)" : "var(--color-border)",
@@ -224,11 +224,11 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label style={labelStyle}>Work Email *</label>
+          <label style={labelStyle}>Email Address *</label>
           <input
             {...register("email")}
             type="email"
-            placeholder="kunal@company.com"
+            placeholder="alex@company.com"
             style={{
               ...fieldStyle,
               borderColor: errors.email ? "var(--color-system-red)" : "var(--color-border)",
@@ -242,29 +242,17 @@ export function ContactForm() {
         </div>
       </div>
 
-      {/* Budget */}
-      <div>
-        <label style={labelStyle}>Estimated budget (optional)</label>
-        <select {...register("budget")} style={fieldStyle}>
-          <option value="">Select scope or prefer to discuss</option>
-          <option value="under-5k">Under $5,000 / ₹4L</option>
-          <option value="5k-15k">$5,000 – $15,000 / ₹4L – ₹12L</option>
-          <option value="15k-50k">$15,000 – $50,000 / ₹12L – ₹40L</option>
-          <option value="50k+">$50,000+ / Enterprise</option>
-        </select>
-      </div>
-
       {/* Message */}
       <div>
-        <label style={labelStyle}>Project Outline &amp; Target Deliverables *</label>
+        <label style={labelStyle}>Tell us about your project *</label>
         <textarea
           {...register("message")}
-          rows={5}
-          placeholder="Briefly describe your objectives, target platforms (web, mobile, backend), and ideal deployment date..."
+          rows={4}
+          placeholder="Briefly describe what you'd like to build, any key features, timeline goals, or reference links..."
           style={{
             ...fieldStyle,
             resize: "vertical",
-            minHeight: "120px",
+            minHeight: "110px",
             borderColor: errors.message ? "var(--color-system-red)" : "var(--color-border)",
           }}
         />
@@ -295,19 +283,38 @@ export function ContactForm() {
         )}
       </AnimatePresence>
 
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="btn-apple-primary"
-        style={{
-          width: "100%",
-          padding: "14px 28px",
-          fontSize: "15px",
-          cursor: status === "loading" ? "not-allowed" : "pointer",
-        }}
-      >
-        {status === "loading" ? "Transmitting..." : "Send project inquiry ›"}
-      </button>
+      <div>
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="btn-apple-primary"
+          style={{
+            width: "100%",
+            padding: "14px 28px",
+            fontSize: "15px",
+            cursor: status === "loading" ? "not-allowed" : "pointer",
+            marginBottom: "12px",
+          }}
+        >
+          {status === "loading" ? "Transmitting..." : "Send project inquiry ›"}
+        </button>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "6px",
+            fontSize: "12px",
+            color: "var(--color-text-muted)",
+          }}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>Response within 24 hours · Direct engineer review · No spam</span>
+        </div>
+      </div>
 
       <style>{`
         @media (max-width: 520px) {
